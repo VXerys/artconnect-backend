@@ -1,0 +1,198 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// User model - synced with Firebase Auth
+model User {
+  id            String    @id @default(uuid())
+  firebaseUid   String    @unique
+  email         String    @unique
+  name          String?
+  photoUrl      String?
+  role          UserRole  @default(USER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relations
+  artworks      Artwork[]
+  contacts      Contact[]
+  activities    Activity[]
+  
+  @@map("users")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+// Artwork model
+model Artwork {
+  id            String        @id @default(uuid())
+  title         String
+  description   String?       @db.Text
+  artist        String
+  year          Int?
+  medium        String?
+  dimensions    String?
+  price         Decimal       @db.Decimal(10, 2)
+  currency      String        @default("USD")
+  imageUrl      String?
+  status        ArtworkStatus @default(AVAILABLE)
+  category      String?
+  tags          String?       @db.Text // JSON array of tags
+  
+  userId        String
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  
+  // Relations
+  salesDeals    SalesDeal[]
+  activities    Activity[]
+  
+  @@map("artworks")
+  @@index([userId])
+  @@index([status])
+}
+
+enum ArtworkStatus {
+  AVAILABLE
+  RESERVED
+  SOLD
+  ON_LOAN
+}
+
+// Contact model (Collectors, Galleries, etc.)
+model Contact {
+  id            String        @id @default(uuid())
+  name          String
+  email         String?
+  phone         String?
+  company       String?
+  type          ContactType
+  status        ContactStatus @default(ACTIVE)
+  notes         String?       @db.Text
+  tags          String?       @db.Text // JSON array of tags
+  
+  userId        String
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  
+  // Relations
+  salesDeals    SalesDeal[]
+  activities    Activity[]
+  
+  @@map("contacts")
+  @@index([userId])
+  @@index([type])
+}
+
+enum ContactType {
+  COLLECTOR
+  GALLERY
+  MUSEUM
+  DEALER
+  OTHER
+}
+
+enum ContactStatus {
+  ACTIVE
+  INACTIVE
+  LEAD
+}
+
+// Sales Deal model (Pipeline)
+model SalesDeal {
+  id            String        @id @default(uuid())
+  title         String
+  description   String?       @db.Text
+  amount        Decimal       @db.Decimal(10, 2)
+  currency      String        @default("USD")
+  stage         DealStage     @default(LEAD)
+  probability   Int           @default(0) // 0-100%
+  expectedCloseDate DateTime?
+  actualCloseDate   DateTime?
+  
+  artworkId     String?
+  artwork       Artwork?      @relation(fields: [artworkId], references: [id], onDelete: SetNull)
+  
+  contactId     String
+  contact       Contact       @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  
+  // Relations
+  activities    Activity[]
+  
+  @@map("sales_deals")
+  @@index([contactId])
+  @@index([artworkId])
+  @@index([stage])
+}
+
+enum DealStage {
+  LEAD
+  QUALIFIED
+  PROPOSAL
+  NEGOTIATION
+  CLOSED_WON
+  CLOSED_LOST
+}
+
+// Activity log (for timeline tracking)
+model Activity {
+  id            String        @id @default(uuid())
+  type          ActivityType
+  title         String
+  description   String?       @db.Text
+  metadata      String?       @db.Text // JSON for additional data
+  
+  userId        String
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  artworkId     String?
+  artwork       Artwork?      @relation(fields: [artworkId], references: [id], onDelete: SetNull)
+  
+  contactId     String?
+  contact       Contact?      @relation(fields: [contactId], references: [id], onDelete: SetNull)
+  
+  dealId        String?
+  deal          SalesDeal?    @relation(fields: [dealId], references: [id], onDelete: SetNull)
+  
+  createdAt     DateTime      @default(now())
+  
+  @@map("activities")
+  @@index([userId])
+  @@index([artworkId])
+  @@index([contactId])
+  @@index([dealId])
+  @@index([createdAt])
+}
+
+enum ActivityType {
+  ARTWORK_CREATED
+  ARTWORK_UPDATED
+  ARTWORK_SOLD
+  CONTACT_CREATED
+  CONTACT_UPDATED
+  DEAL_CREATED
+  DEAL_UPDATED
+  DEAL_WON
+  DEAL_LOST
+  NOTE_ADDED
+  EMAIL_SENT
+  MEETING_SCHEDULED
+}
