@@ -1,0 +1,3498 @@
+
+
+ 
+ 
+ 
+ 
+SPESIFIKASI KEBUTUHAN PERANGKAT LUNAK 
+ 
+ 
+ 
+ 
+ 
+ArtConnect 
+ 
+ 
+Untuk : 
+ 
+Pengembangan Aplikasi Berbasis Web 
+ 
+ 
+ 
+ 
+Dipersiapkan oleh: 
+ 
+M. Akbar Rizky Saputra    20230040236 
+Moch. Sechan Alfarisi    20230040094 
+M. Fathir Bagas     20230040126 
+M. Ghibran Muslih     20230040105 
+M. Sinar Agusta     20230040188 
+ 
+ 
+Logo 
+ArtConnect 
+ 
+Nomor Dokumen Halaman 
+No. Dokumen 1/77 
+Rev
+isi 
+ Tgl:  
+SKPL 
+
+ 
+ArtConnect  Panduan GL01A Halaman 2 dari 77  
+ 
+ 
+DAFTAR PERUBAHAN 
+Revisi Deskripsi 
+A 
+ 
+B 
+ 
+C 
+ 
+D 
+ 
+E 
+ 
+F 
+ 
+G 
+ 
+ 
+ 
+ 
+INDEX 
+TGL 
+- A 
+ 
+B C D E F G 
+Ditulis 
+oleh 
+AF        
+Diperiksa 
+oleh 
+        
+Disetujui 
+oleh 
+        
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 3 dari 77  
+ 
+ 
+Daftar Halaman Perubahan 
+Halaman Revisi Halaman Revisi 
+Bab 1 
+Bab 2 
+Bab 3 
+Bab 4 
+A   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 4 dari 77  
+ 
+ 
+Daftar Isi 
+ 
+1. 5 
+2. Error! Bookmark not defined. 
+3. Error! Bookmark not defined. 
+4. 7 
+4.1 8 
+4.1.1 8 
+4.1.2 9 
+4.1.3 Error! Bookmark not defined. 
+4.1.4 11 
+4.1.5 12 
+4.2 13 
+4.2.1 14 
+4.2.2 14 
+4.2.3 16 
+4.2.4 16 
+4.2.5 Error! Bookmark not defined. 
+4.3 20 
+4.3.1 21 
+4.3.1.1 Antarmuka pemakai 12 
+4.3.1.2 Antarmuka perangkat keras 12 
+4.3.1.3 Antarmuka perangkat lunak 13 
+4.3.1.4 Antarmuka komunikasi 13 
+4.3.2 28 
+4.3.2.1 Aliran informasi 13 
+4.3.2.1.1 28 
+4.3.2.1.2 30 
+4.3.2.2 Deskripsi proses 14 
+4.3.2.2.1 34 
+4.3.2.2.2 36 
+4.3.3 Error! Bookmark not defined. 
+4.3.3.1 Data 1 15 
+4.3.3.2 Data 2 dan seterusnya 15 
+4.3.4 63 
+4.3.4.1 Performansi 15 
+4.3.4.2 Batasan Memori 16 
+4.3.4.3 Modus Operasi 16 
+4.3.4.4 Kebutuhan adaptasi lokasi 16 
+4.3.5 64 
+4.3.5.1 Keandalan 16 
+4.3.5.2 Ketersediaan. 16 
+4.3.5.3 Keamanan 17 
+4.3.5.4 Keremawatan (66 
+4.3.5.5 Kepemindahan (Error! Bookmark not defined. 
+
+ 
+ArtConnect  Panduan GL01A Halaman 5 dari 77  
+ 
+ 
+4.3.6 67 
+4.4 71 
+4.5 76 
+4.5.1 77 
+4.5.2 77 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 6 dari 77  
+ 
+ 
+1. Pendahuluan 
+Dokumen ini berisi penjelasan pemakaian dan penulisan dokumen 
+Spesifikasi Kebutuhan Perangkat Lunak (SKPL) atau   Software 
+Requirement Specification (SRS) dengan pendekatan berorientasi 
+proses untuk sistem ArtConnect. Dokumen ini  selanjutnya akan 
+menggunakan istilah SKPL. Dokumen ini sebagian besar adalah 
+adaptasi dari dokumen IEEE Std 830-1993. Uraian yang  dituangkan 
+di dalam dokumen ini digunakan sebagai acuan dalam menulis SKPL. 
+2. Referensi 
+1. IEEE Std 830-1993, IEEE Recommended Practice for Software 
+Requirements Specifications. 
+2. IEEE Std 610.12-1990, IEEE Standard Glossary of Software 
+Engineering Terminology (ANSI). 
+3. GL01A, Panduan Penggunaan dan Pengisian Spesifikasi Kebutuhan 
+Perangkat Lunak, Jurusan Teknik Informatika. 
+4. Dokumen Perancangan Proyek ArtConnect, Versi 1.1 - Dokumen 
+Detail untuk Pengembangan & Presentasi, 2025. 
+5. Firebase Documentation, Google Firebase Official Documentation, 
+Google LLC. 
+3. Definisi, Singkatan, dan Akronim 
+Definisi dari istilah yang akan digunakan pada dokumen ini dibuat 
+berdasarkan hasil adaptasi dari IEEE Std 610.12-1990 dan  konteks 
+khusus pengembangan ArtConnect. 
+Definisi: 
+1. Pelanggan - Orang atau organisasi yang membayar produk, dan 
+biasanya tidak harus ia yang akan memutuskan kebutuhannya. 
+2. Pengembang - Orang yang menghasilkan produk untuk 
+pelanggan. 
+3. Pengguna - Orang yang akan langsung menjalankan atau 
+menggunakan produk. Pengguna dan pelanggan umumnya 
+adalah orang yang sama. 
+ 
+Singkatan dan Akronim: 
+
+ 
+ArtConnect  Panduan GL01A Halaman 7 dari 77  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+4. Bagian-bagian SKPL 
+SKPL  berorientasi proses ini menggunakan asumsi bahwa metode 
+analisis berorientasi proses secara prinsip menggunakan  notasi atau 
+representasi konvensional umum seperti Data Flow Diagram (DFD) 
+sebagai dasar dan Entity Relationship Diagram   (ERD). Notasi 
+pelengkap lain seperti pseudo-code, flow chart, flow map, matriks-
+matriks Proses-Data, Proses-Organisasi,    Organisasi-Data,    state 
+transition diagram dapat digunakan pula. 
+Daftar Isi ( Blm Revisi ) 
+1. Pendahuluan 
+1.1. Tujuan Penulisan Dokumen 
+1.2. Lingkup Masalah 
+1.3. Definisi, Akronim dan Singkatan 
+1.4. Referensi 
+1.5. Deskripsi Umum Dokumen 
+2. Deskripsi Global Perangkat Lunak 
+Singkatan Kepanjangan 
+SKPL Spesifikasi Kebutuhan Perangkat Lunak 
+SRS 
+Software Requirement Specification 
+DFD 
+Data Flow Diagram 
+ERD Entity Relationship Diagram 
+STD 
+State Transition Diagram 
+DBMS Data Base Management System 
+MVP Minimum Viable Product 
+SaaS 
+Software-as-a-Service 
+CRM Customer Relationship Management 
+CRUD 
+Create, Read, Update, Delete 
+API 
+Application Programming Interface 
+JSON JavaScript Object Notation 
+UI/UX 
+User Interface/User Experience 
+
+ 
+ArtConnect  Panduan GL01A Halaman 8 dari 77  
+ 
+ 
+2.1. Perspektif Produk 
+2.2. Fungsi Produk 
+2.3. Karakteristik Pengguna 
+2.4. Batasan-batasan 
+2.5. Asumsi dan Kebergantungan 
+3. Deskripsi Rinci Kebutuhan 
+3.1. Kebutuhan antarmuka eksternal 
+3.1.1. Antarmuka pemakai 
+3.1.2. Antarmuka perangkat keras 
+3.1.3. Antarmuka perangkat lunak 
+3.1.4. Antarmuka komunikasi 
+3.2. Deskripsi Fungsional 
+3.2.1. Aliran informasi 
+3.2.1.1. DFD Level 1 
+3.2.1.2. DFD Level 2 dan seterusnya 
+3.2.2. Deskripsi proses 
+3.2.2.1. Proses 1 
+3.2.2.2. Proses 2 dan seterusnya 
+3.3. Deskripsi Data 
+3.3.1.1. Data 1 
+3.3.1.2. Data 2 dan seterusnya 
+3.4. Deskripsi Kebutuhan Non Fungsional 
+3.5. Atribut Kualitas Perangkat Lunak 
+3.6. Batasan Perancangan 
+4. Matriks Keterunutan 
+Lampiran 
+ 
+4.1 Pendahuluan 
+Pendahuluan dari  SKPL ArtConnect  memberikan  gambaran  umum 
+dari seluruh  dokumen  SKPL,  bukan  sistem  perangkat  lunak  yang 
+hendak  dibangun.  SKPL ini  menspesifikasikan  kebutuhan  perangkat 
+lunak  untuk  platform  manajemen  jejaring  profesional dan  inventaris 
+karya seni yang dirancang khusus bagi seniman visual independen. 
+ArtConnect merupakan solusi perangkat lunak berbasis web yang 
+mengintegrasikan manajemen inventaris karya seni digital, 
+pengembangan jejaring profesional, dan analisis aktivitas bisnis dalam 
+satu platform terpadu. Sistem ini dikembangkan dengan  pendekatan 
+berorientasi proses menggunakan metodologi analisis terstruktur dan 
+mengadopsi arsitektur cloud-native untuk memastikan skalabilitas dan 
+keandalan. 
+
+ 
+ArtConnect  Panduan GL01A Halaman 9 dari 77  
+ 
+ 
+Dokumen SKPL  ini disusun untuk memenuhi standar IEEE Std 830-
+1993 dengan adaptasi khusus untuk domain industri seni  visual, 
+memastikan bahwa semua kebutuhan fungsional dan non-fungsional 
+platform terdefinisi dengan jelas dan dapat diverifikasi. Pendahuluan 
+ini terdiri dari lima bagian utama: tujuan pembuatan dokumen, lingkup 
+masalah yang diselesaikan, definisi terminologi khusus, referensi yang 
+digunakan, dan deskripsi umum struktur dokumen. 
+4.1.1 Tujuan 
+Bagian ini menunjukkan tujuan pembuatan SKPL secara umum serta 
+menguraikan pengguna dari dokumen SKPL ini dan tujuan 
+penggunaan dokumen oleh para pengguna tersebut. 
+Tujuan Umum Pembuatan SKPL: 
+SKPL ArtConnect dibuat untuk menyediakan spesifikasi lengkap dan 
+terstruktur yang menggambarkan kebutuhan fungsional dan  non-
+fungsional platform CRM khusus seniman visual. Dokumen ini 
+berfungsi sebagai kontrak formal antara tim pengembang, stakeholder 
+bisnis,  dan  pengguna  akhir  untuk  memastikan  pengembangan  sistem 
+sesuai dengan ekspektasi dan kebutuhan yang telah ditetapkan. 
+4.1.2 Lingkup Masalah 
+Bagian ini mengidentifikasi produk perangkat lunak yang 
+dispesifikasi pada dokumen ini berdasarkan nama, menjelaskan apa 
+yang akan dilakukan dan tidak dilakukan oleh perangkat lunak, 
+menjelaskan penerapan perangkat lunak beserta manfaat, tujuan  dan 
+sasaran dari pembuatan perangkat lunak tersebut, serta merujuk pada 
+identifikasi spesifikasi yang ada di dokumen-dokumen  pendahulu 
+SKPL ini. 
+Identifikasi Produk: 
+Dokumen ini menspesifikasikan ArtConnect versi 1.0 MVP, sebuah 
+platform Software-as-a-Service (SaaS) berbasis web yang 
+memusatkan dua proses bisnis kunci milik seniman visual independen: 
+manajemen inventaris karya seni dan manajemen jejaring profesional. 
+ 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 10 dari 77  
+ 
+ 
+Yang Akan Dilakukan oleh Perangkat Lunak: 
+• Menyediakan   sistem   otentikasi   pengguna   yang   aman   dengan 
+dukungan Firebase Authentication. 
+• Mengelola inventaris karya seni dengan fitur CRUD lengkap (Create, 
+Read, Update, Delete). 
+• Mengelola kontak profesional meliputi kolektor, galeri, dan kurator 
+dengan sistem kategorisasi yang fleksibel. 
+• Menyediakan  dasbor  analitik  sederhana  untuk  memberikan  insight 
+tentang progres karya dan aktivitas networking. 
+• Mengimplementasikan  papan  Kanban  untuk  visualisasi  pipeline 
+karya dari konsep hingga terjual. 
+• Mencatat aktivitas dan penjualan dengan fitur tracking dan reporting 
+dasar. 
+• Menyediakan antarmuka web responsif yang dioptimalkan untuk 
+desktop modern. 
+ 
+Yang Tidak Akan Dilakukan oleh Perangkat Lunak: 
+• Fitur  lanjutan  seperti  manajemen  pameran  komprehensif,  sistem 
+paspor digital karya seni, dan dukungan multi-mata-uang. 
+• Sistem  pembayaran  terintegrasi  dan  modul  akuntansi  keuangan 
+lengkap. 
+• Aplikasi mobile native (iOS/Android) pada fase MVP. 
+• Integrasi e-commerce penuh atau marketplace functionality. 
+ 
+Penerapan dan Manfaat: 
+Platform ini dirancang sebagai pusat komando digital (digital command 
+center)  yang  mentransformasi  proses  administratif kompleks menjadi 
+alur kerja yang intuitif dan visual. Penerapan  ArtConnect bertujuan 
+untuk: 
+• Meningkatkan efisiensi administratif seniman hingga 60% melalui 
+otomatisasi pencatatan dan tracking. 
+• Memperluas jangkauan networking profesional dengan sistem 
+manajemen kontak yang terstruktur. 
+• Memberikan insight data-driven untuk pengembangan karier 
+seniman melalui analytics dashboard. 
+• Memungkinkan seniman fokus pada proses kreatif sambil 
+membangun karier secara strategis. 
+
+ 
+ArtConnect  Panduan GL01A Halaman 11 dari 77  
+ 
+ 
+Konsistensi dengan Dokumen Pendahulu: 
+Spesifikasi    dalam dokumen    ini    konsisten    dengan    "Dokumen 
+Perancangan  Proyek ArtConnect  Versi  1.1"  dan  mengikuti  panduan 
+IEEE Std 830-1993 serta GL01A. 
+4.1.3 Definisi, akronim dan singkatan 
+Bagian ini memberikan penjelasan terhadap semua definisi, akronim dan 
+singkatan   yang   digunakan   agar   dapat menginterpretasikan SKPL 
+dengan benar dan satu arti. Definisi istilah dan singkatan telah disajikan 
+pada Bagian 3 dokumen ini. 
+Khusus untuk proyek ArtConnect, terdapat beberapa istilah teknis 
+tambahan yang perlu didefinisikan: 
+Istilah Khusus 
+ArtConnect 
+Definisi 
+ArtConnect Platform CRM berbasis web yang dirancang khusus untuk seniman visual independen 
+Artwork Lifecycle Siklus hidup karya seni dari konsep, work-in-progress, selesai, hingga terjual 
+Professional Network 
+Jejaring profesional seniman yang meliputi kolektor, galeri, kurator, dan kritik seni 
+Pipeline Karya Alur visualisasi progres karya menggunakan metode Kanban 
+Digital Command 
+Center 
+Pusat kendali digital yang mengintegrasikan semua aspek manajemen bisnis seniman 
+Firebase 
+Platform Backend-as-a-Service milik Google untuk autentikasi, database, dan storage 
+Responsive Web 
+Design 
+Desain web yang dapat menyesuaikan tampilan pada berbagai ukuran layar 
+ 
+4.1.4 Referensi 
+Bagian ini memberikan daftar lengkap dari dokumen, baik itu berupa 
+buku, panduan, atau spesifikasi/deskripsi lain yang dirujuk   pada 
+dokumen SKPL ini, identifikasi dari setiap dokumen berdasarkan judul, 
+nomor dokumen bila ada, tanggal dan organisasi penerbit. 
+Dokumen Standar: 
+1. IEEE Std 830-1993, IEEE Recommended Practice for Software 
+Requirements Specifications, Institute of Electrical and 
+Electronics Engineers, 1993. 
+
+ 
+ArtConnect  Panduan GL01A Halaman 12 dari 77  
+ 
+ 
+2. IEEE Std 610.12-1990, IEEE Standard Glossary of Software 
+Engineering Terminology (ANSI), Institute of Electrical and 
+Electronics Engineers, 1990. 
+3. Panduan GL01A, Panduan Penggunaan dan Pengisian 
+Spesifikasi Kebutuhan Perangkat Lunak, Jurusan Teknik 
+Informatika. 
+Dokumen Proyek: 
+4. Dokumen Perancangan Proyek ArtConnect, Versi 1.1 - 
+Dokumen Detail untuk Pengembangan & Presentasi, Tim 
+Pengembang ArtConnect, 2025. 
+5. Presentasi ArtConnect, Comprehensive Project Plan for 
+ArtConnect CRM Platform, Tim Pengembang ArtConnect, 
+2025. 
+Dokumentasi Teknis 
+6. Firebase Documentation, Authentication, Firestore Database, 
+and Cloud Storage, Google LLC, 
+https://firebase.google.com/docs. 
+7. Web Content Accessibility Guidelines (WCAG) 2.1, World 
+Wide Web Consortium (W3C), 2018. 
+4.1.5 Deskripsi Umum Dokumen 
+Bagian ini adalah ikhtisar dari dokumen SKPL. Sistematika 
+pembahasan dokumen SKPL  ini mengikuti struktur standar IEEE 
+dengan adaptasi untuk pendekatan berorientasi proses. 
+Struktur Dokumen: 
+Bab 4.1 - Pendahuluan: Memberikan konteks umum dokumen, tujuan 
+penulisan,   ruang   lingkup   masalah,   definisi   istilah, referensi,   dan 
+deskripsi organisasi dokumen. 
+Bab 4.2 - Deskripsi Global Perangkat Lunak: Menjelaskan 
+perspektif produk dalam konteks sistem yang lebih luas, fungsi- fungsi 
+inti,   karakteristik   pengguna   target,   batasan   pengembangan,   serta 
+asumsi dan kebergantungan sistem. 
+
+ 
+ArtConnect  Panduan GL01A Halaman 13 dari 77  
+ 
+ 
+Bab 4.3 - Deskripsi Rinci Kebutuhan: Menguraikan  kebutuhan 
+antarmuka eksternal, kebutuhan fungsional lengkap dengan Data Flow 
+Diagram  (DFD),  kebutuhan  non-fungsional,  deskripsi  data  dengan 
+Entity  Relationship  Diagram (ERD), atribut  kualitas perangkat  lunak, 
+serta batasan perancangan. 
+Bab 4.4 - Matriks Keterunutan: Memetakan setiap kebutuhan ke 
+metode verifikasi yang akan digunakan (inspeksi, analisis, atau 
+demonstrasi)  untuk  memastikan  setiap  kebutuhan  dapat  diuji  dan 
+divalidasi. 
+Penempatan Notasi Tambahan: 
+Untuk pengembangan ArtConnect, akan digunakan pendekatan analisis 
+terstruktur berorientasi proses dengan: 
+• Data Flow Diagram (DFD) sebagai notasi dasar untuk 
+menggambarkan aliran data 
+• Entity Relationship Diagram (ERD) untuk representasi struktur 
+data 
+• State Transition Diagram (STD) bila diperlukan, akan 
+ditempatkan sebagai sub-bab dalam Bab 4.3 
+• Wireframe dan mockup antarmuka pengguna akan disajikan 
+sebagai lampiran 
+ 
+Struktur    ini    memastikan    bahwa    semua    aspek    pengembangan 
+ArtConnect terdokumentasi dengan baik dan dapat dilacak sepanjang 
+siklus hidup proyek sesuai dengan standar industri dan praktik terbaik 
+rekayasa perangkat lunak 
+4.2 Deskripsi Global Perangkat Lunak 
+Bagian ini merupakan penjelasan tentang perangkat lunak secara 
+umum. Dijelaskan melalui perspektif perangkat lunak relatif terhadap 
+konteksnya, fungsi dasar perangkat lunak, karakteristik pengguna yang 
+ditargetkan,  batasan-batasan  yang  mempengaruhi perangkat lunak 
+secara umum, serta asumsi dasar yang digunakan dan kebergantungan 
+perangkat lunak pada fenomena lain di luar perangkat lunak. Bagian ini 
+tidak memberikan kebutuhan rinci, hanya latar belakang dari 
+kebutuhan tersebut. 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 14 dari 77  
+ 
+ 
+4.2.1 Perspektif Produk 
+ArtConnect diposisikan sebagai produk mandiri yang tidak bergantung 
+pada sistem atau produk perangkat lunak lain yang telah ada sebelumnya. 
+Sistem ini dirancang sebagai solusi SaaS (Software-as-a-Service) yang 
+dapat beroperasi secara independen dalam lingkungan web modern. 
+Posisi dalam Ekosistem Digital: 
+ArtConnect beroperasi sebagai platform cloud-native yang 
+memanfaatkan layanan Backend-as-a-Service (Firebase) untuk 
+mempercepat pengembangan dan mengurangi kompleksitas infrastruktur. 
+Platform ini tidak mengintegrasikan atau menggantikan sistem  warisan 
+(legacy systems)   yang ada,   melainkan menjadi   solusi baru   untuk 
+kebutuhan yang belum terpenuhi di segmen seniman visual. 
+Antarmuka Eksternal Utama: 
+• Antarmuka   Pengguna   Web:   Antarmuka   utama   berbasis   web 
+responsif yang diakses melalui browser modern 
+• API  Firebase:  Integrasi  dengan  layanan  Firebase  untuk  otentikasi, 
+database realtime, dan penyimpanan file 
+• Antarmuka Ekspor: Kemampuan ekspor data dalam format standar 
+(CSV, PDF)untuk keperluan backup dan portabilitas 
+ 
+Kemandirian Sistem: 
+Sebagai sistem mandiri, ArtConnect memiliki kemampuan untuk: 
+• Beroperasi tanpa ketergantungan pada aplikasi eksternal 
+• Mengelola seluruh  siklus  data  dari  input  hingga  output  secara 
+internal 
+• Menyediakan backup dan recovery data secara otomatis melalui 
+infrastruktur cloud 
+ 
+ 
+ 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 15 dari 77  
+ 
+ 
+4.2.2 Fungsi Produk 
+Fungsi-fungsi dasar sistem   ArtConnect diorganisasikan berdasarkan 
+domain bisnis seniman visual dan selaras dengan bubble pada level 1 DFD 
+yang akan dijelaskan pada bagian selanjutnya. Fungsi-fungsi ini menjawab 
+masalah inti yang dihadapi seniman  dalam  mengelola  aspek  bisnis  dari 
+praktik seni mereka. 
+Fungsi Dasar Utama: 
+1. Manajemen Identitas dan Otentikasi 
+Mengelola registrasi, otentikasi, dan profil seniman dengan 
+keamanan tingkat enterprise. Fungsi ini memastikan bahwa setiap 
+seniman   memiliki   workspace   pribadi   yang   aman   dan   dapat 
+disesuaikan. 
+2. Pengelolaan Inventaris Karya Seni 
+Menyediakan sistem manajemen aset digital untuk karya seni yang 
+mencakup dokumentasi visual, metadata lengkap, pelacakan status, 
+dan kategorisasi fleksibel. Fungsi ini menjadi inti dari platform 
+karena karya seni adalah aset utama seniman. 
+3. Manajemen Jejaring Profesional 
+Mengelola database kontak yang tidak hanya menyimpan informasi 
+dasar, tetapi juga melacak hubungan bisnis, riwayat interaksi, dan 
+preferensi setiap kontak dalam ekosistem seni. 
+4. Visualisasi Pipeline dan Workflow 
+Menyediakan representasi visual dari siklus hidup karya seni 
+menggunakan metodologi Kanban, memungkinkan seniman 
+melacak  progres  dari  ide  hingga  penjualan  dalam  satu  tampilan 
+intuitif. 
+5. Pencatatan dan Analisis Aktivitas 
+Mengelola semua touchpoint antara seniman, karya, dan kontak 
+profesional,    serta    menyediakan    insight    analitik    untuk 
+mendukung pengambilan keputusan strategis. 
+6. Pelaporan dan Dokumentasi 
+Menghasilkan  laporan  visual  dan  terstruktur  tentang  performa 
+bisnis,  inventaris,  dan  aktivitas  networking  untuk  keperluan 
+administrasi dan presentasi kepada stakeholder. 
+
+ 
+ArtConnect  Panduan GL01A Halaman 16 dari 77  
+ 
+ 
+Hubungan Logis Antar Fungsi: 
+Fungsi-fungsi  ini  saling  berkaitan  dalam  alur  kerja  yang  terpadu 
+dimana data karya seni menjadi central hub yang menghubungkan 
+aktivitas networking, pipeline visualization, dan analytical 
+reporting. 
+4.2.3 Karakteristik Pengguna 
+Karakteristik pengguna ArtConnect dirancang berdasarkan analisis mendalam 
+terhadap kebutuhan dan perilaku seniman visual independen  sebagai  target 
+market utama platform ini. 
+Aspek Deskripsi 
+Pengguna Utama Seniman Visual Independen 
+Tanggung Jawab Pengelolaan  penuh  terhadap  inventaris  karya 
+seni, jejaring profesional, dokumentasi 
+penjualan, dan pengembangan karier 
+Hak Akses CRUD (Create, Read, Update, Delete) penuh 
+terhadap semua data yang terkait dengan akun 
+mereka,    termasuk     karya     seni,    kontak, 
+aktivitas, dan pengaturan akun 
+Tingkat Pendidikan Minimal   pendidikan   menengah   dengan   latar 
+belakang  seni atau  kreative  industry,  umumnya 
+memiliki  pendidikan  formal  seni  (D3/S1  Seni 
+Rupa, Desain, atau bidang terkait) 
+Tingkat Keterampilan Teknologi Basic  hingga  intermediate  dalam  penggunaan 
+aplikasi  web  modern,  familiar  dengan  upload 
+file, drag-and-drop interface, dan navigasi web 
+Pengalaman yang Dibutuhkan Minimal  1-2  tahun pengalaman  dalam  praktik 
+seni profesional atau semi-profesional, 
+memahami  terminologi  industri  seni,  dan  telah 
+memiliki interaksi dengan collector, galeri, atau 
+kurator 
+Jenis Pelatihan Tutorial interaktif dalam aplikasi 
+(onboarding),   dokumentasi   visual   step-by-
+step, dan video tutorial untuk fitur advanced 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 17 dari 77  
+ 
+ 
+Profil Demografis: 
+• Usia: 25-50 tahun dengan mayoritas di rentang 28-40 tahun 
+• Lokasi: Urban dan semi-urban dengan akses internet stabil 
+• Perilaku Digital: Active users media sosial, menggunakan 
+smartphone dan komputer secara regular 
+• Pain Points: Kesulitan mengorganisir karya, tracking interaksi 
+dengan buyers, dan menganalisis performa bisnis 
+ 
+Kebutuhan Khusus: 
+• Antarmuka visual yang menarik sesuai dengan sensibilitas estetik 
+seniman 
+• Fleksibilitas dalam kategorisasi dan organisasi data 
+• Kemudahan berbagi portofolio dengan stakeholder eksternal 
+• Tools analitik yang mudah dipahami tanpa background business 
+atau finance 
+4.2.4 Batasan-batasan 
+Bagian SKPL ini berisi deskripsi umum dari item lain yang akan 
+membatasi pilihan atau keputusan pada spesifikasi. Batasan- batasan ini 
+mempengaruhi keputusan desain dan implementasi ArtConnect secara 
+menyeluruh. 
+1. Kebijakan Umum Organisasi/Lingkungan 
+• Sistem harus mematuhi regulasi perlindungan data pribadi sesuai dengan 
+standar GDPR dan peraturan perlindungan data lokal 
+• Konten karya seni yang diunggah harus mematuhi hak cipta dan tidak 
+melanggar kekayaan intelektual pihak lain 
+• Platform tidak diizinkan untuk menyimpan atau memproses konten yang 
+melanggar hukum atau standar komunitas 
+2. Keterbatasan Karena Perangkat Keras 
+• Ukuran file gambar dibatasi maksimal 10MB per file untuk menjaga 
+performa dan efisiensi penyimpanan cloud 
+• Resolusi maksimal gambar yang dapat diunggah adalah 4096x4096 piksel 
+untuk mengoptimalkan loading time 
+• Sistem dirancang untuk berjalan optimal pada perangkat dengan RAM 
+minimal 4GB dan koneksi internet minimum 2Mbps 
+ 
+3. Standar Antarmuka ke Aplikasi atau Sistem Lain 
+• Integrasi dengan Firebase mengharuskan penggunaan Firebase SDK versi 
+9.0 atau lebih tinggi 
+
+ 
+ArtConnect  Panduan GL01A Halaman 18 dari 77  
+ 
+ 
+• Ekspor data harus mengikuti format standar CSV (RFC 4180) dan 
+PDF/A untuk kompatibilitas jangka panjang 
+• API eksternal yang digunakan harus mendukung HTTPS dan autentikasi 
+token-based 
+ 
+4. Tuntutan Pengoperasian Secara Paralel atau Multi Platform 
+• Sistem harus dapat berjalan secara konsisten di browser Chrome, 
+Firefox, Safari, dan Edge versi terbaru 
+• Antarmuka harus responsif dan dapat diakses dari desktop, tablet, dan 
+smartphone (viewport minimum 320px) 
+• Sinkronisasi data real-time harus didukung untuk multiple sessions dari 
+pengguna yang sama 
+ 
+4.2.5 Asumsi dan Kebergantungan 
+Bagian ini mengungkapkan setiap faktor yang mempengaruhi 
+kebutuhan yang dinyatakan pada SKPL. Faktor-faktor ini bukan 
+merupakan pembatasan atas keputusan yang diambil untuk 
+perancangan perangkat lunak, melainkan hal-hal di luar cakupan 
+perangkat lunak yang dispesifikasikan. 
+Asumsi Dasar: 
+ 
+1.  Ketersediaan Infrastruktur Eksternal 
+• Firebase services (Authentication, Firestore, Storage) akan tetap tersedia 
+dan stabil dengan uptime minimum 99.9% sesuai SLA Google 
+• Koneksi internet pengguna memiliki kecepatan minimum 1Mbps untuk 
+penggunaan optimal fitur real-time 
+• Browser pengguna mendukung JavaScript ES6+ dan Web APIs modern 
+(Local Storage, File API, Drag and Drop API) 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 19 dari 77  
+ 
+ 
+2. Perilaku dan Kemampuan Pengguna 
+• Seniman target memiliki pemahaman dasar tentang konsep digital file 
+management 
+• Pengguna memiliki kemampuan untuk mengambil foto karya seni dengan 
+kualitas yang memadai (minimal 1MP) 
+• Seniman sudah memiliki email aktif dan dapat mengakses email untuk 
+proses verifikasi akun 
+ 
+3. Lingkungan Operasional 
+• Pengembangan akan menggunakan environment development yang 
+konsisten (Node.js v18+, modern IDE) 
+• Tim pengembang memiliki akses ke Firebase console dan dapat 
+mengkonfigurasi services yang diperlukan 
+• Testing environment tersedia untuk Quality Assurance sebelum 
+deployment ke production 
+ 
+Kebergantungan Eksternal: 
+1. Layanan Third-Party 
+• Firebase Authentication: Jika service ini mengalami downtime, fungsi 
+login/register akan terganggu 
+• Firebase Firestore: Gangguan pada database cloud akan mempengaruhi semua 
+operasi CRUD 
+• Firebase Storage: Masalah pada cloud storage akan menghambat 
+upload/download gambar karya seni 
+2. Platform dan Teknologi 
+• Vercel/Netlify Hosting: Stabilitas platform hosting mempengaruhi availability 
+aplikasi 
+• CDN Services: Performa loading gambar bergantung pada reliability Content 
+Delivery Network 
+• SSL Certificate Providers: Keamanan HTTPS bergantung pada validitas dan 
+renewal certificate 
+
+ 
+ArtConnect  Panduan GL01A Halaman 20 dari 77  
+ 
+ 
+ 
+3. Prioritas Pengembangan: 
+Berdasarkan analisis risiko dan kebergantungan, prioritas pengembangan 
+ditetapkan sebagai berikut: 
+• High Priority: Sistem otentikasi, CRUD inventaris karya, dashboard 
+utama 
+• Medium Priority: Manajemen kontak, pipeline Kanban, pencatatan 
+aktivitas 
+• Low Priority: Fitur analitik lanjutan, export data, notifikasi system 
+Identifikasi Kebutuhan yang Ditunda: 
+• Fitur-fitur berikut akan dikembangkan pada versi lanjutan setelah 
+MVP: 
+• Sistem notifikasi real-time via email atau push notification 
+• Advanced analytics dengan grafik interaktif dan forecasting 
+• Multi-language support untuk ekspansi pasar internasional 
+• Mobile application native untuk iOS dan Android 
+ 
+ 
+4.3 Deskripsi Rinci Kebutuhan  
+Bagian ini menjabarkan kebutuhan rinci sistem ArtConnect yang mencakup 
+semua aspek operasional platform CRM untuk  seniman visual. Setiap 
+kebutuhan dalam bagian ini dirancang untuk mendukung workflow seniman 
+dari tahap kreatif hingga komersial, dengan fokus utama pada manajemen 
+inventaris karya seni dan pengembangan jejaring profesional. 
+ArtConnect beroperasi dalam tiga domain utama yang saling terintegrasi: 
+Creative Domain (pengelolaan karya seni dan proses kreatif), Business 
+Domain (manajemen  kontak  profesional,  penjualan,  dan  aktivitas  bisnis), 
+dan Analytics Domain (insight dan reporting untuk pengembangan karier). 
+Setiap domain memiliki stimulus dan response yang spesifik sesuai dengan 
+kebutuhan seniman visual independen. 
+Domain Creative - Manajemen Karya Seni: 
+Stimulus: Seniman mengunggah foto karya, memasukkan metadata (judul, 
+dimensi,  medium,  tahun),  mengubah  status  progres (konsep,  work-in-
+
+ 
+ArtConnect  Panduan GL01A Halaman 21 dari 77  
+ 
+ 
+progress,   selesai,   dijual) Response: Sistem menyimpan karya dengan 
+thumbnail otomatis, menampilkan dalam gallery view, memperbarui 
+dashboard analytics, dan menyinkronkan dengan pipeline Kanban 
+Domain Business - Jejaring Profesional: 
+Stimulus: Seniman menambah kontak baru (kolektor/galeri/kurator), 
+mencatat interaksi, merekam aktivitas penjualan, atau berbagi portofolio 
+Response: Sistem mengorganisir kontak berdasarkan kategori, melacak 
+riwayat komunikasi, memperbarui statistik networking,  dan  memberikan 
+reminder follow-up 
+Domain Analytics - Insight dan Pelaporan: 
+Stimulus: Sistem menganalisis data karya, kontak, dan aktivitas secara 
+otomatis, pengguna mengakses dashboard atau export report 
+Response: Menyajikan visualisasi data real-time, tren penjualan, performa 
+networking, progres karya, dan rekomendasi strategis 
+ 
+Kebutuhan rinci ini memastikan bahwa setiap interaksi pengguna dengan 
+sistem menghasilkan value yang terukur dalam mendukung pengembangan 
+karier seniman visual, dengan menjaga keseimbangan antara simplicity 
+untuk kemudahan   penggunaan   dan   functionality   untuk   kebutuhan 
+profesional. 
+4.3.1 Kebutuhan antarmuka eksternal 
+Bagian ini merinci spesifikasi antarmuka eksternal yang memungkinkan 
+sistem  ArtConnect berinteraksi dengan seniman visual  dan lingkungan 
+teknologi yang mendukung operasionalnya. Antarmuka ini dirancang khusus 
+untuk memenuhi kebutuhan  workflow seniman yang unik, mulai dari 
+dokumentasi karya hingga manajemen jejaring profesional. 
+ArtConnect mengintegrasikan empat kategori antarmuka eksternal yang 
+saling mendukung: antarmuka pemakai yang intuitif untuk   seniman, 
+antarmuka perangkat keras yang mendukung dokumentasi visual, antarmuka 
+perangkat lunak yang terintegrasi dengan ekosistem cloud, dan antarmuka 
+komunikasi yang memungkinkan kolaborasi real-time dan sharing 
+portofolio. 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 22 dari 77  
+ 
+ 
+4.3.1.1 Antarmuka pemakai 
+Bagian  ini  berisi  karakteristik  logis  dari  setiap  antarmuka  antara  produk 
+perangkat lunak ArtConnect dan penggunanya (seniman visual), serta semua 
+aspek optimisasi antarmuka dengan orang yang akan menggunakan sistem. 
+Karakteristik Konfigurasi Antarmuka: 
+Format Layar Standar: 
+• Resolusi minimum: 1024x768 piksel dengan dukungan optimal pada 
+1920x1080 piksel 
+• Layout responsif: Grid system berbasis CSS Flexbox/Grid yang 
+menyesuaikan dengan viewport 
+• Color scheme: Palet warna minimalis dengan aksen artistik (primary: 
+#2D3748, secondary: #4299E1, accent: #F56565) 
+• ypography: Font sans-serif modern (Inter, Roboto) dengan hierarki 
+yang jelas (H1: 32px, H2: 24px, body: 16px) 
+ 
+Tata Letak Window: 
+• Navigation bar: Tetap di bagian atas dengan menu utama (Dashboard, 
+Artworks, Contacts, Pipeline, Analytics) 
+• Sidebar: Panel kiri yang dapat disembunyikan untuk navigation 
+sekunder dan filter 
+• Main content area: Area utama dengan margin 24px dan padding 
+konsisten 
+• Modal dialogs: Overlay untuk form input dengan backdrop blur dan 
+escape key support 
+ 
+Isi Laporan/Menu: 
+• Dashboard cards: Widget summary dengan data real-time (total karya, kontak 
+aktif, penjualan bulanan) 
+• Data tables: Sortable columns, pagination, dan search functionality untuk 
+listing data 
+• Form inputs: Konsisten dengan validation real-time dan error messaging yang 
+jelas 
+• Action buttons: Primary, secondary, dan destructive actions dengan visual 
+hierarchy yang tepat 
+Ketersediaan Input Methods: 
+• Keyboard navigation: Tab order yang logis dan keyboard shortcuts 
+untuk power users 
+• Mouse/trackpad: Hover states, click feedback, dan drag-and-drop 
+untuk file uploads 
+• Touch support: Basic touch gestures untuk tablet users (tap, swipe, 
+pinch-to-zoom pada gambar) 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 23 dari 77  
+ 
+ 
+Aspek Optimisasi Antarmuka: 
+Yang Harus Dilakukan Sistem:Memberikan feedback visual untuk setiap aksi 
+pengguna dalam waktu maksimal 200ms 
+• Menampilkan loading indicators untuk proses yang membutuhkan 
+waktu > 1 detik 
+• Menyediakan pesan error yang informatif dan actionable dengan 
+suggested solutions 
+• Auto-save draft pada form inputs setiap 30 detik untuk mencegah data 
+loss 
+• Mempertahankan state aplikasi saat refresh browser (menggunakan 
+localStorage) 
+ 
+Yang Tidak Boleh Dilakukan Sistem: 
+• Menampilkan technical error messages kepada end user 
+• Memaksa reload seluruh halaman untuk navigasi antar section 
+Memblokir UI selama proses background operations 
+• Kehilangan data form yang sudah diinput saat terjadi network 
+interruption 
+Kebutuhan Verifikat: 
+Seorang seniman berpengalaman harus dapat menambahkan karya seni baru 
+(termasuk upload foto dan metadata lengkap) dalam waktu maksimal 3 menit 
+setelah 1 jam menggunakan sistem. Sistem harus mampu memberikan visual 
+confirmation bahwa  karya  telah  tersimpan  dengan  sukses  dalam  waktu 
+kurang dari 5 detik. 
+ 
+4.3.1.2 Antarmuka perangkat keras 
+Bagian ini menjelaskan karakteristik logis dari setiap antarmuka antara 
+produk perangkat lunak  ArtConnect dan komponen  perangkat  keras  yang 
+dibutuhkan untuk operasional optimal sistem. 
+Spesifikasi Perangkat Keras Client: 
+• Prosesor:  Minimum  dual-core  2.0  GHz  (Intel  i3/AMD  Ryzen  3  atau 
+setara) 
+• Memori   (RAM):   Minimum   4GB,   direkomendasikan   8GB   untuk 
+multitasking optimal 
+• Storage: Minimum 1GB free space untuk cache browser dan temporary 
+files 
+
+ 
+ArtConnect  Panduan GL01A Halaman 24 dari 77  
+ 
+ 
+• Display: Minimum 1024x768, optimal 1920x1080 dengan color depth 
+24-bit 
+• Network:  Koneksi  internet  minimum  1Mbps  downstream,  512Kbps 
+upstream untuk real-time features 
+ 
+Perangkat Input/Output: 
+• Camera: Opsional, untuk mengambil foto karya seni langsung dari 
+browser (jika didukung WebRTC) 
+• Scanner: Opsional, dengan dukungan TWAIN/WIA driver untuk 
+import scan langsung 
+• Graphics tablet: Dukungan basic untuk Wacom dan graphics tablet 
+lain melalui browser pointer events 
+ 
+Antarmuka Mobile (Limited Support): 
+• Smartphone: iOS 12+ (Safari) atau Android 8+ (Chrome) untuk 
+viewing dan basic editing 
+• Tablet: iPad dengan iOS 13+ atau Android tablet dengan screen 
+minimum 9 inch untuk optimal experience 
+• Touch interface: Multi-touch gestures untuk zoom, pan, dan basic 
+navigation 
+ 
+Karakteristik Konfigurasi: 
+Sistem ArtConnect  tidak  memerlukan  perangkat   keras   khusus   karena 
+beroperasi  sepenuhnya  melalui  browser  web  modern. Semua  processing 
+dilakukan di cloud, sehingga beban komputasi pada device minimal. 
+4.3.1.3 Antarmuka perangkat lunak 
+Bagian ini menspesifikasikan penggunaan produk perangkat lunak lain dan 
+antarmuka dengan sistem aplikasi eksternal yang   dibutuhkan   untuk 
+operasional ArtConnect. 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 25 dari 77  
+ 
+ 
+Firebase Backend Services: 
+Firebase Authentication v9.0+ 
+• Tujuan: Mengelola registrasi, login, dan session management 
+pengguna 
+• Antarmuka: Firebase Auth SDK dengan email/password authentication 
+• Format pesan: JSON Web Tokens (JWT) untuk session management 
+• Methods: createUserWithEmailAndPassword(), 
+signInWithEmailAndPassword(), signOut() 
+ 
+Firebase Firestore Database v9.0+ 
+• Tujuan: Penyimpanan data terstruktur (artwork, contacts, activities) 
+dengan real-time sync 
+• Antarmuka: Firestore SDK dengan NoSQL document-based 
+operations 
+• Format pesan: JSON documents dengan automatic timestamp dan 
+user attribution 
+• Methods: collection().add(), doc().get(), onSnapshot() untuk real-
+time updates  
+Firebase Cloud Storage v9.0+ 
+• Tujuan: Penyimpanan file gambar karya seni dan dokumen terkait 
+• Antarmuka: Storage SDK dengan multipart upload support 
+• Format pesan: Binary file upload dengan metadata JSON 
+(filename, size, type, upload timestamp) 
+• Methods: ref().put(), getDownloadURL(), deleteObject() 
+Browser Web APIs: 
+File API 
+• Tujuan: Handle file uploads dan drag-and-drop functionality 
+• Implementasi: FileReader API untuk preview images sebelum upload 
+• Format: Support untuk JPEG, PNG, WebP dengan size validation 
+Canvas API 
+• Tujuan: Image manipulation untuk thumbnail generation dan basic 
+editing 
+• Implementasi: HTML5 Canvas untuk resize dan compress images 
+• Format: Output optimized JPEG/WebP untuk storage efficiency 
+Local Storage API 
+• Tujuan: Persist user preferences dan form drafts 
+• Implementasi: localStorage untuk settings, sessionStorage untuk 
+temporary data 
+• Format: JSON serialized objects dengan versioning untuk migration 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 26 dari 77  
+ 
+ 
+External Services (Optional): 
+Email Service API (EmailJS atau Firebase Functions) 
+• Tujuan: Pengiriman email notifications dan portfolio sharing 
+• Antarmuka: REST API dengan webhook support 
+• Format: HTML email templates dengan dynamic content injection 
+ 
+PDF Generation Library (jsPDF/Puppeteer) 
+• Tujuan: Export portfolio dan reports dalam format PDF 
+• Implementasi: Client-side PDF generation atau server-side rendering 
+• Format: PDF/A standard untuk archival compatibility 
+ 
+4.3.1.4 Antarmuka komunikasi 
+Bagian ini menspesifikasikan berbagai antarmuka untuk komunikasi yang 
+digunakan oleh perangkat lunak   ArtConnect dalam   beroperasi   dengan 
+memanfaatkan protokol komunikasi dan networking. 
+Protokol Jaringan: 
+HTTPS (TLS 1.2+) 
+• Tujuan: Secure communication untuk semua data exchange antara 
+client dan server 
+• Implementasi: SSL/TLS certificates dengan minimum 256-bit 
+encryption 
+• Port: Standard HTTPS port 443 dengan automatic HTTP to 
+HTTPS redirect 
+WebSocket (WSS) 
+• Tujuan: Real-time bidirectional communication untuk live updates 
+dan notifications 
+• Implementasi: Secure WebSocket connection untuk real-time 
+features (live collaboration, instant notifications) 
+• Fallback: Long polling untuk environments yang tidak 
+mendukung WebSocket 
+REST API over HTTPS 
+• Tujuan: Standard HTTP methods untuk CRUD operations dan 
+data synchronization 
+• Format: JSON request/response bodies dengan standardized HTTP 
+status codes 
+• Authentication: Bearer token authentication menggunakan 
+Firebase ID tokens 
+
+ 
+ArtConnect  Panduan GL01A Halaman 27 dari 77  
+ 
+ 
+Firebase Real-time Communication: 
+Firebase Realtime Database Protocol 
+• Tujuan: Sinkronisasi data real-time antar multiple clients 
+• Implementasi: Proprietary Firebase protocol over HTTPS/WSS 
+• Features: Automatic offline support, conflict resolution, dan 
+optimistic updates 
+ 
+Push Notifications (Future Enhancement) 
+• Tujuan: Browser push notifications untuk important updates dan 
+reminders 
+• Protocol: Web Push Protocol dengan VAPID authentication 
+• Implementation: Service Worker untuk handling background 
+notifications 
+File Transfer Protocols: 
+ Multipart HTTP Upload 
+• Tujuan: Efficient upload untuk large image files dengan progress 
+tracking 
+• Implementation: Chunked transfer encoding dengan resume 
+capability 
+• Validation: Client-side dan server-side file validation untuk 
+security 
+ 
+CDN Integration 
+• Tujuan: Fast content delivery untuk uploaded images melalui 
+Firebase CDN 
+• Protocol: HTTPS dengan automatic image optimization dan 
+compression 
+• Caching: Browser caching dengan proper cache headers untuk 
+optimal performance 
+ 
+Network Quality Adaptation: 
+• Bandwidth detection: Automatic quality adjustment berdasarkan 
+network speed 
+• Offline mode: Service worker untuk basic offline functionality 
+dengan sync ketika online 
+• Progressive loading: Lazy loading untuk images dan data untuk 
+mengoptimalkan initial load time 
+ 
+Security Communications: 
+• CORS policy: Properly configured Cross-Origin Resource Sharing 
+untuk browser security 
+
+ 
+ArtConnect  Panduan GL01A Halaman 28 dari 77  
+ 
+ 
+• CSP headers: Content Security Policy untuk mencegah XSS 
+attacks 
+• Rate limiting: API rate limiting untuk mencegah abuse dan 
+ensuring fair usage 
+ 
+4.3.2 Kebutuhan Fungsional 
+Kebutuhan fungsional ArtConnect mendefinisikan aksi dasar yang harus 
+diambil oleh perangkat lunak untuk menerima dan memproses masukan 
+dari seniman visual, serta menghasilkan keluaran yang mendukung 
+workflow kreatif dan bisnis mereka. Sistem ini dirancang berdasarkan 
+tiga domain fungsional utama yang saling terintegrasi. 
+Pembagian kebutuhan fungsional dilakukan berdasarkan sub-proses bisnis 
+seniman visual: Creative Management (pengelolaan karya dan proses 
+kreatif), Professional Networking (manajemen kontak dan relasi bisnis), 
+Activity Analytics (pencatatan dan    analisis aktivitas), User 
+Management (otentikasi dan profil), serta System Administration 
+(konfigurasi dan maintenance). Setiap  sub-proses memiliki hierarki 
+proses yang dapat didekomposisi hingga level atomik untuk 
+memudahkan implementasi dan pengujian. 
+Aliran informasi dalam sistem digambarkan menggunakan Data Flow 
+Diagram (DFD) berlevel yang menunjukkan bagaimana data bergerak 
+antar proses, entitas eksternal, dan penyimpanan data. DFD Context 
+menggambarkan sistem sebagai proses tunggal dalam konteks entitas 
+eksternal,  DFD  Level  1  memecah  sistem  menjadi  proses-proses 
+utama,  dan  DFD  Level  2  memberikan detail  internal  setiap  proses 
+utama. 
+. 
+4.3.2.1 Aliran informasi 
+Bagian ini mencantumkan dan menguraikan DFD level demi level untuk 
+menggambarkan aliran informasi dalam sistem  ArtConnect. Setiap 
+diagram dilengkapi dengan tabel deskripsi proses dan kamus data untuk 
+memastikan kejelasan spesifikasi. 
+ 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 29 dari 77  
+ 
+ 
+4.3.2.1.1 DFD 0 
+ 
+ 
+ 
+Deskripsi DFD Context: 
+ 
+DFD Context menggambarkan sistem  ArtConnect sebagai proses tunggal yang 
+berinteraksi dengan tiga entitas eksternal utama. Seniman sebagai pengguna utama 
+memberikan berbagai data input dan menerima informasi yang telah diproses 
+sistem.   Firebase Services berfungsi sebagai backend infrastructure yang 
+menyediakan layanan otentikasi, database, dan storage. Browser/Web Platform 
+berperan sebagai runtime environment untuk menjalankan aplikasi web. 
+Aliran data utama menunjukkan bagaimana seniman berinteraksi dengan 
+sistem untuk mengelola inventaris karya seni, membangun jejaring profesional, 
+dan menganalisis aktivitas bisnis mereka. Sistem mengintegrasikan semua input 
+dari seniman, memproses menggunakan layanan Firebase, dan menghasilkan 
+output berupa dashboard, laporan, dan notifikasi yang    membantu 
+pengembangan karier seniman. 
+Tabel Deskripsi Entitas Eksternal: 
+Entitas Deskripsi Data Input Data Output 
+ 
+Seniman 
+Seniman visual independen yang 
+menggunakan platform untuk mengelola 
+bisnis seni 
+Data profil, karya seni, 
+kontak, aktivitas, request 
+laporan 
+Dashboard, portfolio, 
+pipeline, reports, 
+notifikasi 
+
+ 
+ArtConnect  Panduan GL01A Halaman 30 dari 77  
+ 
+ 
+ 
+Firebase Services 
+ 
+Layanan Backend-as-a-Service untuk 
+otentikasi, database, dan storage 
+ 
+Auth tokens, sync data, 
+storage confirmations 
+Auth requests, CRUD 
+operations, file 
+operations 
+ 
+Browser/Web 
+Platform 
+ 
+Platform runtime untuk menjalankan 
+aplikasi web responsif 
+ 
+Render confirmations, asset 
+loading status 
+UI data, asset requests, 
+client-side operations 
+ 
+4.3.2.1.2 DFD 1 dan seterusnya 
+ 
+ 
+Deskripsi DFD Level 1: 
+DFD Level 1 mendekomposisi sistem ArtConnect menjadi lima proses 
+utama yang mencerminkan domain bisnis seniman visual. Setiap proses 
+memiliki tanggung jawab spesifik dan saling berinteraksi melalui data 
+stores yang shared. 
+Proses 1.0 - Manajemen User & Autentikasi menangani  registrasi 
+seniman  baru,  otentikasi  login,  dan  pengelolaan  profil  pengguna. 
+
+ 
+ArtConnect  Panduan GL01A Halaman 31 dari 77  
+ 
+ 
+Proses ini menjadi gatekeeper untuk akses ke seluruh sistem dan 
+memastikan keamanan data personal seniman. 
+Proses 2.0 - Pengelolaan Inventaris Karya Seni merupakan inti dari 
+platform yang mengelola seluruh lifecycle karya seni dari  konsep 
+hingga terjual.    Proses    ini    menangani    upload    foto,    metadata 
+management, kategorisasi, dan penyajian portfolio. 
+Proses    3.0 - Manajemen    Jejaring    Profesional fokus    pada 
+pengembangan dan maintenance relasi bisnis seniman dengan kolektor, 
+galeri, kurator, dan stakeholder industri seni lainnya. Proses ini 
+mencatat setiap interaksi dan membangun history relationship. 
+Proses  4.0 - Visualisasi  Pipeline  & Analytics mengintegrasikan  data 
+dari   berbagai   sources   untuk   menghasilkan   insight   visual yang 
+actionable. Kanban pipeline menunjukkan status progres karya, 
+sementara analytics dashboard memberikan overview performa bisnis. 
+Proses 5.0 - Sistem Pelaporan & Export menyediakan functionality 
+untuk mengekstrak dan menganalisis data dalam berbagai format yang 
+dibutuhkan seniman untuk presentasi atau dokumentasi. 
+ 
+4.3.2.1.3 DFD Level 2 - Detail Proses Pengelolaan Inventaris Karya Seni (2.0) 
+ 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 32 dari 77  
+ 
+ 
+Deskripsi DFD Level 2 Proses 2.0: 
+DFD Level 2 untuk Pengelolaan Inventaris Karya Seni menunjukkan 
+detail internal bagaimana sistem menangani seluruh lifecycle 
+management karya seni seniman. Proses ini didekomposisi menjadi enam 
+sub-proses yang saling berkoordinasi untuk memberikan comprehensive 
+artwork management. 
+Sub-proses 2.1 - Registrasi Karya Baru menangani onboarding karya 
+seni baru ke dalam sistem. Proses ini melakukan validasi  metadata 
+(judul, dimensi, medium, tahun), generate unique identifier, dan 
+membuat entry awal dalam database. Validasi  memastikan  data  yang 
+masuk memenuhi standar minimum untuk dokumentasi karya seni. 
+Sub-proses 2.2 - Upload & Processing Gambar fokus pada handling 
+file gambar karya seni. Sistem melakukan validasi format (JPEG, PNG, 
+WebP), size checking (max 10MB), kompres untuk optimasi web, dan 
+generate multiple thumbnail sizes. Proses ini   berintegrasi dengan 
+Firebase Storage untuk penyimpanan cloud yang reliable. 
+Sub-proses 2.3 - Update Status & Metadata Karya menyediakan 
+functionality  untuk  modifikasi  data  karya  yang  sudah  ada. Seniman 
+dapat   mengubah   informasi   seperti   harga,   deskripsi,   atau   status 
+availability. Proses ini memiliki validasi untuk mencegah data corruption 
+dan maintain data integrity. 
+Sub-proses   2.4 - Kategorisasi   &   Organisasi membantu seniman 
+mengorganisir koleksi karya berdasarkan berbagai kriteria seperti medium 
+(lukisan, sculpture, digital), periode waktu, status (available, sold, 
+exhibition), atau tema. Sistem mendukung multi-tagging dan hierarchical 
+categorization. 
+Sub-proses 2.5 - Pencarian & Filter Karya menyediakan  powerful 
+search  functionality  yang  memungkinkan  seniman  menemukan karya 
+specific dalam koleksi besar. Support untuk search by title, year, 
+medium, tags, atau kombinasi criteria dengan real-time filtering. 
+Sub-proses 2.6 - Lifecycle Tracking merupakan feature unik yang 
+melacak journey setiap karya dari konsep awal hingga final sale. Status 
+progression (Concept → Work-in-Progress → Completed → For Sale 
+
+ 
+ArtConnect  Panduan GL01A Halaman 33 dari 77  
+ 
+ 
+→  Sold)  memberikan  insight  tentang  productivity  dan  sales  funnel 
+seniman. 
+Tabel Deskripsi Sub-Proses Level 2: 
+  
+No. 
+Proses 
+ 
+Nama Sub-Proses 
+ 
+Input 
+ 
+Output 
+Data Store 
+Access 
+ 
+Keterangan 
+ 
+2.1 
+Registrasi Karya Baru Data Karya 
+Baru 
+Konfirmasi 
+Registrasi 
+ 
+Write D2 
+Generate ID, validate 
+metadata 
+ 
+2.2 
+Upload & Processing 
+Gambar 
+ 
+Photo Files 
+ 
+Upload Status 
+ 
+Write D3 
+Compress, thumbnail 
+generation 
+ 
+2.3 
+Update Status & 
+Metadata 
+Update 
+Request 
+Updated 
+Portfolio 
+ 
+R/W D2 
+Modify existing artwork 
+data 
+ 
+2.4 
+Kategorisasi & 
+Organisasi 
+Category 
+Request 
+Organized 
+Portfolio 
+ 
+R/W D2 
+Multi-tagging, hierarchical 
+org 
+ 
+2.5 
+ 
+Pencarian & Filter 
+Search 
+Query 
+Filtered Results 
+ 
+Read D2, D3 
+Real-time search dengan 
+multiple filters 
+ 
+     2.6 
+ 
+Lifecycle Tracking 
+Status 
+Change 
+Pipeline Update R/W D2, 
+Send to 4.0 
+Track artwork 
+progression states 
+ 
+ KAMUS DATA - Aliran Data Utama:  
+Data Karya Seni: 
+• Judul = String [1-200 karakter] 
+• Medium = {Lukisan | Sculpture | Digital | Mixed Media | Photography | 
+• Printmaking}  
+• Dimensi = Panjang + "x" + Lebar + "x" + Tinggi + " " + Unit 
+• Tahun Pembuatan = Integer [1900-2025] Deskripsi = String [0-1000 karakter] 
+• Harga = Decimal [0-999999999.99] 
+• Status  =  {Concept  |  Work-in-Progress  |  Completed  |  For  Sale  |  Sold  | 
+Exhibition} Tags = Array of String [0-20 tags] 
+ 
+Data Kontak Profesional: 
+• Nama = String [1-100 karakter] 
+• Kategori = {Kolektor | Galeri | Kurator | Kritik | Media | Fellow Artist}  
+• Email = Valid Email Address 
+
+ 
+ArtConnect  Panduan GL01A Halaman 34 dari 77  
+ 
+ 
+• Telepon = String [10-20 karakter]  
+• Alamat = String [0-500 karakter] 
+• Catatan = String [0-2000 karakter]  
+• Status = {Active | Inactive | Prospective} 
+ 
+Data Aktivitas: 
+• Tanggal = DateTime [ISO 8601 format] 
+• Jenis = {Meeting | Sale | Exhibition | Email | Call | Social Media}  
+• Kontak Terkait = Reference to Contact ID 
+Karya Terkait = Reference to Artwork ID  
+• Catatan = String [0-1000 karakter] Follow-up 
+• Required = Boolean 
+• Follow-up Date = DateTime [optional] 
+4.3.2.2 Deskripsi Proses 
+Bagian ini memberikan deskripsi naratif dan terperinci untuk setiap 
+proses utama dalam sistem ArtConnect yang telah diidentifikasi pada DFD 
+Level 1. Setiap deskripsi mencakup urutan operasi, validasi masukan, 
+penanganan error, dan spesifikasi  input-output  yang  diperlukan  untuk 
+implementasi dan pengujian sistem. 
+4.3.2.2.1 Proses 1 : Manajemen User & Authentikasi 
+Tujuan Proses: 
+Proses ini berfungsi sebagai gerbang utama keamanan sistem ArtConnect, 
+mengelola seluruh aspek otentikasi pengguna,  registrasi  akun  baru,  dan 
+maintenance profil seniman. 
+Input Proses: 
+• Data Login: Email seniman dan password 
+• Data Registrasi: Nama lengkap, email, password, konfirmasi password, 
+profil seniman (opsional) 
+• Token Refresh: Token yang akan diperbaharui dari Firebase 
+Authentication 
+• Update Profile Request: Perubahan informasi profil pengguna 
+ 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 35 dari 77  
+ 
+ 
+1. Validasi Input Awal 
+• Verifikasi format email menggunakan regex pattern RFC 5322   
+• Validasi kekuatan password (minimum 8 karakter, kombinasi huruf, angka, 
+simbol)  
+• Cross-check konfirmasi password untuk registrasi baru 
+2. Proses Autentikasi 
+• Integrasi dengan Firebase Authentication untuk verifikasi kredensial 
+• Generate dan manage Firebase ID tokens untuk session management    
+• Implement automatic token refresh untuk maintain user session 
+ 
+ 
+3. Session Management 
+• Penyimpanan user state dalam browser localStorage dengan enkripsi 
+• Tracking user activity untuk auto-logout setelah periode inaktif (30 menit) 
+• Sinkronisasi session status across multiple browser tabs 
+ 
+4. Profile Management 
+• Update informasi profil seniman (nama, bio, kontak)    
+• Upload foto profil dengan kompresi otomatis 
+• Validasi dan sanitasi semua input text untuk keamanan 
+ 
+Penanganan Error: 
+• Invalid Credentials: Tampilkan pesan error spesifik tanpa 
+mengungkap detail keamanan 
+• Network Timeout: Retry mechanism dengan exponential backoff 
+• Validation Errors: Real-time validation dengan pesan error yang 
+actionable 
+• Firebase Service Down: Fallback ke mode offline dengan queue 
+sync 
+Output Proses: 
+• Authentication Token: JWT token untuk otorisasi API calls 
+• User Profile Data: Informasi lengkap profil seniman yang telah login 
+• Login Status: Boolean success/failure dengan reason code 
+• Session Expiry: Timestamp untuk automatic logout 
+Data Store Interaction: 
+• Write: Simpan profil pengguna baru atau updated ke D1 - User 
+Profiles 
+
+ 
+ArtConnect  Panduan GL01A Halaman 36 dari 77  
+ 
+ 
+• Read: Retrieve existing user data untuk pre-populate forms 
+• Update: Modify existing profile information dengan version tracking 
+ 
+Kebutuhan Verifikasi: 
+Sistem harus dapat memproses 100 concurrent login requests dalam waktu < 2 
+detik. Invalid login attempts harus di-rate limit  maksimal  5 percobaan  per  IP 
+address per 15 menit. 
+4.3.2.2.2 Proses 2 : Pengelolaan Inventaris Karya Seni 
+Tujuan Proses: 
+Mengelola seluruh lifecycle inventaris karya seni seniman, dari 
+dokumentasi awal hingga tracking status penjualan, dengan fokus  pada 
+kemudahan organisasi dan akses informasi. 
+Input Proses: 
+• Data Karya Baru: Judul, medium, dimensi, tahun, deskripsi, harga, 
+kategori 
+• File Gambar: Upload foto karya dalam format JPEG/PNG/WebP 
+(max 10MB) 
+• Status Update: Perubahan status karya (concept → wip → 
+completed → sold) 
+• Search Query: Kriteria pencarian dan filter untuk inventory browsing 
+• Category Assignment: Tag dan kategorisasi karya untuk organisasi 
+ 
+Urutan Operasi: 
+1.  Registrasi Karya Baru 
+ Generate unique artwork ID menggunakan UUID v4 
+ Validasi kelengkapan metadata sesuai standar museum 
+ Create entry awal dalam database dengan timestamp creation 
+2. Processing Media Files 
+• Validasi format dan ukuran file sebelum upload 
+• Compress gambar untuk web optimization (multiple resolutions: 
+150px, 400px, 800px, original)  
+• Generate thumbnails dengan aspect ratio preservation 
+• Upload ke Firebase Cloud Storage dengan metadata preservation 
+
+ 
+ArtConnect  Panduan GL01A Halaman 37 dari 77  
+ 
+ 
+3. Metadata Management 
+• Structured data entry dengan validation rules 
+• Support untuk multiple categories dan custom tags 
+• Auto-completion untuk medium, style, dan technique berdasarkan 
+database existing 
+4. Search & Filtering 
+• uFll-text search pada title dan description 
+• Multi-faceted filtering (year, medium, status, price range)  
+• Sort functionality (date added, alphabetical, price, status) 
+5. Lifecycle Tracking 
+• Status progression tracking dengan timestamp 
+• Price history maintenance untuk valuation trends 
+• Integration dengan sales tracking untuk revenue analytics 
+ 
+Penanganan Error: 
+• File Upload Failures: Retry mechanism dengan progress 
+indication 
+• Invalid File Formats: Clear error messages dengan supported 
+format list 
+• Database Write Errors: Local storage backup dengan sync retry 
+• Image Processing Errors: Fallback ke original file dengan 
+warning 
+Output Proses: 
+• Portfolio Views: Gallery layout dengan thumbnail grid dan detail 
+views 
+• Inventory Reports: Comprehensive listing dengan filtering 
+capabilities 
+• Upload Confirmations: Success/failure status dengan reference 
+IDs 
+• Search Results: Paginated results dengan relevance scoring 
+Data Store Interaction: 
+• Write: New artwork entries ke D2 - Artworks Database 
+• Write: Image files dan thumbnails ke D3 - Image Files 
+• Read: Existing artwork data untuk update operations 
+• Update: Metadata dan status changes dengan audit trail 
+
+ 
+ArtConnect  Panduan GL01A Halaman 38 dari 77  
+ 
+ 
+Integration Points: 
+• Pipeline Visualization: Send status updates ke Proses 4.0 
+• Activity Logging: Integration dengan Proses 3.0 untuk sales 
+tracking 
+• Analytics: Feed data ke reporting system untuk business insights 
+ 
+Kebutuhan Verifikasi: 
+Sistem harus support upload file 10MB dalam waktu < 30 detik pada 
+koneksi 2Mbps. Search operations harus return results  dalam  <  500ms 
+untuk database dengan 10,000+ artwork entries. 
+4.3.2.2.3.  Proses 3 : Manajemen Jejaring Profesional 
+Tujuan Proses: 
+Membangun    dan    memelihara    database    comprehensive    kontak 
+profesional seniman, melacak interaksi bisnis, dan mengoptimalkan 
+relationship management untuk pengembangan karier seniman. 
+Input Proses: 
+• Data Kontak Baru: Nama, institusi/galeri, role, informasi kontak, 
+kategori 
+• Interaction Records: Meeting notes, komunikasi, transaksi, exhibition 
+opportunities 
+• Contact Updates: Perubahan informasi, status relationship, 
+preferences 
+• Communication Tracking: Email threads, call logs, social media 
+interactions 
+• Event Associations: Art shows, exhibitions, networking events, sales 
+activities 
+Urutan Operasi: 
+1. Contact Registration 
+• Structured data entry dengan mandatory dan optional fields  
+• Duplicate detection berdasarkan email dan nama 
+• Categorization system (Collector, Gallery, Curator, Media, Fellow 
+Artist)  
+• Custom tagging untuk advanced organization 
+
+ 
+ArtConnect  Panduan GL01A Halaman 39 dari 77  
+ 
+ 
+2. Interaction Logging 
+• Timestamp-based interaction history dengan chronological 
+timeline 
+•  Rich text notes dengan support untuk attachments 
+• Association dengan specific artworks untuk context tracking  
+• Follow-up reminders dengan automated scheduling 
+3. Relationship Analysis 
+• Contact frequency scoring untuk relationship strength assessment 
+•  Revenue attribution untuk ROI analysis per contact 
+• Communication preference tracking (email, phone, social media)  
+• Engagement level monitoring dengan activity-based scoring 
+4. Communication Integration 
+• Email template system untuk professional outreach 
+• Integration dengan calendar untuk meeting scheduling 
+• Automated follow-up suggestions berdasarkan interaction patterns  
+• Portfolio sharing functionality dengan access tracking 
+5. Network Analytics 
+• Contact growth trends dan relationship development metrics 
+• Geographic distribution mapping untuk expansion opportunities  
+• Revenue per contact analysis untuk prioritization 
+• Referral tracking untuk network effect measurement 
+Penanganan Error: 
+• Duplicate Contact Detection: Smart merge suggestions dengan 
+manual approval 
+• Invalid Contact Information: Real-time validation dengan 
+correction suggestions 
+• Import/Export Failures: Data integrity checks dengan rollback 
+capabilities 
+• Integration Sync Issues: Conflict resolution dengan user preference 
+priority 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 40 dari 77  
+ 
+ 
+Output Proses: 
+• Contact Database: Searchable, filterable contact management interface 
+• Interaction History: Chronological timeline dengan rich media support 
+• Network Analytics: Visual representations of professional network 
+health 
+• Communication Tools: Templates, scheduling, dan automated follow-up 
+systems 
+• CRM Reports: Performance metrics dan relationship development 
+insights 
+ 
+Data Store Interaction: 
+• Write: New contacts ke D4 - Contacts Database 
+• Write: Interaction logs ke D5 - Activities Log 
+• Read: Historical data untuk relationship analysis 
+• Update: Contact information dengan change tracking 
+• Cross-Reference: Integration dengan D2 untuk artwork-contact 
+associations 
+ 
+Integration Points: 
+• Sales Tracking: Revenue attribution untuk contact ROI analysis 
+• Portfolio Sharing: Integration dengan artwork inventory untuk 
+presentation 
+• Analytics Dashboard: Feed data ke Proses 4.0 untuk comprehensive 
+reporting 
+ 
+Kebutuhan Verifikasi: 
+Sistem harus support 1000+ contacts dengan search response time < 300ms. 
+Interaction logging harus handle concurrent updates dari multiple sessions 
+dengan proper conflict resolution. 
+4.3.2.2.4.  Proses 4 : Visualisasi Pipeline & Analytics 
+Tujuan Proses: 
+Mengintegrasikan dan menganalisis data dari seluruh sistem untuk 
+menghasilkan insight actionable melalui visualisasi interaktif,   dashboard 
+analytics, dan pipeline management yang mendukung strategic decision 
+making seniman. 
+Input Proses: 
+• Artwork Status Data: Real-time status updates dari inventory 
+management 
+
+ 
+ArtConnect  Panduan GL01A Halaman 41 dari 77  
+ 
+ 
+• Sales Transaction Data: Revenue, pricing trends, dan performance 
+metrics 
+• Contact Interaction Data: Networking activity, relationship 
+development, communication frequency 
+• Timeline Data: Project milestones, exhibition schedules, deadline 
+tracking 
+• Performance Metrics: Productivity indicators, goal achievement, growth 
+trends 
+Urutan Operasi: 
+1. Data Aggregation & Processing 
+• Real-time data collection dari multiple data stores (D2, D4, D5)  
+• Data normalization dan cleaning untuk consistent analytics 
+• Time-series data structuring untuk trend analysis 
+• Statistical calculations (averages, growth rates, correlations) 
+2. Kanban Pipeline Visualization 
+• Dynamic artwork status board dengan drag-and-drop functionality  
+• 
+S
+tatus transition tracking dengan time-in-stage analytics 
+• Bottleneck identification dalam creative-to-sales pipeline 
+• Custom pipeline stages sesuai workflow individual seniman 
+3. Business Analytics Dashboard 
+• Revenue tracking dengan monthly/yearly comparisons 
+• Top-performing artwork identification berdasarkan sales velocity 
+• Contact engagement metrics dengan relationship health indicators 
+• Productivity measurements (artworks completed, networking 
+activities) 
+4. Predictive Insights 
+• Sales forecasting berdasarkan historical patterns 
+• Optimal pricing recommendations menggunakan market data  
+• Contact prioritization berdasarkan conversion probability 
+• Exhibition opportunity identification berdasarkan network analysis 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 42 dari 77  
+ 
+ 
+5. Interactive Reporting 
+• Customizable dashboard widgets dengan drag-and-drop 
+configuration  
+• Date range filtering untuk temporal analysis 
+• Export functionality untuk external reporting (PDF, Excel) 
+• Alert system untuk goal achievement dan milestone tracking 
+Penanganan Error: 
+• Data Inconsistency: Validation routines dengan error flagging dan 
+correction suggestions 
+• Missing Data Points: Interpolation algorithms dengan confidence 
+indicators 
+• Visualization Rendering: Fallback ke simple charts jika complex 
+visualizations fail 
+• Real-time Update Failures: Queue mechanism dengan retry logic 
+untuk data synchronization 
+Output Proses: 
+• Interactive Kanban Board: Visual pipeline management dengan 
+real-time updates 
+• Analytics Dashboard: Comprehensive business metrics dengan trend 
+indicators 
+• Performance Reports: Exportable reports untuk stakeholder 
+presentations 
+• Predictive Models: AI-driven insights untuk strategic planning 
+• Alert Notifications: Automated alerts untuk goals, deadlines, dan 
+opportunities 
+Data Store Interaction: 
+• Read: Comprehensive data access dari D2 - Artworks, D4 - 
+Contacts, D5 - Activities 
+• Aggregate: Cross-table queries untuk complex analytics 
+• Cache: Processed analytics data untuk improved performance 
+• No Write: Read-only access untuk data integrity maintenance 
+ 
+Integration Points: 
+• Real-time Updates: Live data feeds dari Proses 2.0 dan 3.0 
+• Export Integration: Data feeding ke Proses 5.0 untuk 
+comprehensive reporting 
+• User Interface: Direct integration dengan dashboard UI untuk 
+interactive experience 
+
+ 
+ArtConnect  Panduan GL01A Halaman 43 dari 77  
+ 
+ 
+Kebutuhan Verifikasi: 
+Dashboard harus load dalam < 3 detik dengan dataset 5000+ artworks dan 
+1000+ contacts. Real-time updates harus appear dalam < 1 detik dari source 
+data changes. Complex analytics queries harus complete dalam < 5 detik. 
+ 
+4.3.2.2.5.  Proses 5 : Sistem Pelaporan & Export 
+Tujuan Proses: 
+Menyediakan  comprehensive  reporting  capabilities  dan  data  export 
+functionality yang memungkinkan seniman untuk extract, analyze, dan 
+share informasi bisnis mereka dalam berbagai format professional. 
+Input Proses: 
+• Report Configuration: User-defined parameters untuk custom 
+reporting 
+• Date Range Selection: Time period filtering untuk temporal analysis 
+• Data Category Selection: Specific data types (artworks, contacts, 
+sales, activities) 
+• Format Preferences: Output format selection (PDF, Excel, CSV, 
+JSON) 
+• Template Selection: Pre-defined report layouts untuk various use 
+cases 
+• Export Requests: Bulk data extraction requirements dengan filtering 
+criteria 
+  
+1.  Report Parameter Validation 
+• Date range validation dengan logical consistency checks  
+• Data availability verification untuk selected parameters 
+• Access permission validation untuk sensitive information 
+• Template compatibility checking dengan selected data types 
+2.  Data Extraction & Aggregation 
+• Multi-table queries untuk comprehensive data collection 
+• Data filtering berdasarkan user-specified criteria 
+• Statistical calculations (totals, averages, growth percentages)  
+• Data sorting dan grouping sesuai report requirements 
+
+ 
+ArtConnect  Panduan GL01A Halaman 44 dari 77  
+ 
+ 
+3. Report Generation 
+• 
+Template processing dengan dynamic content injection 
+ 
+• Chart generation untuk visual data representation 
+• Table formatting dengan professional styling 
+• Multi-page document creation dengan proper pagination 
+4. Format Processing 
+• PDF generation dengan professional layouts dan branding  
+• Excel spreadsheet creation dengan formulas dan formatting  
+• CSV export dengan proper encoding dan delimiter handling 
+• JSON structured data export untuk API integration 
+5. Delivery & Storage 
+• File generation dengan unique identifiers 
+• Temporary storage untuk download access  
+• Email delivery option dengan secure links 
+• Export history tracking untuk audit purposes 
+Penanganan Error: 
+• Data Volume Limits: Progressive loading dengan pagination 
+untuk large datasets 
+• Template Processing Errors: Fallback ke basic formatting 
+dengan error notifications 
+• Format Conversion Issues: Alternative format suggestions 
+dengan manual intervention options 
+• Storage/Delivery Failures: Retry mechanisms dengan user 
+notification 
+Output Proses: 
+• Professional PDF Reports: Formatted documents ready untuk 
+stakeholder presentation 
+• Excel Spreadsheets: Structured data untuk further analysis dan 
+manipulation 
+• CSV Data Files: Raw data export untuk external system 
+integration 
+• Email Reports: Automated report delivery dengan secure 
+download links 
+• Export Confirmations: Success notifications dengan file access 
+information 
+
+ 
+ArtConnect  Panduan GL01A Halaman 45 dari 77  
+ 
+ 
+Data Store Interaction: 
+• Read-Only Access: Comprehensive data retrieval dari semua data 
+stores 
+• Aggregate Queries: Complex joins untuk multi-table reporting 
+• Historical Data: Time-series access untuk trend analysis 
+• Metadata Access: Schema information untuk dynamic report 
+generation 
+Integration Points: 
+• Analytics Engine: Data feeds dari Proses 4.0 untuk pre-processed 
+analytics 
+• User Interface: Direct integration dengan report configuration UI 
+• External Systems: API endpoints untuk third-party reporting tool 
+integration 
+• Email Service: Integration dengan notification system untuk report 
+delivery 
+Report Templates Available: 
+• Business Summary: Comprehensive overview dengan key metrics 
+dan trends 
+• Inventory Report: Complete artwork listing dengan status dan 
+valuation 
+• Sales Analysis: Revenue performance dengan temporal 
+comparisons 
+• Network Report: Contact database dengan interaction summaries 
+• Activity Log: Detailed chronological activity history 
+• Custom Reports: User-defined report structures dengan flexible 
+layouts 
+Kebutuhan Verifikasi: 
+Report generation harus complete dalam < 10 detik untuk standard reports 
+dengan 1000+ records. Large exports (5000+ records) harus provide 
+progress indicators dan complete dalam < 60 detik. All generated files harus 
+accessible untuk download minimal 24 jam dengan secure access. 
+4.3.3 Deskripsi Data 
+Bagian ini menguraikan struktur data yang digunakan dalam sistem 
+ArtConnect melalui pendekatan Entity Relationship Diagram  (ERD) dan 
+normalisasi database. Deskripsi data mencakup model data logis, definisi 
+entitas, relasi antar entitas, dan proses  normalisasi  untuk  memastikan 
+integritas dan efisiensi penyimpanan data. 
+
+ 
+ArtConnect  Panduan GL01A Halaman 46 dari 77  
+ 
+ 
+Sistem ArtConnect  menggunakan  pendekatan  NoSQL dengan  Firebase 
+Firestore  sebagai  database  utama,  namun  struktur  data tetap mengikuti 
+prinsip-prinsip relational database untuk memastikan konsistensi dan 
+kemudahan maintenance. Model data dirancang untuk mendukung operasi 
+CRUD    yang    efisien    sekaligus    menyediakan    fleksibilitas    untuk 
+pengembangan fitur lanjutan. 
+Deskripsi data ini mencakup enam entitas utama yang saling berelasi: Users 
+(profil seniman),  Artworks (inventaris karya seni),  Contacts (jejaring 
+profesional), Activities (log aktivitas), Categories (sistem kategorisasi), dan 
+Images (file gambar). Setiap entitas memiliki atribut yang terdefinisi dengan 
+jelas beserta constraint dan relationship yang mendukung integritas data. 
+4.3.3.1 Model Data dan Logis 
+Model data logis ArtConnect dirancang berdasarkan analisis kebutuhan 
+bisnis seniman visual dan mengikuti prinsip database design yang baik. 
+Model ini mengakomodasi kompleksitas hubungan many-to-many antara 
+entitas utama sambil mempertahankan performance yang optimal. 
+Karakteristik Model Data: 
+ 1. Pendekatan Hybrid (NoSQL dengan Struktur Relasional) 
+Model data mengadopsi pendekatan hybrid yang memanfaatkan fleksibilitas 
+NoSQL Firebase Firestore sambil mempertahankan struktur relasional untuk 
+data integrity. Setiap dokumen dalam Firestore diorganisir sebagai 
+collection dengan referensi yang konsisten. 
+2. Denormalisasi Terkontrol 
+Untuk optimasi performance, beberapa data mengalami denormalisasi 
+terkontrol seperti menyimpan basic contact information  dalam activities 
+collection untuk menghindari multiple joins. Namun data master tetap 
+ternormalisasi penuh. 
+ 3. Hierarchical Data Organization 
+Data diorganisir secara hierarkis dengan user sebagai root level, diikuti 
+subcollections untuk artworks, contacts, dan activities.   Struktur   ini 
+mendukung security rules dan data partitioning yang efisien 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 47 dari 77  
+ 
+ 
+Logical Data Flow: 
+1. User Registration → Users collection 
+2. Artwork Creation → Artworks subcollection under user 
+3. Image Upload → Images subcollection under artwork 
+4. Contact Management → Contacts subcollection under user 
+5. Activity Logging → Activities collection dengan references 
+ 
+Data Integrity Constraints: 
+• Referential Integrity: Semua foreign keys harus memiliki parent 
+record yang valid 
+• Domain Constraints: Semua field memiliki validation rules 
+(format, range, required) 
+• Business Rules: Status transitions harus mengikuti workflow yang 
+ditetapkan 
+• Temporal Constraints: Created_at dan updated_at timestamp 
+untuk audit trail 
+ 
+4.3.3.2 Deskripsi Entitas  
+Bagian ini memberikan definisi lengkap untuk setiap entitas dalam sistem 
+ArtConnect, termasuk purpose, attributes, constraints, dan business rules yang 
+berlaku. 
+Entitas 1: Users 
+Purpose: 
+Menyimpan informasi profil seniman yang menggunakan platform 
+ArtConnect, termasuk data otentikasi dan preferensi sistem. 
+Attributes: 
+ 
+Nama Atribut Tipe Data Constraint Deskripsi 
+ 
+user_id 
+ 
+String 
+ 
+PRIMARY KEY, NOT NULL 
+Unique identifier menggunakan Firebase 
+UID 
+ 
+email 
+ 
+String 
+UNIQUE, NOT NULL, EMAIL 
+FORMAT 
+ 
+Email seniman untuk login dan komunikasi 
+display_name String NOT NULL, MAX 100 chars Nama tampilan seniman 
+full_name String MAX 150 chars Nama lengkap seniman (opsional) 
+profile_image_url String URL FORMAT Link ke foto profil seniman 
+
+ 
+ArtConnect  Panduan GL01A Halaman 48 dari 77  
+ 
+ 
+ 
+bio 
+ 
+Text 
+ 
+MAX 1000 chars 
+Deskripsi singkat tentang seniman dan 
+karya 
+location String MAX 100 chars Lokasi/kota tempat seniman berkarya 
+website String URL FORMAT Website pribadi seniman (opsional) 
+social_media Map JSON Object Links media sosial (Instagram, Twitter, etc.) 
+phone String PHONE FORMAT Nomor telepon seniman (opsional) 
+created_at Timestamp NOT NULL, AUTO-SET Timestamp pembuatan akun 
+updated_at Timestamp AUTO-UPDATE Timestamp update terakhir 
+last_active Timestamp AUTO-UPDATE Timestamp aktivitas terakhir 
+subscription_plan String ENUM: free, pro, premium Tipe langganan pengguna 
+ 
+       preferences 
+ 
+    Map 
+ 
+JSON Object 
+Pengaturan preferensi user (theme, 
+notifications, dll) 
+ 
+Business Rules: 
+• Email harus unique di seluruh sistem 
+• Display name tidak boleh kosong dan harus unique per user 
+• Profile image harus dalam format yang didukung (JPEG, PNG, 
+WebP) 
+• Social media URLs harus valid dan mengikuti format platform 
+respective 
+• Subscription plan default adalah 'free' untuk user baru 
+ 
+Entitas 2: Artworks 
+Purpose: 
+Menyimpan informasi komprehensif tentang karya seni seniman, termasuk 
+metadata, status, dan pricing information. 
+Attributes: 
+ 
+Nama Atribut Tipe Data Constraint Deskripsi 
+artwork_id String PRIMARY KEY, NOT NULL Unique identifier untuk karya seni 
+user_id String FOREIGN KEY, NOT NULL Referensi ke Users.user_id 
+title String NOT NULL, MAX 200 chars Judul karya seni 
+description Text MAX 2000 chars Deskripsi detail karya seni 
+medium String NOT NULL, MAX 100 chars Medium karya (oil, acrylic, digital, dll) 
+
+ 
+ArtConnect  Panduan GL01A Halaman 49 dari 77  
+ 
+ 
+ 
+dimensions 
+ 
+Map 
+ 
+JSON Object 
+Dimensi karya (width, height, depth, 
+unit) 
+year_created Integer RANGE: 1900-2030 Tahun pembuatan karya 
+price Number MIN: 0, MAX: 999999999 Harga karya dalam currency default 
+currency String DEFAULT: 'IDR', LENGTH: 3 Currency code (ISO 4217) 
+ 
+status 
+ 
+String 
+ENUM: concept, wip, completed, 
+for_sale, sold, exhibition 
+ 
+Status current karya 
+edition_info Map JSON Object Info edisi (total, current, type) 
+ 
+primary_image_id 
+ 
+String 
+ 
+FOREIGN KEY 
+Referensi ke Images.image_id untuk 
+gambar utama 
+tags Array MAX 20 items Array string untuk tags/keywords 
+exhibition_history Array Array of Maps History pameran karya 
+provenance Text MAX 1000 chars Riwayat kepemilikan karya 
+condition_notes Text MAX 500 chars Catatan kondisi karya 
+storage_location String MAX 200 chars Lokasi penyimpanan fisik karya 
+is_featured Boolean DEFAULT: false Apakah karya ditampilkan sebagai 
+featured 
+view_count Integer DEFAULT: 0, MIN: 0 
+Jumlah views karya di platform 
+created_at 
+Timestamp NOT NULL, AUTO-SET 
+Timestamp pembuatan record 
+updated_at Timestamp AUTO-UPDATE 
+Timestamp update terakhir 
+ 
+status_history 
+ 
+Array 
+ 
+Array of Maps 
+History perubahan status dengan 
+timestamp 
+ 
+Business Rules: 
+• Setiap artwork harus memiliki minimal satu image 
+• Status transitions harus mengikuti workflow: concept → wip → 
+completed → for_sale → sold 
+• Price tidak boleh negatif dan harus dalam currency yang valid 
+• Tags harus unique dalam satu artwork dan menggunakan lowercase 
+• Year created tidak boleh lebih dari current year + 1 
+ 
+Entitas 3: Contacts 
+Purpose: 
+Menyimpan informasi kontak profesional seniman dalam industri seni, 
+termasuk kolektor, galeri, kurator, dan stakeholder lainnya. 
+
+ 
+ArtConnect  Panduan GL01A Halaman 50 dari 77  
+ 
+ 
+Attributes: 
+ 
+Nama Atribut Tipe Data Constraint Deskripsi 
+contact_id String PRIMARY KEY, NOT NULL Unique identifier untuk kontak 
+user_id String FOREIGN KEY, NOT NULL Referensi ke Users.user_id 
+name String NOT NULL, MAX 150 chars Nama lengkap kontak 
+organization String MAX 200 chars Nama organisasi/galeri/institusi 
+title String MAX 100 chars Jabatan/posisi kontak 
+ 
+category 
+ 
+String 
+ENUM: collector, gallery, 
+curator, critic, media, artist, 
+other 
+ 
+Kategori kontak 
+email String EMAIL FORMAT Email kontak 
+phone String PHONE FORMAT Nomor telepon kontak 
+ 
+address 
+ 
+Map 
+ 
+JSON Object 
+Alamat lengkap (street, city, 
+country, postal_code) 
+website String URL FORMAT Website kontak/organisasi 
+social_media Map JSON Object Profile media sosial kontak 
+specialization Array Array of Strings Spesialisasi/interest area kontak 
+relationship_strength String ENUM: cold, warm, hot Tingkat kedekatan relationship 
+ 
+acquisition_budget 
+ 
+Map 
+ 
+JSON Object 
+Budget range untuk akuisisi (min, 
+max, currency) 
+ 
+preferred_contact_method 
+ 
+String 
+ENUM: email, phone, social, 
+in_person 
+ 
+Metode komunikasi yang disukai 
+notes Text MAX 2000 chars Catatan pribadi tentang kontak 
+tags Array MAX 15 items Tags untuk kategorisasi custom 
+last_contact_date Timestamp  Tanggal kontak terakhir 
+referral_source String MAX 200 chars Sumber referensi kontak 
+is_active Boolean DEFAULT: true Status aktif kontak 
+ 
+privacy_level 
+ 
+String 
+ENUM: public, private, restricted 
+ 
+Level privacy untuk sharing 
+created_at Timestamp NOT NULL, AUTO-SET Timestamp pembuatan record 
+updated_at 
+Timestamp AUTO-UPDATE Timestamp update terakhir 
+ 
+ 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 51 dari 77  
+ 
+ 
+Business Rules: 
+• Minimal satu dari email atau phone harus diisi 
+• Email harus unique per user (tidak boleh duplikat dalam contact list 
+seniman yang sama) 
+• Category harus dipilih dari predefined list untuk konsistensi data 
+• Relationship strength otomatis dihitung berdasarkan frequency dan recency 
+of interactions 
+• Budget information hanya visible untuk contact dengan category 'collector' 
+ 
+Entitas 4: Activities 
+Purpose: 
+Mencatat semua aktivitas dan interaksi seniman dengan kontak profesional, 
+termasuk meeting, sales, exhibition, dan komunikasi. 
+Attributes: 
+ 
+Nama Atribut Tipe Data Constraint Deskripsi 
+activity_id String PRIMARY KEY, NOT NULL Unique identifier untuk aktivitas 
+user_id String FOREIGN KEY, NOT NULL Referensi ke Users.user_id 
+ 
+contact_id 
+ 
+String 
+ 
+FOREIGN KEY, NULLABLE 
+Referensi ke 
+Contacts.contact_id 
+ 
+artwork_ids 
+ 
+Array 
+ 
+Array of Strings 
+Referensi ke Artworks yang 
+terlibat 
+ 
+type 
+ 
+String 
+ENUM: meeting, call, email, sale, 
+exhibition, social_media, other 
+ 
+Jenis aktivitas 
+title String NOT NULL, MAX 200 chars Judul/subjek aktivitas 
+description Text MAX 2000 chars Deskripsi detail aktivitas 
+date Timestamp NOT NULL Tanggal dan waktu aktivitas 
+duration 
+ 
+Integer 
+ 
+MIN: 0, MAX: 86400 
+Durasi dalam detik (untuk 
+meeting/call) 
+ 
+location 
+ 
+Map 
+ 
+JSON Object 
+Lokasi aktivitas (venue, address, 
+online) 
+outcome String ENUM: positive, neutral, negative, pending 
+Hasil aktivitas 
+follow_up_required 
+Boolean DEFAULT: false 
+Apakah memerlukan follow-up 
+follow_up_date Timestamp  
+Tanggal target untuk follow-up 
+follow_up_notes 
+Text MAX 500 chars 
+Catatan untuk follow-up 
+ 
+revenue 
+ 
+Number 
+ 
+MIN: 0 
+Revenue yang dihasilkan dari 
+aktivitas 
+
+ 
+ArtConnect  Panduan GL01A Halaman 52 dari 77  
+ 
+ 
+currency 
+String DEFAULT: 'IDR', LENGTH: 3 
+Currency untuk revenue 
+ 
+attachments 
+ 
+Array 
+ 
+Array of Maps 
+File attachments (contracts, 
+photos, dll) 
+ 
+participants 
+ 
+Array 
+ 
+Array of Maps 
+Participant list (name, role, 
+contact_info) 
+tags Array MAX 10 items 
+Tags untuk kategorisasi 
+priority String ENUM: low, medium, high, urgent 
+Priority level aktivitas 
+ 
+status 
+ 
+String 
+ENUM: planned, completed, cancelled, 
+rescheduled 
+ 
+Status aktivitas 
+created_at Timestamp NOT NULL, AUTO-SET Timestamp pembuatan record 
+updated_at Timestamp AUTO-UPDATE Timestamp update terakhir 
+completed_at Timestamp  Timestamp completion aktivitas 
+ 
+Business Rules: 
+• Aktivitas dengan type 'sale' harus memiliki artwork_ids dan revenue 
+> 0 
+• Follow-up date harus lebih besar dari activity date 
+• Status 'completed' harus memiliki completed_at timestamp 
+• Revenue hanya boleh diisi untuk aktivitas type yang menghasilkan 
+income 
+• Contact_id nullable untuk aktivitas internal (personal tasks, studio 
+work) 
+ 
+Entitas 5: Categories 
+Purpose: 
+Menyediakan sistem kategorisasi yang konsisten untuk artwork, 
+memungkinkan filtering dan organization yang efektif. 
+Attributes: 
+Nama Atribut Tipe Data Constraint Deskripsi 
+category_id String PRIMARY KEY, NOT NULL Unique identifier untuk kategori 
+ 
+name 
+ 
+String 
+UNIQUE, NOT NULL, MAX 100 
+chars 
+ 
+Nama kategori 
+ 
+slug 
+ 
+String 
+UNIQUE, NOT NULL, MAX 50 
+chars 
+ 
+URL-friendly version nama 
+description 
+Text 
+MAX 500 chars 
+Deskripsi kategori 
+ 
+parent_category_id 
+ 
+String 
+ 
+FOREIGN KEY, NULLABLE 
+Referensi ke parent category (hierarchical) 
+
+ 
+ArtConnect  Panduan GL01A Halaman 53 dari 77  
+ 
+ 
+level 
+Integer DEFAULT: 0, MIN: 0, MAX: 3 Level hierarchy kategori 
+sort_order Integer DEFAULT: 0 Urutan tampilan kategori 
+is_active Boolean DEFAULT: true Status aktif kategori 
+color_code String HEX COLOR FORMAT Warna untuk visual categorization 
+icon 
+String MAX 50 chars Icon class/name untuk UI 
+ 
+usage_count 
+ 
+Integer 
+ 
+DEFAULT: 0, MIN: 0 
+Jumlah artwork menggunakan kategori ini 
+created_at Timestamp NOT NULL, AUTO-SET Timestamp pembuatan record 
+updated_at Timestamp AUTO-UPDATE Timestamp update terakhir 
+ 
+Business Rules: 
+• Category name harus unique di seluruh sistem 
+• Slug otomatis generated dari name menggunakan kebab-case 
+• Parent category tidak boleh memiliki parent yang sama (avoid 
+circular reference) 
+• Level dihitung otomatis berdasarkan parent hierarchy 
+• Kategori dengan usage_count > 0 tidak boleh dihapus (soft delete 
+saja) 
+ 
+Entitas 6: Images 
+Purpose: 
+Mengelola file gambar yang terkait dengan artwork, termasuk multiple 
+versions dan metadata file. 
+Attributes: 
+ 
+Nama Atribut Tipe Data Constraint Deskripsi 
+image_id String PRIMARY KEY, NOT NULL Unique identifier untuk image 
+artwork_id String FOREIGN KEY, NOT NULL Referensi ke Artworks.artwork_id 
+file_name String NOT NULL, MAX 255 chars Original filename 
+
+ 
+ArtConnect  Panduan GL01A Halaman 54 dari 77  
+ 
+ 
+storage_path String NOT NULL, MAX 500 chars Path dalam Firebase Storage 
+ 
+file_size 
+ 
+Integer 
+ 
+MIN: 0, MAX: 10485760 
+Ukuran file dalam bytes (max 
+10MB) 
+ 
+mime_type 
+ 
+String 
+ENUM: image/jpeg, image/png, 
+image/webp 
+ 
+MIME type file 
+dimensions Map JSON Object Dimensi gambar (width, height) 
+ 
+is_primary 
+ 
+Boolean 
+ 
+DEFAULT: false 
+Apakah ini gambar utama 
+artwork 
+ 
+version 
+ 
+String 
+ENUM: original, large, medium, small, 
+thumbnail 
+ 
+Versi/resolusi gambar 
+quality Integer RANGE: 1-100 Kualitas kompresi gambar 
+ 
+alt_text 
+ 
+String 
+ 
+MAX 200 chars 
+Alternative text untuk accessibility 
+caption String MAX 300 chars Caption/keterangan gambar 
+metadata Map JSON Object EXIF dan metadata lainnya 
+upload_session_id String  Identifier untuk batch upload 
+ 
+processing_status 
+ 
+String 
+ENUM: pending, processing, completed, failed 
+ 
+Status processing gambar 
+cdn_url String URL FORMAT URL untuk akses via CDN 
+created_at Timestamp NOT NULL, AUTO-SET Timestamp upload 
+updated_at Timestamp AUTO-UPDATE Timestamp update terakhir 
+ 
+Business Rules: 
+• Setiap artwork harus memiliki minimal satu image dengan version 
+'original' 
+• Hanya satu image per artwork yang boleh memiliki is_primary = true 
+• File size tidak boleh melebihi 10MB untuk upload 
+• Supported format hanya JPEG, PNG, dan WebP 
+• Processing status 'completed' diperlukan sebelum image dapat digunakan 
+  
+
+ 
+ArtConnect  Panduan GL01A Halaman 55 dari 77  
+ 
+ 
+4.3.3.3 Relasi Antar Entitas 
+Bagian ini menjelaskan hubungan antar entitas dalam sistem ArtConnect, 
+termasuk kardinalitas, foreign keys, dan business rules  yang  mengatur 
+relationship tersebut. 
+Tabel Relasi Utama: 
+ 
+Relasi Entitas 1 Entitas 2 Kardinalitas Deskripsi 
+R1 
+Users Artworks 1 : M Satu seniman dapat memiliki banyak karya seni 
+R2 
+Users Contacts 1 : M Satu seniman dapat memiliki banyak kontak profesional 
+R3 Users Activities 1 : M Satu seniman dapat melakukan banyak aktivitas 
+R4 
+Artworks Images 1 : M Satu karya seni dapat memiliki banyak gambar 
+R5 
+Artworks Categories M : M Karya seni dapat memiliki banyak kategori dan sebaliknya 
+R6 
+Contacts Activities 1 : M Satu kontak dapat terlibat dalam banyak aktivitas 
+R7 
+Artworks Activities M : M Aktivitas dapat melibatkan banyak karya seni 
+R8 Categories Categories 1 : M Kategori dapat memiliki sub-kategori (self-referencing) 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 56 dari 77  
+ 
+ 
+Gambar Diagram ERD : 
+ 
+ 
+ 
+Deskripsi Detail Relasi: 
+R1: Users → Artworks (One-to-Many) 
+• Purpose: Menetapkan ownership karya seni kepada seniman 
+• Implementation: artwork.user_id     sebagai     foreign     key     ke 
+users.user_id 
+• Constraint: ON DELETE CASCADE (hapus user akan hapus semua 
+artworknya) Business Rule: Satu artwork hanya dapat dimiliki oleh 
+satu user 
+• Index: Composite index pada (user_id, created_at) untuk efficient 
+retrieval 
+R2: Users → Contacts (One-to-Many) 
+• Purpose: Manajemen database kontak profesional per seniman 
+• Implementation:     contacts.user_id     sebagai     foreign     key     ke 
+users.user_id Constraint: ON DELETE CASCADE 
+
+ 
+ArtConnect  Panduan GL01A Halaman 57 dari 77  
+ 
+ 
+• Business Rule: Email kontak harus unique per user (tidak global 
+unique) 
+• Index: Index pada (user_id, category) untuk filtering by contact type 
+ 
+R3: Users → Activities (One-to-Many) 
+• Purpose: Tracking semua aktivitas yang dilakukan seniman 
+• Implementation:    activities.user_id     sebagai    foreign     key     ke 
+users.user_id Constraint: ON DELETE CASCADE 
+• Business Rule: User harus menjadi owner dari semua referenced 
+contacts dan artworks 
+• Index: Composite index pada (user_id, date) untuk chronological 
+queries 
+ 
+R4: Artworks → Images (One-to-Many) 
+• Purpose: Mengelola multiple images per artwork (detail views, 
+process shots, etc.)  
+• Implementation:    images.artwork_id    sebagai    foreign    key    ke 
+artworks.artwork_id  
+• Constraint: ON DELETE CASCADE dengan pre-delete validation 
+• Business Rule: Minimal satu image per artwork, hanya satu primary 
+image 
+• Validation: Before delete artwork, ensure alternative primary image 
+exists 
+R5: Artworks ↔ Categories (Many-to-Many) 
+• Purpose: Flexible categorization system untuk artwork  
+• Implementation:  Junction  table  ArtworkCategories  dengan  foreign 
+keys  
+• Junction Attributes: artwork_id, category_id, created_at, 
+sort_order  
+• Business Rule:   Maximum   10   categories   per   artwork   untuk 
+performance  
+• Constraint: Unique constraint pada (artwork_id, category_id) 
+R6: Contacts → Activities (One-to-Many) 
+• Purpose: Tracking interaction history dengan setiap kontak  
+• Implementation: activities.contact_id sebagai optional foreign key  
+• Constraint: ON DELETE SET NULL (preserve activity history)  
+
+ 
+ArtConnect  Panduan GL01A Halaman 58 dari 77  
+ 
+ 
+• Business Rule: Contact dan activity harus memiliki user_id yang 
+sama  
+• Validation: Cross-reference validation untuk data consistency 
+R7: Artworks ↔ Activities (Many-to-Many) 
+• Purpose: Menghubungkan aktivitas dengan karya seni terkait (sales, 
+exhibitions) 
+• Implementation: Array field artwork_ids dalam activities collection  
+• Validation:  Semua  artwork_ids  harus  valid  dan  memiliki  user_id 
+yang sama  
+• Performance:   Denormalized   artwork   info   dalam   activity   untuk 
+efficient queries 
+• Index: Array-contains index pada artwork_ids untuk reverse lookup 
+R8: Categories → Categories (Self-Referencing) 
+• Purpose: Hierarchical categorization system 
+• Implementation: categories.parent_category_id sebagai self-foreign 
+key  
+• Constraint:  ON  DELETE  RESTRICT (prevent  deletion  of  parent 
+categories)  
+• Business Rule: Maximum 3 levels deep untuk UI simplicity 
+• Validation: Circular reference detection algorithm required 
+Referential Integrity Rules: 
+1. Cascade Rules: 
+• User deletion cascades ke semua owned entities (artworks, 
+contacts, activities)  
+• Artwork  deletion  cascades  ke  images  tapi  SET  NULL untuk 
+activities 
+• Contact deletion SET NULL untuk activities (preserve history) 
+2. Validation Rules: 
+• Cross-entity    user_id    validation    untuk    semua    foreign    key 
+relationships  
+• Business  logic  validation  sebelum  allow  deletion  (artwork  with 
+sales history)  
+• Referential integrity checks saat create/update operations 
+
+ 
+ArtConnect  Panduan GL01A Halaman 59 dari 77  
+ 
+ 
+3. Performance Optimization: 
+• Composite    indexes    pada    frequently    queried    foreign    key 
+combinations  
+• Denormalized fields untuk avoid excessive joins 
+• Caching strategies untuk frequently accessed relationship data 
+4.3.3.4 Normalisasi Data 
+Sistem ArtConnect mengadopsi pendekatan normalisasi yang disesuaikan 
+dengan karakteristik NoSQL Firebase Firestore sambil mempertahankan 
+prinsip-prinsip database normalization untuk memastikan data integrity 
+dan minimasi redundancy 
+Tingkat Normalisasi yang Diterapkan: 
+Bentuk Normal Pertama (1NF) - First Normal Form 
+Status: FULLY COMPLIANT 
+Karakteristik yang dipenuhi: 
+• Setiap cell berisi single atomic value (tidak ada nested tables dalam 
+single field) 
+• Setiap row unik dengan primary key yang terdefinisi jelas 
+• Setiap column berisi data dengan tipe yang sama 
+• Tidak ada repeating groups dalam single entity 
+ 
+ 
+ 
+ 
+ 
+Bentuk Normal Kedua (2NF) - Second Normal Form 
+Status: FULLY COMPLIANT 
+ 
+Karakteristik yang dipenuhi: 
+• Memenuhi 1NF 
+• Tidak ada partial dependency (non-key attributes fully dependent pada 
+entire primary key) 
+• Semua non-key attributes functionally dependent pada primary key 
+ 
+Contoh Implementasi: 
+ 
+ 
+❌ SEBELUM 1NF: 
+Users: name, emails: "email1@domain.com, email2@domain.com", phones: "123, 456" 
+ 
+o SETELAH 1NF: 
+Users: user_id, name, primary_email, phone 
+UserEmails: user_id, email_address, is_primary 
+UserPhones: user_id, phone_number, is_primary 
+ 
+❌ PARTIAL DEPENDENCY: 
+ActivityDetails: user_id, contact_id, activity_date, user_name, contact_name 
+(user_name hanya dependent pada user_id, contact_name pada contact_id) 
+ 
+o SETELAH 2NF: 
+Activities: activity_id, user_id, contact_id, activity_date 
+Users: user_id, name (referenced via user_id) 
+Contacts: contact_id, name (referenced via contact_id) 
+
+ 
+ArtConnect  Panduan GL01A Halaman 60 dari 77  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Bentuk Normal Ketiga (3NF) - Third Normal Form 
+Status: STRATEGICALLY APPLIED dengan Controlled Denormalization 
+ 
+Karakteristik: 
+• Memenuhi 2NF 
+• Tidak ada transitive dependency (non-key attributes tidak dependent 
+pada non-key attributes lain) 
+ 
+Strategic Denormalization untuk Performance: 
+Controlled Violations for Performance Optimization: 
+ 
+ 
+Normalization Strategy per Entity: 
+1. Users Entity - Full 3NF Compliance 
+ 
+2. Artworks Entity - 3NF with Performance Denormalization 
+ 
+3. Activities Entity - Strategic Denormalization 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+contact_name, artwork_title (denormalized) 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 61 dari 77  
+ 
+ 
+ 
+ 
+Denormalization Decision Matrix: 
+ 
+Entity Field Normalized Source Denormalization Reason Sync Strategy 
+Activities contact_name Contacts.name Activity list performance Real-time trigger 
+Activities artwork_titles Artworks.title Reduce join complexity Batch update 
+Artworks user_name Users.name Portfolio browsing Cloud Function 
+Images artwork_title Artworks.title Image management UI Event-driven 
+ 
+Data Consistency Mechanisms: 
+1. Atomic Updates 
+ 
+2. Event-Driven Synchronization 
+ 
+ 
+ 
+ 
+ 
+ 
+transaction.update(artworkRef, updates); 
+ 
+ 
+ 
+ 
+ 
+transaction.update(doc.ref, { 
+'denormalized_artwork_info.title': updates.title 
+ 
+ 
+ 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 62 dari 77  
+ 
+ 
+ 
+3. Periodic Consistency Validation 
+ 
+Benefits of Hybrid Normalization Approach: 
+ 
+Performance Gains: 
+• 60% reduction dalam query complexity untuk activity feeds 
+• 40% faster portfolio loading dengan denormalized user names 
+• Eliminasi N+1 query problems dalam listing pages 
+Data Integrity Maintenance: 
+• Automatic synchronization via Cloud Functions 
+• Transaction-based updates untuk critical paths 
+• Periodic validation untuk long-term consistency 
+Scalability Considerations: 
+• Minimal storage overhead (< 5% increase) 
+• Reduced Firestore read operations (cost optimization) 
+• Better user experience dengan faster page loads 
+ 
+ 
+exports.syncUserNameUpdates = functions.firestore 
+ 
+ 
+ 
+ 
+ 
+ 
+updateArtworksUserName(userId, newName), 
+updateActivitiesUserName(userId, newName) 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 63 dari 77  
+ 
+ 
+Trade-offs Management: 
+• Controlled technical debt dengan clear documentation 
+• Monitoring systems untuk detect consistency issues 
+• Rollback mechanisms bila denormalization causes problems 
+ 
+4.3.4 Deskripsi Kebutuhan Non Fungsional 
+Bagian ini menspesifikasikan ukuran kuantitatif yang harus dipenuhi 
+oleh perangkat lunak  ArtConnect untuk memastikan  operasional  yang 
+optimal dalam lingkungan produksi. 
+4.3.4.1 Performansi 
+Kebutuhan Numerik Statis: 
+• Jumlah pengguna aktif bersamaan: Minimum 100 pengguna 
+bersamaan dengan degradasi performa < 10% 
+• Jumlah karya seni per pengguna: Maksimum 5.000 karya seni 
+per akun seniman 
+• Jumlah kontak per pengguna: Maksimum 1.000 kontak 
+profesional per akun 
+• Kapasitas penyimpanan per pengguna: 1GB untuk penyimpanan 
+gambar 
+Kebutuhan Numerik Dinamis: 
+• Waktu muat halaman: Muat halaman awal ≤ 2 detik pada koneksi 
+2Mbps 
+• Respons navigasi: Transisi antar halaman ≤ 500ms 
+• Hasil pencarian: Pencarian karya seni/kontak ≤ 300ms untuk hasil 
+pertama 
+• Pengiriman formulir: Operasi simpan/perbarui formulir ≤ 1 detik 
+4.3.4.2 Batasan Memori 
+Batasan Memori Sisi Klien: 
+• Konsumsi memori dasar: Aplikasi web maksimal menggunakan 150MB 
+RAM peramban 
+• Penggunaan memori puncak: Maksimal 300MB RAM saat melakukan 
+operasi berat 
+• Cache peramban: Maksimal 50MB untuk gambar dan aset tersimpan 
+• Penyimpanan lokal: Maksimal 10MB untuk preferensi pengguna dan data 
+sementara 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 64 dari 77  
+ 
+ 
+4.3.4.3 Modus Operasi 
+Modus Operasi Normal: 
+• Modus Interaktif (Default): Modus operasi standar untuk penggunaan 
+sehari-hari seniman 
+• Modus Presentasi: Modus yang dioptimalkan untuk menampilkan 
+portofolio kepada klien/galeri 
+Modus Operasi Khusus: 
+• Modus Luring (Fungsionalitas Terbatas): Fungsionalitas dasar ketika 
+koneksi internet tidak tersedia 
+• Modus Pemrosesan Batch: Dioptimalkan untuk operasi massal seperti 
+impor beberapa karya seni 
+4.3.4.4 Kebutuhan adaptasi Lokasi ( Tidak Ada ) 
+Bagian ini dapat berisi: 
+1. Pendefinisian kebutuhan untuk setiap data atau urutan inisialisasi yang 
+tergantung pada lokasi, misi atau modus operasi (misalnya batas keselamatan). 
+1. Menspesifikasikan modifikasi yang perlu diterapkan pada lokasi atau hal lain 
+yang berhubungan dengan misi untuk mengadaptasi perangkat lunak terhadap 
+suatu instalasi tertentu. 
+4.3.5 Atribut Kualitas Perangkat Lunak 
+Bagian    ini    menspesifikasikan    atribut    kualitas    perangkat    lunak 
+ArtConnect yang mencerminkan karakteristik sistem secara keseluruhan 
+berdasarkan standar ISO/IEC 25010:2011.   Atribut kualitas ini 
+menentukan sejauh mana sistem memenuhi  ekspektasi pemangku 
+kepentingan dalam hal kualitas operasional dan pengalaman pengguna. 
+4.3.5.1 Keandalan 
+Definisi untuk Konteks ArtConnect: 
+Keandalan merujuk pada kemampuan sistem untuk berfungsi dengan 
+benar dan konsisten dalam kondisi normal maupun kondisi stres, dengan 
+minimal gangguan dan tanpa kehilangan data karya seni atau informasi 
+kontak yang krusial bagi seniman. 
+Spesifikasi Keandalan: 
+Ketersediaan: 
+• Target waktu aktif: 99,5% per bulan (maksimal 3,6 jam gangguan 
+per bulan) 
+• Jendela pemeliharaan terjadwal: Maksimal 4 jam per bulan pada 
+jam pemeliharaan (02:00-06:00 WIB) 
+
+ 
+ArtConnect  Panduan GL01A Halaman 65 dari 77  
+ 
+ 
+• Waktu pemulihan: Sistem harus pulih dari kegagalan dalam waktu 
+maksimal 15 menit 
+• Pemulihan bencana: Pengalihan otomatis dengan target waktu 
+pemulihan ≤ 1 jam 
+ 
+Toleransi Kesalahan: 
+• Integritas data: Nol toleransi untuk kerusakan data pada metadata 
+karya seni dan informasi kontak 
+• Degradasi yang elegan: Sistem tetap dapat menjalankan fungsi 
+dasar ketika terjadi kegagalan sistem parsial 
+• Penanganan kesalahan: Semua kesalahan harus ditangani dengan 
+pesan yang informatif 
+Kemampuan Pemulihan: 
+• Frekuensi cadangan: Cadangan otomatis setiap 6 jam untuk data 
+kritis 
+• Verifikasi cadangan: Pengujian pemulihan cadangan mingguan 
+untuk memastikan integritas data 
+• Pemulihan data pengguna: Opsi pemulihan mandiri untuk 
+penghapusan tidak sengaja dalam 30 hari 
+4.3.5.2 Ketersediaan. 
+Definisi untuk Konteks ArtConnect: 
+Kegunaan mengukur sejauh mana seniman visual dapat 
+menggunakan sistem dengan efektif, efisien, dan dengan tingkat 
+kepuasan  yang  tinggi,  tanpa  memerlukan  pelatihan  teknis  yang 
+ekstensif. 
+Spesifikasi Kegunaan: 
+Kemudahan Pembelajaran: 
+• Keberhasilan pengguna pertama kali: 90% pengguna baru dapat 
+menyelesaikan tugas dasar dalam 10 menit pertama 
+• Penyelesaian orientasi: >85% pengguna menyelesaikan tutorial orientasi 
+• Sistem bantuan: Bantuan kontekstual dengan fungsionalitas pencarian 
+• Kurva pembelajaran: Pengungkapan progresif untuk fitur lanjutan 
+Efisiensi Penggunaan: 
+• Waktu penyelesaian tugas: Pengguna berpengalaman dapat 
+mengunggah karya seni dengan metadata lengkap dalam <3 
+menit 
+• Efisiensi navigasi: Maksimal 3 klik untuk mencapai fungsi utama apa pun 
+• Pintasan keyboard: Dukungan untuk pengguna mahir dengan pintasan 
+
+ 
+ArtConnect  Panduan GL01A Halaman 66 dari 77  
+ 
+ 
+yang dapat disesuaikan 
+• Operasi massal: Kemampuan pemrosesan batch untuk tugas berulang 
+Perlindungan dari Kesalahan Pengguna: 
+• Validasi masukan: Validasi waktu nyata dengan pesan kesalahan yang 
+membantu 
+• Dialog konfirmasi: Konfirmasi yang diperlukan untuk tindakan destruktif 
+• Fungsionalitas batal/ulang: Batal multi-level untuk entri data dan operasi 
+penyuntingan 
+• Simpan otomatis: Penyimpanan draf otomatis setiap 30 detik untuk 
+masukan formulir 
+ 
+4.3.5.3 Efisiensi Kinerja 
+Definisi untuk Konteks ArtConnect: 
+Efisiensi   kinerja   mengukur   kemampuan   sistem   untuk   memberikan 
+performa   yang   optimal   dalam   penggunaan   sumber   daya sambil 
+mempertahankan pengalaman pengguna yang responsif. 
+Spesifikasi Efisiensi Kinerja: 
+Perilaku Waktu: 
+• Waktu muat halaman: Muat halaman awal ≤2 detik pada koneksi 
+2Mbps 
+• Muat gambar: Muat progresif dengan pratinjau thumbnail ≤500ms 
+• Respons pencarian: Pengiriman hasil pencarian ≤300ms untuk 
+kueri pada data lokal 
+• Pengiriman formulir: Operasi simpan selesai dalam ≤1 detik 
+dengan umpan balik visual 
+Utilisasi Sumber Daya: 
+• Konsumsi memori: Penggunaan memori sisi klien ≤150MB untuk 
+sesi normal 
+• Optimisasi bandwidth: Gambar dikompres secara otomatis untuk 
+pengiriman optimal 
+• Efisiensi CPU: Dampak minimal pada performa perangkat dengan 
+operasi latar belakang 
+• Optimisasi penyimpanan: Struktur data efisien untuk 
+meminimalkan biaya penyimpanan awan 
+ 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 67 dari 77  
+ 
+ 
+4.3.5.4 Keamanan 
+Definisi untuk Konteks ArtConnect: 
+Keamanan mencakup perlindungan data seniman, karya seni digital, dan 
+informasi kontak profesional dari akses yang tidak sah, serta memastikan 
+privasi dan kerahasiaan sesuai dengan standar industri seni. 
+Spesifikasi Keamanan: 
+Kerahasiaan: 
+• Enkripsi data: Semua data dalam transit menggunakan enkripsi 
+TLS 1.2+ 
+• Data saat disimpan: Data sensitif dienkripsi menggunakan enkripsi 
+AES-256 
+• Kontrol akses: Akses berbasis peran dengan prinsip hak istimewa 
+terkecil 
+• Perlindungan privasi: Data pengguna tidak dapat diakses oleh 
+pihak yang tidak berwenang 
+Integritas: 
+• Validasi data: Sanitasi dan validasi masukan untuk mencegah 
+serangan injeksi 
+• Tanda tangan digital: Checksum untuk memverifikasi integritas 
+data selama transfer 
+• Jejak audit: Pencatatan komprehensif untuk semua operasi 
+modifikasi data 
+• Kontrol versi: Pelacakan perubahan untuk metadata karya seni dan 
+informasi kontak 
+ 
+4.3.5.5 Kemudahan Pemeliharaan 
+Definisi untuk Konteks ArtConnect: 
+Kemudahan   pemeliharaan   mengukur   sejauh   mana   sistem   dapat 
+dimodifikasi  untuk  keperluan  perbaikan,  peningkatan,  atau adaptasi 
+terhadap   perubahan   kebutuhan   tanpa   mengganggu   operasional 
+pengguna. 
+Spesifikasi Kemudahan Pemeliharaan: 
+Modularitas: 
+• Arsitektur komponen: Pemisahan yang jelas dengan modul yang 
+digabungkan secara longgar 
+• Desain API: API yang konsisten dengan kontrak antarmuka yang 
+konsisten 
+
+ 
+ArtConnect  Panduan GL01A Halaman 68 dari 77  
+ 
+ 
+• Desain basis data: Skema yang dinormalisasi dengan hubungan 
+yang jelas 
+• Modularitas frontend: Arsitektur berbasis komponen untuk 
+kemampuan penggunaan kembali 
+Kemampuan Penggunaan Kembali: 
+• Kemampuan penggunaan kembali kode: Komponen dan utilitas 
+bersama untuk meminimalkan duplikasi 
+• Manajemen konfigurasi: Konfigurasi yang dieksternalisasi untuk 
+lingkungan yang berbeda 
+• Sistem template: Komponen UI yang dapat digunakan kembali dan 
+template surel 
+• Standar dokumentasi: Dokumentasi komprehensif untuk 
+penggunaan kembali kode 
+4.3.5.6 Portabilitas 
+Definisi untuk Konteks ArtConnect: 
+Portabilitas mengukur kemampuan sistem untuk beroperasi secara konsisten 
+di berbagai lingkungan, platform, dan perangkat   tanpa   memerlukan 
+modifikasi yang signifikan. 
+Spesifikasi Portabilitas: 
+Kemampuan Adaptasi: 
+• Kompatibilitas peramban: Fungsionalitas yang konsisten di 
+Chrome, Firefox, Safari, Edge 
+• Responsivitas perangkat: Pengalaman optimal pada desktop, tablet, 
+dan ponsel pintar 
+• Resolusi layar: Tata letak adaptif untuk berbagai ukuran layar 
+(320px - 2560px) 
+• Sistem operasi: Kompatibilitas lintas platform melalui standar web 
+ 
+Kemudahan Instalasi: 
+• Instalasi nol: Aplikasi berbasis web tidak memerlukan instalasi 
+klien 
+• Aplikasi web progresif: Kemampuan untuk fungsionalitas luring 
+• Persyaratan peramban: Dokumentasi yang jelas tentang versi 
+peramban minimum 
+ 
+ 
+ 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 69 dari 77  
+ 
+ 
+4.3.6 Batasan Perancangan 
+Bagian ini menspesifikasikan batasan atas keputusan-keputusan perancangan 
+yang  dituntut  oleh  standar  lain,  keterbatasan perangkat  keras,  dan  faktor-
+faktor    eksternal    lain    yang    mempengaruhi    pengembangan sistem 
+ArtConnect. 
+A. Batasan Teknologi Platform 
+Batasan perancangan yang dipakai dalam pengembangan perangkat lunak 
+ArtConnect antara lain: 
+Platform Pengembangan: 
+• Tampilan aplikasi dibuat dengan menggunakan teknologi web 
+modern (HTML5, CSS3, JavaScript) 
+• Text editor yang digunakan adalah Visual Studio Code 
+• Database menggunakan Firebase Firestore 
+• Bahasa pemrograman yang digunakan adalah JavaScript dengan 
+framework React.js atau Vue.js 
+• Backend menggunakan Node.js dengan Express.js 
+B. Batasan Perangkat Keras 
+Spesifikasi Minimum Server: 
+• Prosesor: Intel Core i5 atau AMD Ryzen 5 
+• RAM: Minimum 8GB 
+• Storage: 256GB SSD 
+• Koneksi internet: 10Mbps stabil 
+Spesifikasi Klien: 
+• Peramban modern yang mendukung HTML5 dan JavaScript 
+ES6+ 
+• RAM: Minimum 4GB untuk penggunaan optimal 
+• Resolusi layar: Minimum 1024x768 piksel 
+C. Batasan Standar dan Protokol 
+Standar Web: 
+• Sistem harus mematuhi standar W3C untuk HTML5 dan CSS3 
+• Implementasi HTTPS wajib untuk semua komunikasi 
+• Kompatibilitas dengan WCAG 2.1 Level AA untuk aksesibilitas 
+Protokol Komunikasi: 
+• Protokol HTTPS dengan enkripsi TLS 1.2+ 
+• Format data JSON untuk pertukaran informasi 
+
+ 
+ArtConnect  Panduan GL01A Halaman 70 dari 77  
+ 
+ 
+• RESTful API untuk komunikasi client-server 
+ 
+D. Batasan Lingkungan Operasi 
+Platform yang Didukung: 
+• Sistem operasi: Windows 10+, macOS 10.15+, Linux Ubuntu 
+18.04+ 
+• Peramban: Chrome 90+, Firefox 88+, Safari 14+, Edge 90+ 
+• Tidak mendukung Internet Explorer atau peramban lama 
+Keterbatasan Firebase: 
+• Maksimum 1MB per dokumen Firestore 
+• Batas 10GB transfer data per hari untuk paket gratis 
+• Maksimum 100 koneksi bersamaan untuk paket gratis 
+E. Batasan Keamanan 
+Implementasi Keamanan: 
+• Otentikasi menggunakan Firebase Authentication 
+• Semua data sensitif harus dienkripsi 
+• Validasi input wajib untuk mencegah injection attacks 
+• Session timeout otomatis setelah 30 menit inaktivitas 
+F. Batasan Integrasi 
+Layanan Eksternal: 
+• Integrasi dengan Firebase services (Auth, Firestore, Storage) 
+wajib 
+• Tidak terintegrasi dengan payment gateway pada MVP 
+• Tidak terintegrasi dengan social media API selain untuk OAuth 
+login 
+• Email service menggunakan Firebase Functions 
+G. Batasan Regulasi 
+Kepatuhan Hukum: 
+• Sistem harus mematuhi UU ITE Indonesia 
+• Perlindungan data pribadi sesuai regulasi lokal 
+• Hak cipta karya seni tetap menjadi milik seniman 
+• Data residency untuk pengguna Indonesia 
+ 
+
+ 
+ArtConnect  Panduan GL01A Halaman 71 dari 77  
+ 
+ 
+H. Batasan Performa 
+Target Performa: 
+• Waktu muat halaman maksimal 3 detik pada koneksi 3G 
+• Upload gambar 5MB selesai dalam maksimal 15 detik 
+• Respon database query maksimal 500ms 
+• Mendukung maksimal 100 pengguna bersamaan 
+ 
+I. Batasan Anggaran dan Waktu 
+a.) Batasan Finansial: 
+• Budget Firebase maksimal Rp 500.000 per bulan 
+• Tidak ada budget untuk layanan premium third-party pada 
+MVP 
+• Development tools menggunakan yang gratis atau open source 
+b.) Batasan Waktu: 
+• Pengembangan MVP maksimal 4 bulan 
+• Testing dan deployment 2 minggu 
+• Maintenance dan bug fixes 1 bulan pertama gratis 
+ 
+J. Batasan Fungsional MVP 
+a.) Tidak Termasuk dalam MVP: 
+• Sistem pembayaran terintegrasi 
+• Aplikasi mobile native 
+• Fitur marketplace atau e-commerce 
+• Integrasi dengan media sosial (kecuali OAuth) 
+• Multi-language support (hanya bahasa Indonesia) 
+• Advanced analytics dan AI features 
+b.) Fokus MVP: 
+• Manajemen inventaris karya seni dasar 
+• Manajemen kontak profesional sederhana 
+• Dashboard dan laporan basic 
+• Otentikasi dan otorisasi pengguna 
+4.4 Matriks Keterunutan 
+Bagian  ini  berisi  daftar  seluruh  kebutuhan  beserta  identifikasinya  serta 
+cara   verifikasi   yang   direncanakan,   yaitu Inspeksi, Analisis,   dan 
+Demonstrasi. 
+
+ 
+ArtConnect  Panduan GL01A Halaman 72 dari 77  
+ 
+ 
+Definisi Metode Verifikasi: 
+• Inspeksi: Dilakukan dengan mengamati produk yang dihasilkan 
+(biasanya kode program) yang dibandingkan dengan standar atau 
+spesifikasi yang ada 
+• Analisis: Dilakukan dengan menerapkan pengukuran 
+matematis/kuantitatif terhadap hasil yang didapat dari penerapan produk 
+• Demonstrasi: Dilakukan dengan mengamati perilaku produk akhir, yaitu 
+melihat kesesuaian antara masukan dan keluaran 
+ 
+4.4.1. Matriks Keterunutan Kebutuhan Fungsional 
+ 
+ID 
+Kebutuhan 
+ 
+Nama Kebutuhan 
+Metode 
+Verifikasi 
+ 
+Keterangan 
+ 
+SRS-F-001 
+ 
+Menampilkan form registrasi 
+ 
+Demonstrasi 
+Pengujian tampilan form pendaftaran 
+pengguna 
+ 
+SRS-F-002 
+ 
+Menampilkan form login 
+ 
+Demonstrasi 
+Pengujian tampilan form login dengan 
+validasi 
+ 
+SRS-F-003 
+ 
+Menyimpan data pengguna 
+ 
+Inspeksi 
+Review kode penyimpanan ke Firebase 
+Firestore 
+ 
+SRS-F-004 
+ 
+Proses otentikasi pengguna 
+ 
+Demonstrasi 
+Testing login dengan kredensial yang 
+benar/salah 
+ 
+SRS-F-005 
+Menampilkan dashboard 
+utama 
+ 
+Demonstrasi 
+ 
+Pengujian tampilan dashboard setelah login 
+SRS-F-006 
+Mengelola profil pengguna Demonstrasi Testing update profil dan validasi data 
+ 
+SRS-F-007 
+ 
+Menambah karya seni baru 
+ 
+Demonstrasi 
+Pengujian form tambah karya dengan upload 
+gambar 
+SRS-F-008 
+Mengubah data karya seni Demonstrasi Testing edit metadata dan status karya 
+SRS-F-009 
+Menghapus karya seni Demonstrasi Pengujian soft delete dengan konfirmasi 
+ 
+SRS-F-010 
+Menampilkan daftar karya seni 
+ 
+Demonstrasi 
+Testing gallery view dengan filtering dan sorting 
+ 
+SRS-F-011 
+ 
+Upload gambar karya seni 
+ 
+Inspeksi 
+Review implementasi Firebase Storage 
+upload 
+ 
+SRS-F-012 
+Menambah kontak profesional 
+ 
+Demonstrasi 
+Pengujian form tambah kontak dengan 
+kategorisasi 
+SRS-F-013 
+Mengubah data kontak Demonstrasi 
+Testing edit informasi kontak dan kategori 
+ 
+SRS-F-014 
+ 
+Menghapus kontak 
+ 
+Demonstrasi 
+Pengujian penghapusan kontak dengan 
+konfirmasi 
+SRS-F-015 
+Menampilkan daftar kontak Demonstrasi 
+Testing contact list dengan search dan filter 
+ 
+SRS-F-016 
+ 
+Mencatat aktivitas baru 
+ 
+Demonstrasi 
+Pengujian form pencatatan interaksi dengan 
+kontak 
+
+ 
+ArtConnect  Panduan GL01A Halaman 73 dari 77  
+ 
+ 
+SRS-F-017 
+Menampilkan riwayat aktivitas Demonstrasi 
+Testing timeline aktivitas dengan filter 
+tanggal 
+ 
+SRS-F-018 
+Menampilkan pipeline Kanban 
+ 
+Demonstrasi 
+ 
+Pengujian drag-and-drop status karya 
+ 
+SRS-F-019 
+Mengubah status karya (Kanban) 
+ 
+Demonstrasi 
+ 
+Testing perpindahan status dengan validasi 
+ 
+SRS-F-020 
+Menampilkan analytics dashboard 
+ 
+Demonstrasi 
+ 
+Pengujian visualisasi data dan statistik 
+SRS-F-021 
+Export data portfolio Inspeksi Review implementasi export ke PDF/CSV 
+SRS-F-022 
+Pencarian karya seni Demonstrasi Testing search functionality dengan keyword 
+SRS-F-023 
+Filter dan sorting data Demonstrasi Pengujian multiple filter dan sorting options 
+SRS-F-024 
+Backup data otomatis Inspeksi Review implementasi automated backup 
+SRS-F-025 
+Restore data dari backup Demonstrasi Testing restore functionality dan data integrity 
+ 
+ 
+4.4.2. Matriks Keterunutan Kebutuhan Non-Fungsional 
+ 
+ID 
+Kebutuhan 
+ 
+Parameter 
+Metode 
+Verifikasi 
+ 
+Kriteria Pengujian 
+SRS-NF-001 
+Ketersediaan Sistem Analisis Monitoring uptime 99.5% selama 1 bulan 
+SRS-NF-002 
+Tingkat Kesalahan Analisis Pengukuran error rate <0.1% dari total requests 
+SRS-NF-003 
+Waktu Respons Halaman Analisis Load testing dengan tools (JMeter/Lighthouse) 
+SRS-NF-004 Upload File Performance Analisis Pengukuran waktu upload file 5MB ≤15 detik 
+SRS-NF-005 
+Concurrent Users Analisis Load testing dengan 100+ pengguna simultan 
+ 
+SRS-NF-006 
+Penggunaan Memori 
+Browser 
+ 
+Analisis 
+ 
+Monitoring RAM usage ≤150MB via dev tools 
+SRS-NF-007 
+Kapasitas 
+Penyimpanan 
+Inspeksi Verifikasi quota 1GB per user di Firebase 
+SRS-NF-008 
+Enkripsi Data 
+Inspeksi Review implementasi TLS 1.2+ dan HTTPS 
+SRS-NF-009 
+Session Timeout 
+Demonstrasi Testing auto-logout setelah 30 menit 
+SRS-NF-010 
+Kemudahan 
+Pembelajaran 
+Demonstrasi User testing dengan seniman baru (15 menit) 
+ 
+SRS-NF-011 
+ 
+Kompatibilitas 
+Browser 
+ 
+Demonstrasi 
+Cross-browser testing (Chrome, Firefox, Safari, 
+Edge) 
+SRS-NF-012 
+Responsive Design Demonstrasi Testing pada viewport 320px-2560px 
+
+ 
+ArtConnect  Panduan GL01A Halaman 74 dari 77  
+ 
+ 
+SRS-NF-013 
+Code Coverage Inspeksi Static analysis untuk mencapai >80% coverage 
+SRS-NF-014 
+Backup dan Recovery Demonstrasi Testing daily backup dan recovery time ≤4 jam 
+ 
+4.4.3. Matriks Keterunutan Atribut Kualitas 
+ 
+ 
+Atribut Kualitas 
+ 
+Metrik 
+Metode 
+Verifikasi 
+ 
+Target Pengujian 
+Keandalan 
+MTBF, Error Recovery Analisis 99.5% uptime, recovery ≤15 menit 
+ 
+Kegunaan 
+Task Success Rate, SUS 
+Score 
+ 
+Demonstrasi 
+ 
+>95% task completion, SUS >80 
+ 
+Efisiensi Kinerja 
+ 
+Response Time, Throughput 
+ 
+Analisis 
+<2s page load, >100 concurrent 
+users 
+Keamanan 
+Vulnerability Assessment Inspeksi Zero critical vulnerabilities 
+Kemudahan 
+Pemeliharaan 
+Code Metrics, 
+Documentation 
+ 
+Inspeksi 
+>80% test coverage, complete 
+docs 
+Portabilitas Cross-platform Testing Demonstrasi 4+ browsers, responsive design 
+ 
+4.4.4. Mapping Kebutuhan ke Proses DFD 
+ 
+ 
+Kebutuhan Fungsional 
+ No. Proses 
+DFD 
+ 
+Nama Proses 
+Metode 
+Verifikasi 
+SRS-F-001, SRS-F-002, SRS-F-003, SRS-F- 
+004 
+  
+1.0 
+Manajemen User & 
+Autentikasi 
+ 
+Demonstrasi 
+SRS-F-007, SRS-F-008, SRS-F-009, SRS-F- 
+010, SRS-F-011 
+  
+2.0 
+Pengelolaan Inventaris 
+Karya Seni 
+ 
+Demonstrasi 
+SRS-F-012, SRS-F-013, SRS-F-014, SRS-F- 
+015 
+  
+3.0 
+Manajemen Jejaring 
+Profesional 
+ 
+Demonstrasi 
+ 
+SRS-F-018, SRS-F-019, SRS-F-020 
+  
+4.0 
+Visualisasi Pipeline & 
+Analytics 
+ 
+Demonstrasi 
+SRS-F-021, SRS-F-024, SRS-F-025  5.0 
+Sistem Pelaporan & Export Inspeksi 
+ 
+ 
+ 
+4.4.5. Mapping Data Store ke Entitas ERD 
+ 
+Data Store (DFD) Entitas (ERD) Metode Verifikasi Validasi 
+D1: User Profiles Users 
+Inspeksi Verifikasi struktur tabel dan constraint 
+
+ 
+ArtConnect  Panduan GL01A Halaman 75 dari 77  
+ 
+ 
+D2: Artworks Database Artworks Inspeksi Validasi relasi dengan Users dan Images 
+D3: Image Files Images 
+Inspeksi Cek foreign key ke Artworks 
+D4: Contacts Database Contacts 
+Inspeksi Verifikasi relasi dengan Users 
+D5: Activities Log Activities Inspeksi Validasi relasi many-to-many 
+ 
+4.4.6. Prioritas Verifikasi 
+High Priority (Kritis untuk MVP): 
+• Semua kebutuhan otentikasi (SRS-F-001 s/d SRS-F-006) 
+• CRUD operasi karya seni (SRS-F-007 s/d SRS-F-011) 
+• CRUD operasi kontak (SRS-F-012 s/d SRS-F-015) 
+• Kebutuhan performa kritis (SRS-NF-001 s/d SRS-NF-005) 
+Medium Priority (Penting untuk UX): 
+• Pipeline Kanban (SRS-F-018, SRS-F-019) 
+• Analytics dashboard (SRS-F-020) 
+• Search dan filter (SRS-F-022, SRS-F-023) 
+• Kebutuhan keamanan (SRS-NF-008, SRS-NF-009) 
+Low Priority (Nice to Have): 
+• Export functionality (SRS-F-021) 
+• Backup manual (SRS-F-025) 
+• Advanced analytics features 
+ 
+4.4.7. Schedule Verifikasi 
+Phase 1 - Development Testing (Bulan 1-3): 
+• Unit testing untuk semua fungsi kritis 
+• Integration testing untuk Firebase services 
+• Code review dan inspeksi security 
+ 
+Phase 2 - System Testing (Bulan 3-4): 
+• Performance testing dan load testing 
+• Cross-browser compatibility testing 
+• Security vulnerability assessment 
+ 
+Phase 3 - User Acceptance Testing (Bulan 4): 
+• UAT dengan 10-15 seniman beta testers 
+• Usability testing dengan task-based scenarios 
+
+ 
+ArtConnect  Panduan GL01A Halaman 76 dari 77  
+ 
+ 
+• Final verification terhadap semua requirements 
+ 
+4.4.8. Tools dan Environment Verifikasi 
+Testing Tools: 
+• Unit Testing: Jest untuk JavaScript testing 
+• E2E Testing: Cypress untuk end-to-end user flows 
+• Performance: Google Lighthouse, WebPageTest 
+• Load Testing: Artillery.io atau JMeter 
+• Security: OWASP ZAP, npm audit 
+Monitoring Tools: 
+• Firebase Console: Database performance dan usage metrics 
+• Google Analytics: User behavior dan performance metrics 
+• Error Tracking: Firebase Crashlytics atau Sentry 
+ 
+ 
+4.4.9. Kriteria Acceptance 
+Setiap kebutuhan dianggap PASS jika memenuhi kriteria berikut: 
+Untuk Demonstrasi: 
+• Fitur berfungsi sesuai skenario yang didefinisikan 
+• User interface responsif dan user-friendly 
+• Tidak ada crash atau error handling yang buruk 
+Untuk Inspeksi: 
+• Kode mengikuti coding standards yang ditetapkan 
+• Security best practices diimplementasikan 
+• Documentation lengkap dan up-to-date 
+Untuk Analisis: 
+• Metrics memenuhi target yang ditetapkan 
+• Performance benchmarks tercapai 
+• Reliability dan availability sesuai SLA 
+ 
+ 
+ 
+4.5 Informasi tambahan 
+Dukungan informasi yang membuat SKPL mudah digunakan, antara lain: 
+1. Daftar isi 
+1. Index 
+2. Lampiran 
+
+ 
+ArtConnect  Panduan GL01A Halaman 77 dari 77  
+ 
+ 
+4.5.1 Daftar isi dan Index 
+Daftar isi dan index adalah cukup penting dan harus mengikuti standard yang ada. 
+4.5.2 Lampiran-lampiran 
+FlowChart User : 
+ 
+ 
+ 

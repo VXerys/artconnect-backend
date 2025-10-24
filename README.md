@@ -54,6 +54,8 @@ Update the following in `.env`:
 - `FIREBASE_PROJECT_ID`, `FIREBASE_PRIVATE_KEY`, `FIREBASE_CLIENT_EMAIL` - Firebase Admin SDK credentials
 - `CORS_ORIGIN` - Your frontend URL (default: http://localhost:5173)
 
+**Important:** Frontend expects backend on port `3000` with `/api` prefix for all routes.
+
 ### 3. Setup Database
 
 Make sure MySQL is running, then:
@@ -75,7 +77,7 @@ npm run prisma:studio
 npm run dev
 ```
 
-Server will start on `http://localhost:5000`
+Server will start on `http://localhost:3000`
 
 ## 📝 Available Scripts
 
@@ -120,7 +122,7 @@ See `prisma/schema.prisma` for detailed schema.
 
 ### Health Check
 ```
-GET /health - Check API status
+GET /api/health - Check API status
 ```
 
 ### Future Endpoints (to be implemented):
