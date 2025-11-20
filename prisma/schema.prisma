@@ -1,6 +1,9 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,59 +13,154 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// User model - synced with Firebase Auth
+// --- Models ---
+
 model User {
-  id            String    @id @default(uuid())
-  firebaseUid   String    @unique
-  email         String    @unique
-  name          String?
-  photoUrl      String?
-  role          UserRole  @default(USER)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  
-  // Relations
-  artworks      Artwork[]
-  contacts      Contact[]
-  activities    Activity[]
-  
+  id          String   @id @default(uuid())
+  firebaseUid String   @unique
+  email       String   @unique
+  name        String
+  photoUrl    String?
+  role        UserRole @default(USER)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  artworks   Artwork[]
+  contacts   Contact[]
+  activities Activity[]
+  salesDeals SalesDeal[]
+
+  @@index([email])
+  @@index([firebaseUid])
   @@map("users")
 }
+
+model Artwork {
+  id          String        @id @default(uuid())
+  title       String
+  description String? // @db.Text - Not supported in SQLite, but standard String is fine for dev
+  artist      String
+  year        Int?
+  medium      String?
+  dimensions  String?
+  price       Float
+  currency    String        @default("IDR")
+  imageUrl    String?
+  status      ArtworkStatus @default(AVAILABLE)
+  category    String?
+  // tags        String[] - Lists of scalars are not supported in SQLite. I will comment this out for now or make it a string separated by commas.
+  // For SQLite compatibility in dev, we might need a workaround if we heavily rely on this.
+  // However, to keep the code consistent with the final MySQL goal, I will simulate it or assume I am using a Postgres/MySQL container if possible?
+  // Wait, Prisma SQLite doesn't support scalar arrays. I will change it to a String and parse it manually in application code if I must use SQLite.
+  // OR better: Use a separate table for Tags to be relational, but that changes the schema.
+  // Let's stick to the requested schema.
+  // Since I CANNOT use Scalar Lists in SQLite, I will use a simple String for now and note this limit.
+  // ACTUALLY: The user wants MySQL. Scalar lists (arrays) are NOT supported in MySQL either by Prisma natively as `String[]` (only Postgres).
+  // In MySQL, one usually uses a separate table or a JSON field.
+  // BUT Prisma supports JSON type. Let's check if the user documentation implies Postgres features?
+  // "tags String[]" is valid in Postgres. In MySQL/Prisma, it usually requires `json` type or a relation.
+  // However, the docs say "tags String[]". If the user intends to use MySQL, `String[]` is not valid in Prisma for MySQL provider unless mapped to JSON.
+  // Let's look at `docs/DATABASE_SCHEMA.md`. It says "Database: MySQL".
+  // And it says `tags String[]`.
+  // Prisma only supports scalar lists on PostgreSQL, CockroachDB and MongoDB.
+  // For MySQL, we must use `Json` type or a separate relation.
+  // I will assume `tags` should be `Json` for MySQL compatibility, or a comma-separated string.
+  // Given the "Storage Considerations" in docs say "Arrays: Tags stored as JSON array", I will use `Json`.
+  tags Json?
+
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  salesDeals SalesDeal[]
+  activities Activity[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([category])
+  @@map("artworks")
+}
+
+model Contact {
+  id        String        @id @default(uuid())
+  name      String
+  email     String?
+  phone     String?
+  company   String?
+  type      ContactType
+  status    ContactStatus @default(ACTIVE)
+  notes     String? // @db.Text
+  tags      Json?
+  userId    String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  salesDeals SalesDeal[]
+  activities Activity[]
+
+  @@index([userId])
+  @@index([type])
+  @@index([status])
+  @@map("contacts")
+}
+
+model SalesDeal {
+  id                String     @id @default(uuid())
+  title             String
+  description       String? // @db.Text
+  amount            Float
+  currency          String     @default("IDR")
+  stage             DealStage  @default(LEAD)
+  probability       Int        @default(20)
+  expectedCloseDate DateTime?
+  closedDate        DateTime?
+  userId            String
+  contactId         String
+  artworkId         String?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contact    Contact    @relation(fields: [contactId], references: [id])
+  artwork    Artwork?   @relation(fields: [artworkId], references: [id])
+  activities Activity[]
+
+  @@index([userId])
+  @@index([contactId])
+  @@index([artworkId])
+  @@index([stage])
+  @@map("sales_deals")
+}
+
+model Activity {
+  id          String       @id @default(uuid())
+  type        ActivityType
+  title       String
+  description String? // @db.Text
+  userId      String
+  contactId   String?
+  artworkId   String?
+  dealId      String?
+  createdAt   DateTime     @default(now())
+
+  user    User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contact Contact?   @relation(fields: [contactId], references: [id])
+  artwork Artwork?   @relation(fields: [artworkId], references: [id])
+  deal    SalesDeal? @relation(fields: [dealId], references: [id])
+
+  @@index([userId])
+  @@index([type])
+  @@index([createdAt])
+  @@map("activities")
+}
+
+// --- Enums ---
 
 enum UserRole {
   USER
   ADMIN
-}
-
-// Artwork model
-model Artwork {
-  id            String        @id @default(uuid())
-  title         String
-  description   String?       @db.Text
-  artist        String
-  year          Int?
-  medium        String?
-  dimensions    String?
-  price         Decimal       @db.Decimal(10, 2)
-  currency      String        @default("USD")
-  imageUrl      String?
-  status        ArtworkStatus @default(AVAILABLE)
-  category      String?
-  tags          String?       @db.Text // JSON array of tags
-  
-  userId        String
-  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-  
-  // Relations
-  salesDeals    SalesDeal[]
-  activities    Activity[]
-  
-  @@map("artworks")
-  @@index([userId])
-  @@index([status])
 }
 
 enum ArtworkStatus {
@@ -70,33 +168,6 @@ enum ArtworkStatus {
   RESERVED
   SOLD
   ON_LOAN
-}
-
-// Contact model (Collectors, Galleries, etc.)
-model Contact {
-  id            String        @id @default(uuid())
-  name          String
-  email         String?
-  phone         String?
-  company       String?
-  type          ContactType
-  status        ContactStatus @default(ACTIVE)
-  notes         String?       @db.Text
-  tags          String?       @db.Text // JSON array of tags
-  
-  userId        String
-  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-  
-  // Relations
-  salesDeals    SalesDeal[]
-  activities    Activity[]
-  
-  @@map("contacts")
-  @@index([userId])
-  @@index([type])
 }
 
 enum ContactType {
@@ -113,36 +184,6 @@ enum ContactStatus {
   LEAD
 }
 
-// Sales Deal model (Pipeline)
-model SalesDeal {
-  id            String        @id @default(uuid())
-  title         String
-  description   String?       @db.Text
-  amount        Decimal       @db.Decimal(10, 2)
-  currency      String        @default("USD")
-  stage         DealStage     @default(LEAD)
-  probability   Int           @default(0) // 0-100%
-  expectedCloseDate DateTime?
-  actualCloseDate   DateTime?
-  
-  artworkId     String?
-  artwork       Artwork?      @relation(fields: [artworkId], references: [id], onDelete: SetNull)
-  
-  contactId     String
-  contact       Contact       @relation(fields: [contactId], references: [id], onDelete: Cascade)
-  
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-  
-  // Relations
-  activities    Activity[]
-  
-  @@map("sales_deals")
-  @@index([contactId])
-  @@index([artworkId])
-  @@index([stage])
-}
-
 enum DealStage {
   LEAD
   QUALIFIED
@@ -152,47 +193,18 @@ enum DealStage {
   CLOSED_LOST
 }
 
-// Activity log (for timeline tracking)
-model Activity {
-  id            String        @id @default(uuid())
-  type          ActivityType
-  title         String
-  description   String?       @db.Text
-  metadata      String?       @db.Text // JSON for additional data
-  
-  userId        String
-  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  artworkId     String?
-  artwork       Artwork?      @relation(fields: [artworkId], references: [id], onDelete: SetNull)
-  
-  contactId     String?
-  contact       Contact?      @relation(fields: [contactId], references: [id], onDelete: SetNull)
-  
-  dealId        String?
-  deal          SalesDeal?    @relation(fields: [dealId], references: [id], onDelete: SetNull)
-  
-  createdAt     DateTime      @default(now())
-  
-  @@map("activities")
-  @@index([userId])
-  @@index([artworkId])
-  @@index([contactId])
-  @@index([dealId])
-  @@index([createdAt])
-}
-
 enum ActivityType {
   ARTWORK_CREATED
   ARTWORK_UPDATED
   ARTWORK_SOLD
   CONTACT_CREATED
   CONTACT_UPDATED
+  MEETING_SCHEDULED
+  MEETING_COMPLETED
   DEAL_CREATED
-  DEAL_UPDATED
+  DEAL_STAGE_CHANGED
   DEAL_WON
   DEAL_LOST
   NOTE_ADDED
   EMAIL_SENT
-  MEETING_SCHEDULED
 }
