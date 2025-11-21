@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { PrismaClient } from '@prisma/client';
+import { apiLimiter } from './middlewares/rateLimiter';
 
 dotenv.config();
 
@@ -11,6 +12,9 @@ const app = express();
 app.use(cors({
   origin: process.env.CORS_ORIGIN || '*',
 }));
+
+// Apply Rate Limiting
+app.use('/api', apiLimiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

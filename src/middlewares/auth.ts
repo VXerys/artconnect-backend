@@ -19,9 +19,9 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    // Check for Mock Mode in Development
-    if (process.env.NODE_ENV === 'development' && req.headers['x-mock-user']) {
-      console.log('Using Mock Auth (Header Check - No Bearer)');
+    // Check for Mock Mode in Development or Test
+    if ((process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') && req.headers['x-mock-user']) {
+      // console.log('Using Mock Auth (Header Check - No Bearer)');
       req.user = {
         uid: 'mock-user-uid',
         email: 'mock@example.com',
@@ -38,8 +38,8 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
   }
 
   // Check for Mock Mode in Development even if Bearer is present (because verify_auth sends both)
-  if (process.env.NODE_ENV === 'development' && req.headers['x-mock-user']) {
-    console.log('Using Mock Auth (Header Check - With Bearer)');
+  if ((process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') && req.headers['x-mock-user']) {
+    // console.log('Using Mock Auth (Header Check - With Bearer)');
     req.user = {
       uid: 'mock-user-uid',
       email: 'mock@example.com',
@@ -52,8 +52,8 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
 
   try {
     // If in mock mode and using mock token (but with Bearer prefix)
-    if (process.env.NODE_ENV === 'development' && token === 'mock-token') {
-      console.log('Using Mock Auth (Bearer mock-token detected)');
+    if ((process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') && token === 'mock-token') {
+      // console.log('Using Mock Auth (Bearer mock-token detected)');
        req.user = {
         uid: 'mock-user-uid',
         email: 'mock@example.com',

@@ -6,14 +6,16 @@ import {
   updateContact,
   deleteContact
 } from '../controllers/contactController';
+import { validate } from '../middlewares/validation';
+import { createContactSchema, updateContactSchema } from '../schemas/contactSchema';
 
 const router = Router();
 
 router.use(authenticate);
 
 router.get('/', getContacts);
-router.post('/', createContact);
-router.put('/:id', updateContact);
+router.post('/', validate(createContactSchema), createContact);
+router.put('/:id', validate(updateContactSchema), updateContact);
 router.delete('/:id', deleteContact);
 
 export default router;

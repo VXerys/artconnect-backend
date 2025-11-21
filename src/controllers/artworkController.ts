@@ -39,16 +39,23 @@ export const getArtworks = async (req: Request, res: Response): Promise<void> =>
     // So we should strictly filter by `req.user.uid` -> `user.id`.
 
     const firebaseUid = req.user?.uid;
+    let user;
     if (firebaseUid) {
-       const user = await prisma.user.findUnique({ where: { firebaseUid } });
-       if (user) {
-         whereClause.userId = user.id;
-       }
+       user = await prisma.user.findUnique({ where: { firebaseUid } });
     }
 
     // If explicitly requested by query param (admin case?)
-    if (userId) {
-      whereClause.userId = userId as string;
+    // For now, we restrict this to avoid IDOR.
+    // If we had an Admin Role check, we would uncomment:
+    // if (req.user?.role === 'ADMIN' && userId) {
+    //   whereClause.userId = userId as string;
+    // }
+
+    // Ensure we stick to authenticated user's data if not admin
+    if (user && user.role !== 'ADMIN') {
+       whereClause.userId = user.id;
+    } else if (user && user.role === 'ADMIN' && userId) {
+       whereClause.userId = userId as string;
     }
 
     const total = await prisma.artwork.count({ where: whereClause });
