@@ -8,6 +8,8 @@ import {
   deleteArtwork,
   uploadArtworkImage
 } from '../controllers/artworkController';
+import { validate } from '../middlewares/validation';
+import { createArtworkSchema, updateArtworkSchema } from '../schemas/artworkSchema';
 
 const router = Router();
 
@@ -16,8 +18,8 @@ router.use(authenticate);
 
 router.get('/', getArtworks);
 router.get('/:id', getArtworkById);
-router.post('/', createArtwork);
-router.put('/:id', updateArtwork);
+router.post('/', validate(createArtworkSchema), createArtwork);
+router.put('/:id', validate(updateArtworkSchema), updateArtwork);
 router.delete('/:id', deleteArtwork);
 router.post('/:id/image', uploadArtworkImage);
 
