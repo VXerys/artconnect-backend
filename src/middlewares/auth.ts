@@ -18,18 +18,19 @@ export type AuthRequest = Request;
 export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
 
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    // Check for Mock Mode in Development or Test
-    if ((process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') && req.headers['x-mock-user']) {
-      // console.log('Using Mock Auth (Header Check - No Bearer)');
-      req.user = {
-        uid: 'mock-user-uid',
-        email: 'mock@example.com',
-        name: 'Mock User'
-      };
-      return next();
-    }
+  // Mock Mode: Check for mock user header in Development or Test environments
+  // WARNING: This bypasses real authentication and should NEVER be enabled in production.
+  if ((process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') && req.headers['x-mock-user']) {
+    // console.log('Using Mock Auth');
+    req.user = {
+      uid: 'mock-user-uid', // This ID must match the mocked User in the database
+      email: 'mock@example.com',
+      name: 'Mock User'
+    };
+    return next();
+  }
 
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
     res.status(401).json({
       success: false,
       error: { message: 'No token provided' }
@@ -37,23 +38,11 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
     return;
   }
 
-  // Check for Mock Mode in Development even if Bearer is present (because verify_auth sends both)
-  if ((process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') && req.headers['x-mock-user']) {
-    // console.log('Using Mock Auth (Header Check - With Bearer)');
-    req.user = {
-      uid: 'mock-user-uid',
-      email: 'mock@example.com',
-      name: 'Mock User'
-    };
-    return next();
-  }
-
   const token = authHeader.split(' ')[1];
 
   try {
-    // If in mock mode and using mock token (but with Bearer prefix)
+    // Additional Mock Logic: Allow 'mock-token' if in dev/test, even without x-mock-user (optional, but keeping for compatibility)
     if ((process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') && token === 'mock-token') {
-      // console.log('Using Mock Auth (Bearer mock-token detected)');
        req.user = {
         uid: 'mock-user-uid',
         email: 'mock@example.com',
@@ -75,6 +64,6 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
       success: false,
       error: { message: 'Invalid or expired token' }
     });
-    return; // Ensure void is returned
+    return;
   }
 };

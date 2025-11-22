@@ -1,44 +1,28 @@
 import { Request, Response } from 'express';
-import prisma from '../utils/prisma';
+import * as authService from '../services/authService';
+import { ApiResponse } from '../types';
 
-// Register User
-export const registerUser = async (req: Request, res: Response): Promise<void> => {
+// Sync User (Login/Register)
+export const syncUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { email, name, photoUrl } = req.body;
-    const firebaseUid = req.user?.uid;
+    // User is already decoded by middleware
+    const { uid, email, name, picture } = req.user!;
 
-    if (!firebaseUid) {
-      res.status(401).json({ success: false, error: { message: 'Unauthorized' } });
-      return;
-    }
-
-    // Check if user already exists
-    const existingUser = await prisma.user.findUnique({
-      where: { firebaseUid }
+    const user = await authService.syncUser({
+      uid,
+      email,
+      name,
+      photoUrl: picture
     });
 
-    if (existingUser) {
-      res.status(400).json({ success: false, error: { message: 'User already registered' } });
-      return;
-    }
-
-    const newUser = await prisma.user.create({
-      data: {
-        firebaseUid,
-        email: email || req.user?.email || '', // Use body email or firebase email
-        name,
-        photoUrl,
-        role: 'USER' // Default role
-      }
-    });
-
-    res.status(201).json({
+    const response: ApiResponse = {
       success: true,
-      data: newUser,
-      message: 'User registered successfully'
-    });
+      data: user,
+      message: 'User synced successfully'
+    };
+    res.status(200).json(response);
   } catch (error: any) {
-    console.error('Register Error:', error);
+    console.error('Sync User Error:', error);
     res.status(500).json({
       success: false,
       error: { message: error.message || 'Internal Server Error' }
@@ -49,16 +33,8 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
 // Get User Profile
 export const getUserProfile = async (req: Request, res: Response): Promise<void> => {
   try {
-    const firebaseUid = req.user?.uid;
-
-    if (!firebaseUid) {
-       res.status(401).json({ success: false, error: { message: 'Unauthorized' } });
-       return;
-    }
-
-    const user = await prisma.user.findUnique({
-      where: { firebaseUid }
-    });
+    const uid = req.user?.uid!;
+    const user = await authService.getUserProfile(uid);
 
     if (!user) {
       res.status(404).json({ success: false, error: { message: 'User not found' } });
@@ -80,31 +56,10 @@ export const getUserProfile = async (req: Request, res: Response): Promise<void>
 // Update User Profile
 export const updateUserProfile = async (req: Request, res: Response): Promise<void> => {
   try {
-    const firebaseUid = req.user?.uid;
+    const uid = req.user?.uid!;
     const { name, photoUrl } = req.body;
 
-    if (!firebaseUid) {
-      res.status(401).json({ success: false, error: { message: 'Unauthorized' } });
-      return;
-    }
-
-    // Ensure user exists first
-    const user = await prisma.user.findUnique({
-      where: { firebaseUid }
-    });
-
-    if (!user) {
-      res.status(404).json({ success: false, error: { message: 'User not found' } });
-      return;
-    }
-
-    const updatedUser = await prisma.user.update({
-      where: { firebaseUid },
-      data: {
-        name: name || undefined,
-        photoUrl: photoUrl || undefined
-      }
-    });
+    const updatedUser = await authService.updateUserProfile(uid, { name, photoUrl });
 
     res.status(200).json({
       success: true,
