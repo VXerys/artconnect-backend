@@ -8,8 +8,9 @@ Backend REST API for ArtConnect CRM Platform - A comprehensive art collection ma
 - **Express.js** - Web framework
 - **TypeScript** - Type-safe JavaScript
 - **Prisma ORM** - Database toolkit
-- **MySQL** - Relational database
+- **PostgreSQL (Supabase)** - Relational database
 - **Firebase Admin SDK** - Authentication (JWT validation from Firebase Auth)
+- **Zod** - Schema validation
 
 ## 📁 Project Structure
 
@@ -17,15 +18,18 @@ Backend REST API for ArtConnect CRM Platform - A comprehensive art collection ma
 artconnect-backend/
 ├── src/
 │   ├── config/          # Configuration files (database, firebase)
-│   ├── controllers/     # Request handlers
-│   ├── middlewares/     # Express middlewares (auth, error handling)
+│   ├── controllers/     # Request handlers (lean, calls services)
+│   ├── middlewares/     # Express middlewares (auth, validation, error handling)
 │   ├── routes/          # API routes
-│   ├── services/        # Business logic
+│   ├── schemas/         # Zod validation schemas
+│   ├── services/        # Business logic (database interactions, complex logic)
 │   ├── types/           # TypeScript type definitions
 │   ├── utils/           # Utility functions
+│   ├── tests/           # Integration tests
 │   └── index.ts         # Application entry point
 ├── prisma/
 │   └── schema.prisma    # Database schema
+├── docs/                # Project documentation
 ├── .env                 # Environment variables (not committed)
 ├── .env.example         # Environment variables template
 ├── tsconfig.json        # TypeScript configuration
@@ -50,15 +54,16 @@ cp .env.example .env
 ```
 
 Update the following in `.env`:
-- `DATABASE_URL` - Your MySQL connection string
+- `DATABASE_URL` - Your Supabase Transaction URL (port 6543)
+- `DIRECT_URL` - Your Supabase Session URL (port 5432) for migrations
 - `FIREBASE_PROJECT_ID`, `FIREBASE_PRIVATE_KEY`, `FIREBASE_CLIENT_EMAIL` - Firebase Admin SDK credentials
-- `CORS_ORIGIN` - Your frontend URL (default: http://localhost:5173)
+- `CORS_ORIGIN` - Comma-separated list of allowed origins (e.g., `http://localhost:5173,http://localhost:3000`)
 
 **Important:** Frontend expects backend on port `3000` with `/api` prefix for all routes.
 
 ### 3. Setup Database
 
-Make sure MySQL is running, then:
+Make sure your Supabase/PostgreSQL instance is running, then:
 
 ```bash
 # Generate Prisma Client
@@ -66,6 +71,9 @@ npm run prisma:generate
 
 # Run migrations to create database tables
 npm run prisma:migrate
+
+# Seed the database with initial data (Optional)
+npm run prisma:seed
 
 # (Optional) Open Prisma Studio to view your database
 npm run prisma:studio
@@ -87,6 +95,7 @@ Server will start on `http://localhost:3000`
 - `npm run prisma:generate` - Generate Prisma Client
 - `npm run prisma:migrate` - Run database migrations
 - `npm run prisma:studio` - Open Prisma Studio (database GUI)
+- `npm test` - Run integration tests
 
 ## 🔑 Authentication
 
@@ -95,28 +104,23 @@ This backend validates JWT tokens from Firebase Auth (Google Sign-In).
 **Frontend Flow:**
 1. User signs in with Google on frontend (Firebase Auth)
 2. Frontend receives Firebase JWT token
-3. Frontend sends requests with `Authorization: Bearer <token>` header
-4. Backend validates token using Firebase Admin SDK
+3. Frontend calls `POST /api/auth/sync` with the token to sync user to database.
+4. Frontend sends requests with `Authorization: Bearer <token>` header for protected routes.
+5. Backend validates token using Firebase Admin SDK.
 
-**Protected Routes:**
-Add `authMiddleware` to routes that require authentication:
-
-```typescript
-import { authMiddleware } from './middlewares/authMiddleware';
-
-router.get('/protected', authMiddleware, controller);
-```
+**User ID Strategy:**
+The database `User.id` is the **Firebase UID**. This ensures strict 1:1 mapping between Auth and DB.
 
 ## 🗄️ Database Schema
 
 ### Core Models:
-- **User** - User accounts (synced with Firebase Auth)
+- **User** - User accounts (Primary Key = Firebase UID)
 - **Artwork** - Art pieces in collection
 - **Contact** - Collectors, galleries, museums, dealers
 - **SalesDeal** - Sales pipeline management
 - **Activity** - Activity timeline/logging
 
-See `prisma/schema.prisma` for detailed schema.
+See `prisma/schema.prisma` or `docs/DATABASE_SCHEMA.md` for detailed schema.
 
 ## 🌐 API Endpoints
 
@@ -125,8 +129,13 @@ See `prisma/schema.prisma` for detailed schema.
 GET /api/health - Check API status
 ```
 
-### Future Endpoints (to be implemented):
+### Core Endpoints:
 ```
+# Auth
+POST   /api/auth/sync      - Sync Firebase user to DB
+GET    /api/auth/profile   - Get user profile
+PUT    /api/auth/profile   - Update user profile
+
 # Artworks
 GET    /api/artworks
 POST   /api/artworks
@@ -145,13 +154,12 @@ DELETE /api/contacts/:id
 GET    /api/sales
 POST   /api/sales
 GET    /api/sales/:id
-PUT    /api/sales/:id
+PUT    /api/sales/:id/stage
 DELETE /api/sales/:id
 
 # Analytics
 GET    /api/analytics/dashboard
-GET    /api/analytics/sales
-GET    /api/analytics/artworks
+GET    /api/analytics/sales-performance
 ```
 
 ## 🔗 Related Projects
