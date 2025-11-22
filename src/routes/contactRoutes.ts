@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { authenticate } from '../middlewares/auth';
 import {
   getContacts,
+  getContactById,
   createContact,
   updateContact,
   deleteContact
@@ -14,6 +15,7 @@ const router = Router();
 router.use(authenticate);
 
 router.get('/', getContacts);
+router.get('/:id', getContactById);
 router.post('/', validate(createContactSchema), createContact);
 router.put('/:id', validate(updateContactSchema), updateContact);
 router.delete('/:id', deleteContact);

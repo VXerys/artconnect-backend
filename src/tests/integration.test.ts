@@ -3,9 +3,17 @@ import app from '../app';
 import prisma from '../utils/prisma';
 
 // Mock headers for development mode
+// Corresponds to the mock logic in src/middlewares/auth.ts
 const mockHeaders = {
   'Authorization': 'Bearer mock-token',
   'x-mock-user': 'true'
+};
+
+const mockUser = {
+  uid: 'mock-user-uid',
+  email: 'mock@example.com',
+  name: 'Mock User',
+  photoUrl: 'https://example.com/photo.jpg'
 };
 
 describe('Integration Tests', () => {
@@ -17,6 +25,20 @@ describe('Integration Tests', () => {
     await prisma.contact.deleteMany();
     await prisma.artwork.deleteMany();
     await prisma.user.deleteMany();
+
+    // Ensure Mock User exists for tests (since we switched to User ID = Firebase UID)
+    // The auth middleware in mock mode says req.user.uid = 'mock-user-uid'.
+    // We need to sync this user first or ensure it exists.
+    // The `syncUser` endpoint or direct DB creation can do this.
+    await prisma.user.create({
+      data: {
+        id: mockUser.uid,
+        email: mockUser.email,
+        name: mockUser.name,
+        photoUrl: mockUser.photoUrl,
+        role: 'USER'
+      }
+    });
   });
 
   afterAll(async () => {
@@ -24,19 +46,14 @@ describe('Integration Tests', () => {
   });
 
   describe('Auth Module', () => {
-    it('should register a new user', async () => {
+    it('should sync/login user', async () => {
       const res = await request(app)
-        .post('/api/auth/register')
-        .set(mockHeaders)
-        .send({
-          email: 'test@example.com',
-          name: 'Test Artist',
-          photoUrl: 'https://example.com/photo.jpg'
-        });
+        .post('/api/auth/sync')
+        .set(mockHeaders); // Middleware sets req.user to mockUser
 
-      expect(res.status).toBe(201);
+      expect(res.status).toBe(200);
       expect(res.body.success).toBe(true);
-      expect(res.body.data.email).toBe('test@example.com');
+      expect(res.body.data.email).toBe(mockUser.email);
     });
 
     it('should get user profile', async () => {
@@ -45,7 +62,7 @@ describe('Integration Tests', () => {
         .set(mockHeaders);
 
       expect(res.status).toBe(200);
-      expect(res.body.data.name).toBe('Test Artist');
+      expect(res.body.data.name).toBe(mockUser.name);
     });
   });
 
@@ -64,6 +81,9 @@ describe('Integration Tests', () => {
           tags: ['test']
         });
 
+      if (res.status !== 201) {
+          console.error('Create Artwork Error:', res.body);
+      }
       expect(res.status).toBe(201);
       artworkId = res.body.data.id;
     });
@@ -74,7 +94,7 @@ describe('Integration Tests', () => {
         .set(mockHeaders);
 
       expect(res.status).toBe(200);
-      expect(res.body.data.length).toBeGreaterThan(0);
+      expect(res.body.data.data.length).toBeGreaterThan(0); // Note: paginated response structure
     });
 
     it('should update an artwork', async () => {
@@ -101,6 +121,7 @@ describe('Integration Tests', () => {
           email: 'collector@test.com'
         });
 
+      if (res.status !== 201) console.error(res.body);
       expect(res.status).toBe(201);
       contactId = res.body.data.id;
     });
@@ -111,7 +132,7 @@ describe('Integration Tests', () => {
         .set(mockHeaders);
 
       expect(res.status).toBe(200);
-      expect(res.body.data.length).toBeGreaterThan(0);
+      expect(res.body.data.data.length).toBeGreaterThan(0);
     });
   });
 
@@ -121,7 +142,7 @@ describe('Integration Tests', () => {
 
     beforeAll(async () => {
       // Get a contact ID
-      const c = await prisma.contact.findFirst();
+      const c = await prisma.contact.findFirst({ where: { userId: mockUser.uid } });
       contactId = c?.id || '';
     });
 
@@ -136,6 +157,7 @@ describe('Integration Tests', () => {
           stage: 'LEAD'
         });
 
+      if (res.status !== 201) console.error(res.body);
       expect(res.status).toBe(201);
       dealId = res.body.data.id;
     });

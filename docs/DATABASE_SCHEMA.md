@@ -1,9 +1,9 @@
 # Database Schema - ArtConnect Backend
 
-**Document Version:** 1.0  
-**Last Updated:** October 24, 2025  
-**Database:** MySQL  
-**ORM:** Prisma v6.18.0
+**Document Version:** 1.1
+**Last Updated:** November 2025
+**Database:** PostgreSQL (Supabase)
+**ORM:** Prisma
 
 ---
 
@@ -22,7 +22,7 @@
 ## 🌐 Overview
 
 Database schema untuk ArtConnect CRM dirancang untuk mengelola:
-- **User Management** - Manajemen akun seniman
+- **User Management** - Manajemen akun seniman (Synced with Firebase Auth)
 - **Artwork Inventory** - Katalog karya seni
 - **Contact Management** - Database kontak profesional
 - **Sales Pipeline** - Tracking penjualan
@@ -32,9 +32,9 @@ Database schema untuk ArtConnect CRM dirancang untuk mengelola:
 
 | Component | Technology |
 |-----------|-----------|
-| Database | MySQL 8.0+ |
-| ORM | Prisma 6.18.0 |
-| Connection | Prisma Client |
+| Database | PostgreSQL (Supabase) |
+| ORM | Prisma |
+| Connection | Transaction Pool & Session Mode |
 | Migration Tool | Prisma Migrate |
 | Schema Management | prisma/schema.prisma |
 
@@ -70,39 +70,18 @@ Database schema untuk ArtConnect CRM dirancang untuk mengelola:
                                                 └──────────┘
 ```
 
-### Key Relations
-
-1. **User → Artwork** (One-to-Many)
-   - Satu user bisa punya banyak artwork
-   
-2. **User → Contact** (One-to-Many)
-   - Satu user bisa punya banyak contact
-   
-3. **User → Activity** (One-to-Many)
-   - User punya banyak activity log
-   
-4. **Artwork → SalesDeal** (One-to-Many)
-   - Satu artwork bisa punya banyak sales deal
-   
-5. **Contact → SalesDeal** (One-to-Many)
-   - Satu contact bisa terlibat di banyak deal
-   
-6. **SalesDeal → Activity** (One-to-Many)
-   - Setiap deal punya activity timeline
-
 ---
 
 ## 📦 Models
 
 ### 1. User Model
 
-**Purpose:** Menyimpan data user yang terintegrasi dengan Firebase Authentication
+**Purpose:** Menyimpan data user yang terintegrasi dengan Firebase Authentication. **ID User di DB == Firebase UID.**
 
 **Schema:**
 ```prisma
 model User {
-  id          String   @id @default(uuid())
-  firebaseUid String   @unique
+  id          String   @id // Matches Firebase UID
   email       String   @unique
   name        String
   photoUrl    String?
@@ -113,9 +92,9 @@ model User {
   artworks   Artwork[]
   contacts   Contact[]
   activities Activity[]
+  salesDeals SalesDeal[]
 
   @@index([email])
-  @@index([firebaseUid])
   @@map("users")
 }
 ```
@@ -124,23 +103,11 @@ model User {
 
 | Field | Type | Description | Constraints |
 |-------|------|-------------|-------------|
-| id | String | Primary key UUID | AUTO |
-| firebaseUid | String | Firebase Auth UID | UNIQUE, NOT NULL |
+| id | String | Firebase UID | PK, NOT NULL |
 | email | String | User email | UNIQUE, NOT NULL |
 | name | String | Display name | NOT NULL |
 | photoUrl | String? | Profile picture URL | NULLABLE |
 | role | UserRole | User role (USER/ADMIN) | DEFAULT: USER |
-| createdAt | DateTime | Record creation time | AUTO |
-| updatedAt | DateTime | Last update time | AUTO |
-
-**Relations:**
-- Has many `Artwork`
-- Has many `Contact`
-- Has many `Activity`
-
-**Indexes:**
-- `email` - For fast lookup by email
-- `firebaseUid` - For Firebase token validation
 
 ---
 
@@ -153,7 +120,7 @@ model User {
 model Artwork {
   id          String        @id @default(uuid())
   title       String
-  description String?       @db.Text
+  description String?
   artist      String
   year        Int?
   medium      String?
@@ -163,7 +130,7 @@ model Artwork {
   imageUrl    String?
   status      ArtworkStatus @default(AVAILABLE)
   category    String?
-  tags        String[]
+  tags        Json?         // Stored as JSON array
   userId      String
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
@@ -179,45 +146,11 @@ model Artwork {
 }
 ```
 
-**Fields Explanation:**
-
-| Field | Type | Description | Constraints |
-|-------|------|-------------|-------------|
-| id | String | Primary key UUID | AUTO |
-| title | String | Judul karya | NOT NULL |
-| description | String? | Deskripsi lengkap | TEXT, NULLABLE |
-| artist | String | Nama artis | NOT NULL |
-| year | Int? | Tahun pembuatan | NULLABLE |
-| medium | String? | Medium karya (e.g., Oil on Canvas) | NULLABLE |
-| dimensions | String? | Ukuran (e.g., 60x80 cm) | NULLABLE |
-| price | Float | Harga karya | NOT NULL |
-| currency | String | Mata uang | DEFAULT: IDR |
-| imageUrl | String? | URL gambar karya | NULLABLE |
-| status | ArtworkStatus | Status availability | DEFAULT: AVAILABLE |
-| category | String? | Kategori (e.g., Landscape) | NULLABLE |
-| tags | String[] | Array tags untuk search | ARRAY |
-| userId | String | Owner user ID | FOREIGN KEY |
-
-**Relations:**
-- Belongs to `User`
-- Has many `SalesDeal`
-- Has many `Activity`
-
-**Indexes:**
-- `userId` - For filtering by user
-- `status` - For filtering by availability
-- `category` - For filtering by category
-
-**Business Rules:**
-- Artwork harus punya title, artist, dan price
-- Status default adalah AVAILABLE saat dibuat
-- Ketika user dihapus, artwork juga dihapus (CASCADE)
-
 ---
 
 ### 3. Contact Model
 
-**Purpose:** Database kontak profesional (kolektor, galeri, museum, dealer)
+**Purpose:** Database kontak profesional
 
 **Schema:**
 ```prisma
@@ -229,8 +162,8 @@ model Contact {
   company   String?
   type      ContactType
   status    ContactStatus @default(ACTIVE)
-  notes     String?       @db.Text
-  tags      String[]
+  notes     String?
+  tags      Json?
   userId    String
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
@@ -246,36 +179,6 @@ model Contact {
 }
 ```
 
-**Fields Explanation:**
-
-| Field | Type | Description | Constraints |
-|-------|------|-------------|-------------|
-| id | String | Primary key UUID | AUTO |
-| name | String | Nama kontak | NOT NULL |
-| email | String? | Email kontak | NULLABLE |
-| phone | String? | Nomor telepon | NULLABLE |
-| company | String? | Nama perusahaan/institusi | NULLABLE |
-| type | ContactType | Tipe kontak | ENUM, NOT NULL |
-| status | ContactStatus | Status kontak | DEFAULT: ACTIVE |
-| notes | String? | Catatan tambahan | TEXT, NULLABLE |
-| tags | String[] | Tags untuk kategorisasi | ARRAY |
-| userId | String | Owner user ID | FOREIGN KEY |
-
-**Relations:**
-- Belongs to `User`
-- Has many `SalesDeal`
-- Has many `Activity`
-
-**Indexes:**
-- `userId` - For filtering by user
-- `type` - For filtering by contact type
-- `status` - For filtering by status
-
-**Business Rules:**
-- Contact harus punya name dan type
-- Status default ACTIVE
-- Type menentukan jenis relasi profesional
-
 ---
 
 ### 4. SalesDeal Model
@@ -287,7 +190,7 @@ model Contact {
 model SalesDeal {
   id                String     @id @default(uuid())
   title             String
-  description       String?    @db.Text
+  description       String?
   amount            Float
   currency          String     @default("IDR")
   stage             DealStage  @default(LEAD)
@@ -313,41 +216,6 @@ model SalesDeal {
 }
 ```
 
-**Fields Explanation:**
-
-| Field | Type | Description | Constraints |
-|-------|------|-------------|-------------|
-| id | String | Primary key UUID | AUTO |
-| title | String | Judul deal | NOT NULL |
-| description | String? | Deskripsi deal | TEXT, NULLABLE |
-| amount | Float | Nilai deal | NOT NULL |
-| currency | String | Mata uang | DEFAULT: IDR |
-| stage | DealStage | Tahap pipeline | DEFAULT: LEAD |
-| probability | Int | % probabilitas closing | DEFAULT: 20 |
-| expectedCloseDate | DateTime? | Target closing date | NULLABLE |
-| closedDate | DateTime? | Actual closing date | NULLABLE |
-| userId | String | Owner user ID | FOREIGN KEY |
-| contactId | String | Related contact | FOREIGN KEY |
-| artworkId | String? | Related artwork | FOREIGN KEY, NULLABLE |
-
-**Relations:**
-- Belongs to `User`
-- Belongs to `Contact` (buyer/collector)
-- Optionally belongs to `Artwork`
-- Has many `Activity`
-
-**Indexes:**
-- `userId` - For filtering by user
-- `contactId` - For filtering by contact
-- `artworkId` - For filtering by artwork
-- `stage` - For pipeline view
-
-**Business Rules:**
-- Deal harus punya title, amount, dan contact
-- Artwork optional (bisa general negotiation)
-- Probability berubah sesuai stage movement
-- closedDate diisi saat stage CLOSED_WON/CLOSED_LOST
-
 ---
 
 ### 5. Activity Model
@@ -360,7 +228,7 @@ model Activity {
   id          String       @id @default(uuid())
   type        ActivityType
   title       String
-  description String?      @db.Text
+  description String?
   userId      String
   contactId   String?
   artworkId   String?
@@ -379,36 +247,6 @@ model Activity {
 }
 ```
 
-**Fields Explanation:**
-
-| Field | Type | Description | Constraints |
-|-------|------|-------------|-------------|
-| id | String | Primary key UUID | AUTO |
-| type | ActivityType | Jenis aktivitas | ENUM, NOT NULL |
-| title | String | Judul activity | NOT NULL |
-| description | String? | Detail activity | TEXT, NULLABLE |
-| userId | String | User yang melakukan | FOREIGN KEY |
-| contactId | String? | Related contact | FOREIGN KEY, NULLABLE |
-| artworkId | String? | Related artwork | FOREIGN KEY, NULLABLE |
-| dealId | String? | Related deal | FOREIGN KEY, NULLABLE |
-| createdAt | DateTime | Waktu activity | AUTO |
-
-**Relations:**
-- Belongs to `User`
-- Optionally belongs to `Contact`
-- Optionally belongs to `Artwork`
-- Optionally belongs to `SalesDeal`
-
-**Indexes:**
-- `userId` - For user's activity feed
-- `type` - For filtering by activity type
-- `createdAt` - For chronological sorting
-
-**Business Rules:**
-- Activity selalu punya type dan title
-- Bisa relate ke contact/artwork/deal secara optional
-- Tidak ada updatedAt (immutable log)
-
 ---
 
 ## 🔗 Relations
@@ -421,395 +259,38 @@ model Activity {
 | User | Contact | One-to-Many | YES |
 | User | SalesDeal | One-to-Many | YES |
 | User | Activity | One-to-Many | YES |
-| Artwork | SalesDeal | One-to-Many | NO |
-| Contact | SalesDeal | One-to-Many | NO |
-| SalesDeal | Activity | One-to-Many | NO |
-
-### Cascade Delete Rules
-
-**When User is deleted:**
-- ✅ All Artworks deleted
-- ✅ All Contacts deleted
-- ✅ All SalesDeals deleted
-- ✅ All Activities deleted
-
-**When Artwork is deleted:**
-- ❌ SalesDeals NOT deleted (artworkId becomes NULL)
-
-**When Contact is deleted:**
-- ❌ SalesDeals NOT deleted (prevents data loss)
-
-**When SalesDeal is deleted:**
-- ❌ Activities NOT deleted (keeps history)
 
 ---
 
 ## 📐 Enums
 
-### UserRole
-
-```prisma
-enum UserRole {
-  USER
-  ADMIN
-}
-```
-
-| Value | Description |
-|-------|-------------|
-| USER | Regular artist user |
-| ADMIN | Admin with full access |
-
----
-
-### ArtworkStatus
-
-```prisma
-enum ArtworkStatus {
-  AVAILABLE
-  RESERVED
-  SOLD
-  ON_LOAN
-}
-```
-
-| Value | Description |
-|-------|-------------|
-| AVAILABLE | Ready for sale |
-| RESERVED | Reserved for buyer |
-| SOLD | Already sold |
-| ON_LOAN | Dipinjamkan ke galeri/museum |
-
----
-
-### ContactType
-
-```prisma
-enum ContactType {
-  COLLECTOR
-  GALLERY
-  MUSEUM
-  DEALER
-  OTHER
-}
-```
-
-| Value | Description |
-|-------|-------------|
-| COLLECTOR | Private art collector |
-| GALLERY | Art gallery |
-| MUSEUM | Museum institution |
-| DEALER | Art dealer |
-| OTHER | Other professional contact |
-
----
-
-### ContactStatus
-
-```prisma
-enum ContactStatus {
-  ACTIVE
-  INACTIVE
-  LEAD
-}
-```
-
-| Value | Description |
-|-------|-------------|
-| ACTIVE | Active relationship |
-| INACTIVE | No longer active |
-| LEAD | Potential contact |
-
----
-
-### DealStage
-
-```prisma
-enum DealStage {
-  LEAD
-  QUALIFIED
-  PROPOSAL
-  NEGOTIATION
-  CLOSED_WON
-  CLOSED_LOST
-}
-```
-
-| Value | Probability | Description |
-|-------|-------------|-------------|
-| LEAD | 20% | Initial interest |
-| QUALIFIED | 40% | Serious buyer |
-| PROPOSAL | 60% | Proposal sent |
-| NEGOTIATION | 80% | Price negotiation |
-| CLOSED_WON | 100% | Deal won |
-| CLOSED_LOST | 0% | Deal lost |
-
----
-
-### ActivityType
-
-```prisma
-enum ActivityType {
-  ARTWORK_CREATED
-  ARTWORK_UPDATED
-  ARTWORK_SOLD
-  CONTACT_CREATED
-  CONTACT_UPDATED
-  MEETING_SCHEDULED
-  MEETING_COMPLETED
-  DEAL_CREATED
-  DEAL_STAGE_CHANGED
-  DEAL_WON
-  DEAL_LOST
-  NOTE_ADDED
-  EMAIL_SENT
-}
-```
-
-**Categories:**
-
-**Artwork Activities:**
-- ARTWORK_CREATED
-- ARTWORK_UPDATED
-- ARTWORK_SOLD
-
-**Contact Activities:**
-- CONTACT_CREATED
-- CONTACT_UPDATED
-- MEETING_SCHEDULED
-- MEETING_COMPLETED
-
-**Deal Activities:**
-- DEAL_CREATED
-- DEAL_STAGE_CHANGED
-- DEAL_WON
-- DEAL_LOST
-
-**Communication:**
-- NOTE_ADDED
-- EMAIL_SENT
-
----
-
-## 🔍 Indexes
-
-### Index Strategy
-
-Indexes digunakan untuk optimize query performance pada fields yang sering di-filter atau di-sort.
-
-### User Indexes
-
-```prisma
-@@index([email])
-@@index([firebaseUid])
-```
-
-**Reason:**
-- `email` - Login lookup
-- `firebaseUid` - Token validation
-
-### Artwork Indexes
-
-```prisma
-@@index([userId])
-@@index([status])
-@@index([category])
-```
-
-**Reason:**
-- `userId` - Get user's artworks
-- `status` - Filter by availability
-- `category` - Filter by category
-
-### Contact Indexes
-
-```prisma
-@@index([userId])
-@@index([type])
-@@index([status])
-```
-
-**Reason:**
-- `userId` - Get user's contacts
-- `type` - Filter by contact type
-- `status` - Filter by status
-
-### SalesDeal Indexes
-
-```prisma
-@@index([userId])
-@@index([contactId])
-@@index([artworkId])
-@@index([stage])
-```
-
-**Reason:**
-- `userId` - Get user's deals
-- `contactId` - Get deals for contact
-- `artworkId` - Get deals for artwork
-- `stage` - Pipeline view
-
-### Activity Indexes
-
-```prisma
-@@index([userId])
-@@index([type])
-@@index([createdAt])
-```
-
-**Reason:**
-- `userId` - User activity feed
-- `type` - Filter by activity type
-- `createdAt` - Chronological sorting
+(Sama seperti sebelumnya: `UserRole`, `ArtworkStatus`, `ContactType`, `ContactStatus`, `DealStage`, `ActivityType` didukung penuh oleh Prisma + PostgreSQL).
 
 ---
 
 ## 🚀 Migration Strategy
 
-### Development Workflow
+### Using Supabase (PostgreSQL)
 
-```bash
-# 1. Update schema.prisma
-# Edit prisma/schema.prisma
+Karena kita menggunakan Supabase dengan Connection Pooling (`pgbouncer`), migrasi harus dijalankan menggunakan **Direct Connection**.
 
-# 2. Create migration
-npx prisma migrate dev --name add_new_feature
-
-# 3. Prisma will:
-#    - Create migration SQL
-#    - Apply to database
-#    - Generate Prisma Client
-```
-
-### Migration Commands
-
-```bash
-# Create migration
-npx prisma migrate dev --name migration_name
-
-# Apply migrations in production
-npx prisma migrate deploy
-
-# Check migration status
-npx prisma migrate status
-
-# Reset database (DEV ONLY!)
-npx prisma migrate reset
-
-# Generate Prisma Client only
-npx prisma generate
-```
-
-### Migration Best Practices
-
-1. **Descriptive Names**
-   ```bash
-   ✅ npx prisma migrate dev --name add_artwork_category
-   ❌ npx prisma migrate dev --name update
-   ```
-
-2. **Small Migrations**
-   - Satu migration = satu logical change
-   - Easier to rollback
-   - Easier to review
-
-3. **Test Migrations**
-   - Test di development first
-   - Review generated SQL
-   - Check data integrity
-
-4. **Production Safety**
-   - Always backup database
-   - Use `migrate deploy` in production
-   - Never use `migrate reset` in production
-
-### Rollback Strategy
-
-Prisma doesn't support automatic rollback. Manual steps:
-
-```sql
--- 1. Backup database
-mysqldump -u user -p database > backup.sql
-
--- 2. Revert schema changes
--- Edit schema.prisma to previous state
-
--- 3. Create new migration
-npx prisma migrate dev --name revert_previous_change
-```
-
----
-
-## 📊 Database Size Estimates
-
-### Expected Growth
-
-| Table | Records/User | Size per Record | Total/User |
-|-------|--------------|-----------------|------------|
-| User | 1 | ~500 bytes | 500 B |
-| Artwork | 50 | ~2 KB | 100 KB |
-| Contact | 30 | ~1 KB | 30 KB |
-| SalesDeal | 20 | ~800 bytes | 16 KB |
-| Activity | 200 | ~600 bytes | 120 KB |
-| **TOTAL** | | | **~266 KB/user** |
-
-**For 1000 users:** ~266 MB  
-**For 10,000 users:** ~2.66 GB
-
-### Storage Considerations
-
-- **Images:** Stored in Cloud Storage (not in database)
-- **Text Fields:** Description fields use TEXT type
-- **Arrays:** Tags stored as JSON array
-
----
-
-## 🔧 Database Optimization Tips
-
-### Query Optimization
-
-```typescript
-// ✅ GOOD - Use indexes
-const artworks = await prisma.artwork.findMany({
-  where: { userId: userId, status: 'AVAILABLE' }
-});
-
-// ✅ GOOD - Select specific fields
-const artworks = await prisma.artwork.findMany({
-  select: { id: true, title: true, price: true }
-});
-
-// ❌ BAD - N+1 query problem
-const users = await prisma.user.findMany();
-for (const user of users) {
-  const artworks = await prisma.artwork.findMany({
-    where: { userId: user.id }
-  });
+**Configuration:**
+```prisma
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL") // Pool connection (port 6543)
+  directUrl = env("DIRECT_URL")   // Direct connection (port 5432)
 }
-
-// ✅ GOOD - Use include/relation loading
-const users = await prisma.user.findMany({
-  include: { artworks: true }
-});
 ```
 
-### Connection Pooling
-
-```env
-# .env
-DATABASE_URL="mysql://user:password@localhost:3306/artconnect?connection_limit=10"
+**Commands:**
+```bash
+# Update schema dan apply ke DB (gunakan directUrl otomatis)
+npx prisma migrate dev --name change_name
 ```
-
----
-
-## 📚 Related Documentation
-
-- [API Documentation](./API_DOCUMENTATION.md) - REST API endpoints
-- [Project Structure](./PROJECT_STRUCTURE.md) - Code organization
-- [Testing Strategy](./TESTING_STRATEGY.md) - Testing approach
 
 ---
 
 **Maintained by:** ArtConnect Development Team  
-**Last Updated:** October 24, 2025  
-**Schema Version:** 1.0
+**Last Updated:** November 2025
+**Schema Version:** 2.0 (PostgreSQL Migration)

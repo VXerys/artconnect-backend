@@ -2,8 +2,7 @@ import { Router } from 'express';
 import { authenticate } from '../middlewares/auth';
 import {
   getDashboardMetrics,
-  getRevenueAnalytics,
-  getPipelineMetrics
+  getSalesPerformance
 } from '../controllers/analyticsController';
 
 const router = Router();
@@ -11,7 +10,6 @@ const router = Router();
 router.use(authenticate);
 
 router.get('/dashboard', getDashboardMetrics);
-router.get('/revenue', getRevenueAnalytics);
-router.get('/pipeline', getPipelineMetrics);
+router.get('/sales-performance', getSalesPerformance);
 
 export default router;

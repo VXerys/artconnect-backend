@@ -1,29 +1,26 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 // --- Models ---
 
 model User {
-  id          String   @id @default(uuid())
-  firebaseUid String   @unique
-  email       String   @unique
-  name        String
-  photoUrl    String?
-  role        UserRole @default(USER)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id // Firebase UID
+  email     String   @unique
+  name      String
+  photoUrl  String?
+  role      UserRole @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   artworks   Artwork[]
   contacts   Contact[]
@@ -31,14 +28,13 @@ model User {
   salesDeals SalesDeal[]
 
   @@index([email])
-  @@index([firebaseUid])
   @@map("users")
 }
 
 model Artwork {
   id          String        @id @default(uuid())
   title       String
-  description String? // @db.Text - Not supported in SQLite, but standard String is fine for dev
+  description String?
   artist      String
   year        Int?
   medium      String?
@@ -48,25 +44,7 @@ model Artwork {
   imageUrl    String?
   status      ArtworkStatus @default(AVAILABLE)
   category    String?
-  // tags        String[] - Lists of scalars are not supported in SQLite. I will comment this out for now or make it a string separated by commas.
-  // For SQLite compatibility in dev, we might need a workaround if we heavily rely on this.
-  // However, to keep the code consistent with the final MySQL goal, I will simulate it or assume I am using a Postgres/MySQL container if possible?
-  // Wait, Prisma SQLite doesn't support scalar arrays. I will change it to a String and parse it manually in application code if I must use SQLite.
-  // OR better: Use a separate table for Tags to be relational, but that changes the schema.
-  // Let's stick to the requested schema.
-  // Since I CANNOT use Scalar Lists in SQLite, I will use a simple String for now and note this limit.
-  // ACTUALLY: The user wants MySQL. Scalar lists (arrays) are NOT supported in MySQL either by Prisma natively as `String[]` (only Postgres).
-  // In MySQL, one usually uses a separate table or a JSON field.
-  // BUT Prisma supports JSON type. Let's check if the user documentation implies Postgres features?
-  // "tags String[]" is valid in Postgres. In MySQL/Prisma, it usually requires `json` type or a relation.
-  // However, the docs say "tags String[]". If the user intends to use MySQL, `String[]` is not valid in Prisma for MySQL provider unless mapped to JSON.
-  // Let's look at `docs/DATABASE_SCHEMA.md`. It says "Database: MySQL".
-  // And it says `tags String[]`.
-  // Prisma only supports scalar lists on PostgreSQL, CockroachDB and MongoDB.
-  // For MySQL, we must use `Json` type or a separate relation.
-  // I will assume `tags` should be `Json` for MySQL compatibility, or a comma-separated string.
-  // Given the "Storage Considerations" in docs say "Arrays: Tags stored as JSON array", I will use `Json`.
-  tags Json?
+  tags        Json?
 
   userId    String
   createdAt DateTime @default(now())
@@ -90,7 +68,7 @@ model Contact {
   company   String?
   type      ContactType
   status    ContactStatus @default(ACTIVE)
-  notes     String? // @db.Text
+  notes     String?
   tags      Json?
   userId    String
   createdAt DateTime      @default(now())
@@ -109,7 +87,7 @@ model Contact {
 model SalesDeal {
   id                String     @id @default(uuid())
   title             String
-  description       String? // @db.Text
+  description       String?
   amount            Float
   currency          String     @default("IDR")
   stage             DealStage  @default(LEAD)
@@ -138,7 +116,7 @@ model Activity {
   id          String       @id @default(uuid())
   type        ActivityType
   title       String
-  description String? // @db.Text
+  description String?
   userId      String
   contactId   String?
   artworkId   String?
