@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import prisma from '../utils/prisma';
-import { Prisma } from '@prisma/client';
+import * as artworkService from '../services/artworkService';
+import { ApiResponse, PaginatedResponse } from '../types';
+import { Artwork } from '@prisma/client';
 
 // Helper for Pagination
 const getPagination = (page: number, limit: number, total: number) => {
@@ -12,67 +13,34 @@ const getPagination = (page: number, limit: number, total: number) => {
   };
 };
 
-// Get All Artworks
 export const getArtworks = async (req: Request, res: Response): Promise<void> => {
   try {
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 20;
-    const skip = (page - 1) * limit;
-
     const { status, category, sortBy, sortOrder, userId } = req.query;
 
-    const whereClause: Prisma.ArtworkWhereInput = {};
+    // Strict filtering: Only show authenticated user's artworks unless admin (omitted here as per prev context)
+    const authenticatedUserId = req.user?.uid;
 
-    if (status) {
-      whereClause.status = status as any;
-    }
-
-    if (category) {
-      whereClause.category = category as string;
-    }
-
-    // If user is authenticated, they might only want to see their own artworks?
-    // The doc says "Get list of user's artworks". Assuming this means "ALL artworks accessible" or "User's own".
-    // Usually, artists see their own. If public, maybe filtered.
-    // Let's assume if userId param is provided or derived from auth, we filter.
-    // The doc implies `GET /api/artworks` gets list of user's artworks.
-    // So we should strictly filter by `req.user.uid` -> `user.id`.
-
-    const firebaseUid = req.user?.uid;
-    let user;
-    if (firebaseUid) {
-       user = await prisma.user.findUnique({ where: { firebaseUid } });
-    }
-
-    // If explicitly requested by query param (admin case?)
-    // For now, we restrict this to avoid IDOR.
-    // If we had an Admin Role check, we would uncomment:
-    // if (req.user?.role === 'ADMIN' && userId) {
-    //   whereClause.userId = userId as string;
-    // }
-
-    // Ensure we stick to authenticated user's data if not admin
-    if (user && user.role !== 'ADMIN') {
-       whereClause.userId = user.id;
-    } else if (user && user.role === 'ADMIN' && userId) {
-       whereClause.userId = userId as string;
-    }
-
-    const total = await prisma.artwork.count({ where: whereClause });
-    const artworks = await prisma.artwork.findMany({
-      where: whereClause,
-      skip,
-      take: limit,
-      orderBy: {
-        [((sortBy as string) || 'createdAt')]: (sortOrder as string) || 'desc'
-      }
+    const result = await artworkService.getArtworks({
+      page,
+      limit,
+      status: status as string,
+      category: category as string,
+      sortBy: sortBy as string,
+      sortOrder: sortOrder as 'asc' | 'desc',
+      userId: authenticatedUserId // Enforce filtering by own ID
     });
 
-    res.status(200).json({
+    const response: ApiResponse<PaginatedResponse<Artwork>> = {
       success: true,
-      data: artworks,
-      pagination: getPagination(page, limit, total)
-    });
+      data: {
+        data: result.artworks,
+        pagination: getPagination(page, limit, result.total)
+      }
+    };
+
+    res.status(200).json(response);
   } catch (error: any) {
     res.status(500).json({
       success: false,
@@ -81,26 +49,15 @@ export const getArtworks = async (req: Request, res: Response): Promise<void> =>
   }
 };
 
-// Get Artwork by ID
 export const getArtworkById = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const artwork = await prisma.artwork.findUnique({
-      where: { id },
-      include: {
-        salesDeals: true,
-        activities: true // As per docs example response
-      }
-    });
+    const artwork = await artworkService.getArtworkById(id);
 
     if (!artwork) {
       res.status(404).json({ success: false, error: { message: 'Artwork not found' } });
       return;
     }
-
-    // Check ownership? Docs say "Authentication Required".
-    // Usually one should only see their own details or public details.
-    // I'll allow access if authenticated for now.
 
     res.status(200).json({
       success: true,
@@ -114,57 +71,14 @@ export const getArtworkById = async (req: Request, res: Response): Promise<void>
   }
 };
 
-// Create Artwork
 export const createArtwork = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { title, artist, price, description, year, medium, dimensions, currency, category, tags } = req.body;
-    const firebaseUid = req.user?.uid;
+    // Note: Validation is now handled by middleware upstream
+    const userId = req.user?.uid!;
 
-    if (!firebaseUid) {
-      res.status(401).json({ success: false, error: { message: 'Unauthorized' } });
-      return;
-    }
-
-    const user = await prisma.user.findUnique({ where: { firebaseUid } });
-    if (!user) {
-      res.status(404).json({ success: false, error: { message: 'User not found' } });
-      return;
-    }
-
-    // Basic Validation
-    if (!title || !artist || !price) {
-      res.status(400).json({
-        success: false,
-        error: { message: 'Validation failed: title, artist, and price are required' }
-      });
-      return;
-    }
-
-    const newArtwork = await prisma.artwork.create({
-      data: {
-        title,
-        artist,
-        price: parseFloat(price),
-        description,
-        year: year ? parseInt(year) : undefined,
-        medium,
-        dimensions,
-        currency: currency || 'IDR',
-        category,
-        tags: tags, // Passed as JSON or string depending on prisma provider
-        userId: user.id,
-        status: 'AVAILABLE'
-      }
-    });
-
-    // Log Activity
-    await prisma.activity.create({
-      data: {
-        type: 'ARTWORK_CREATED',
-        title: `Created artwork: ${title}`,
-        userId: user.id,
-        artworkId: newArtwork.id
-      }
+    const newArtwork = await artworkService.createArtwork({
+      ...req.body,
+      userId
     });
 
     res.status(201).json({
@@ -180,53 +94,12 @@ export const createArtwork = async (req: Request, res: Response): Promise<void> 
   }
 };
 
-// Update Artwork
 export const updateArtwork = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const data = req.body;
-    const firebaseUid = req.user?.uid;
+    const userId = req.user?.uid!;
 
-    if (!firebaseUid) {
-      res.status(401).json({ success: false, error: { message: 'Unauthorized' } });
-      return;
-    }
-
-    const user = await prisma.user.findUnique({ where: { firebaseUid } });
-    if (!user) {
-       res.status(404).json({ success: false, error: { message: 'User not found' } });
-       return;
-    }
-
-    const existingArtwork = await prisma.artwork.findUnique({ where: { id } });
-    if (!existingArtwork) {
-      res.status(404).json({ success: false, error: { message: 'Artwork not found' } });
-      return;
-    }
-
-    if (existingArtwork.userId !== user.id) {
-      res.status(403).json({ success: false, error: { message: 'You do not have permission to edit this artwork' } });
-      return;
-    }
-
-    const updatedArtwork = await prisma.artwork.update({
-      where: { id },
-      data: {
-        ...data,
-        price: data.price ? parseFloat(data.price) : undefined,
-        year: data.year ? parseInt(data.year) : undefined,
-      }
-    });
-
-    // Log Activity
-    await prisma.activity.create({
-      data: {
-        type: 'ARTWORK_UPDATED',
-        title: `Updated artwork: ${updatedArtwork.title}`,
-        userId: user.id,
-        artworkId: updatedArtwork.id
-      }
-    });
+    const updatedArtwork = await artworkService.updateArtwork(id, userId, req.body);
 
     res.status(200).json({
       success: true,
@@ -234,82 +107,54 @@ export const updateArtwork = async (req: Request, res: Response): Promise<void> 
       message: 'Artwork updated successfully'
     });
   } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      error: { message: error.message || 'Internal Server Error' }
-    });
+    if (error.message === 'Artwork not found') {
+        res.status(404).json({ success: false, error: { message: error.message } });
+    } else if (error.message === 'Permission denied') {
+        res.status(403).json({ success: false, error: { message: error.message } });
+    } else {
+        res.status(500).json({ success: false, error: { message: error.message || 'Internal Server Error' } });
+    }
   }
 };
 
-// Delete Artwork
 export const deleteArtwork = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const firebaseUid = req.user?.uid;
+    const userId = req.user?.uid!;
 
-    if (!firebaseUid) {
-      res.status(401).json({ success: false, error: { message: 'Unauthorized' } });
-      return;
-    }
-
-    const user = await prisma.user.findUnique({ where: { firebaseUid } });
-    if (!user) {
-       res.status(404).json({ success: false, error: { message: 'User not found' } });
-       return;
-    }
-
-    const existingArtwork = await prisma.artwork.findUnique({ where: { id } });
-    if (!existingArtwork) {
-      res.status(404).json({ success: false, error: { message: 'Artwork not found' } });
-      return;
-    }
-
-    if (existingArtwork.userId !== user.id) {
-      res.status(403).json({ success: false, error: { message: 'You do not have permission to delete this artwork' } });
-      return;
-    }
-
-    await prisma.artwork.delete({ where: { id } });
+    await artworkService.deleteArtwork(id, userId);
 
     res.status(200).json({
       success: true,
       message: 'Artwork deleted successfully'
     });
   } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      error: { message: error.message || 'Internal Server Error' }
-    });
+    if (error.message === 'Artwork not found') {
+        res.status(404).json({ success: false, error: { message: error.message } });
+    } else if (error.message === 'Permission denied') {
+        res.status(403).json({ success: false, error: { message: error.message } });
+    } else {
+        res.status(500).json({ success: false, error: { message: error.message || 'Internal Server Error' } });
+    }
   }
 };
 
-// Upload Image (Mock for now, or simple storage logic)
-// In a real app with Firebase, user might upload to Firebase Storage on frontend and send URL.
-// But docs say: POST /api/artworks/:id/image with Form Data.
-// This implies backend handles upload.
-// I will implement a placeholder that assumes file handling logic or just returns a mock URL.
-// Implementing full Multer + Storage is out of scope unless requested, but I will add the route structure.
+// Simple Mock for Image Upload
 export const uploadArtworkImage = async (req: Request, res: Response): Promise<void> => {
-    // TODO: Implement Multer or file upload logic
-    // For now, we simulate success
+    // Mock Implementation
     const { id } = req.params;
-    // Assuming file is in req.file (needs multer middleware)
-
-    // Mock URL
+    const userId = req.user?.uid!;
     const mockUrl = `https://storage.example.com/artworks/${id}-${Date.now()}.jpg`;
 
     try {
-       await prisma.artwork.update({
-         where: { id },
-         data: { imageUrl: mockUrl }
-       });
+       const updated = await artworkService.updateArtwork(id, userId, { imageUrl: mockUrl });
 
        res.status(200).json({
          success: true,
          data: {
            id,
            imageUrl: mockUrl,
-           updatedAt: new Date()
+           updatedAt: updated.updatedAt
          },
          message: 'Image uploaded successfully (Mock)'
        });

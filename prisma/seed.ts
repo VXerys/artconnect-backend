@@ -6,15 +6,14 @@ async function main() {
   console.log('Start seeding...');
 
   // 1. Create Mock User
-  // Note: In real scenario, firebaseUid should match a real Firebase user.
-  // For dev, we use a mock one.
+  const uid = 'seed-user-uid-123';
   const user = await prisma.user.upsert({
     where: { email: 'artist@example.com' },
     update: {},
     create: {
+      id: uid, // Explicit ID as it is now the PK
       email: 'artist@example.com',
       name: 'Picasso Junior',
-      firebaseUid: 'seed-user-uid-123',
       role: 'USER',
       photoUrl: 'https://ui-avatars.com/api/?name=Picasso+Junior',
     },
@@ -50,7 +49,7 @@ async function main() {
       status: 'RESERVED',
       userId: user.id,
     },
-  ] as const; // Type assertion for literal types
+  ] as const;
 
   for (const art of artworksData) {
     const artwork = await prisma.artwork.create({

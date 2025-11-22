@@ -9,8 +9,10 @@ dotenv.config();
 const app = express();
 
 // Middleware
+const corsOrigin = process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',') : '*';
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || '*',
+  origin: corsOrigin,
+  credentials: true,
 }));
 
 // Apply Rate Limiting
